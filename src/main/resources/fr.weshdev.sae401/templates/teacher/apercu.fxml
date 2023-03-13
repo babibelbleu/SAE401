@@ -21,9 +21,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@boutonBlanc.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Version_Enseignant.All_Controllers.Controller_Page_Apercu">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/whiteButton.css" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.ApercuController">
    <top>
-				<MenuBar snapToPixel="false" stylesheets="@MenuAndButtonStyles.css" BorderPane.alignment="CENTER">
+				<MenuBar snapToPixel="false" stylesheets="@../../css/menu_and_button.css" BorderPane.alignment="CENTER">
 					<menus>
 						<Menu mnemonicParsing="false" text="Exercice">
 							<items>
@@ -50,7 +50,7 @@
    <center>
       <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <center>
-            <GridPane stylesheets="@boutonBlanc.css" BorderPane.alignment="CENTER">
+            <GridPane stylesheets="@../../css/whiteButton.css" BorderPane.alignment="CENTER">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -153,7 +153,7 @@
                      <graphic>
                         <ImageView fx:id="playPauseVideo" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@/Image/Play.png" />
+                              <Image url="@../../images/play.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
@@ -167,7 +167,7 @@
                         <Insets left="260.0" right="20.0" top="280.0" />
                      </GridPane.margin>
                      <image>
-                        <Image url="@/Image/Volume.png" />
+                        <Image url="@../../images/volume.png" />
                      </image>
                   </ImageView>
                   <Slider fx:id="sliderSon" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" value="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -215,7 +215,7 @@
                   </Circle>
                   <ImageView fitHeight="72.0" fitWidth="67.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@/Image/Trait_Noir.png" />
+                        <Image url="@../../images/black_line.png" />
                      </image>
                      <GridPane.margin>
                         <Insets left="200.0" />
@@ -223,7 +223,7 @@
                   </ImageView>
                   <ImageView fitHeight="72.0" fitWidth="67.0" layoutX="577.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@/Image/Trait_Vert.png" />
+                        <Image url="@../../images/green_line.png" />
                      </image>
                      <GridPane.margin>
                         <Insets right="200.0" />
@@ -231,7 +231,7 @@
                   </ImageView>
                   <ImageView fitHeight="72.0" fitWidth="67.0" layoutX="677.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                      <image>
-                        <Image url="@/Image/Trait_Vert.png" />
+                        <Image url="@../../images/green_line.png" />
                      </image>
                   </ImageView>
                   <Label prefHeight="46.0" prefWidth="83.0" text="Nommage de l'exercice" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">

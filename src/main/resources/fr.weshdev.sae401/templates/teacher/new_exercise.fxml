@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Version_Enseignant.All_Controllers.Controller_Nouvel_Exo">
+<BorderPane minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.NewExerciseController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -96,7 +96,7 @@
             </Label>
             <ImageView fitHeight="42.0" fitWidth="66.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@/Image/Trait_Noir.png" />
+                  <Image url="@../../images/black_line.png" />
                </image>
                <GridPane.margin>
                   <Insets top="100.0" />
@@ -124,7 +124,7 @@
             </Circle>
             <ImageView fitHeight="42.0" fitWidth="66.0" layoutX="577.0" layoutY="167.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@/Image/Trait_Noir.png" />
+                  <Image url="@../../images/black_line.png" />
                </image>
                <GridPane.margin>
                   <Insets right="200.0" top="100.0" />
@@ -132,7 +132,7 @@
             </ImageView>
             <ImageView fitHeight="42.0" fitWidth="66.0" layoutX="10.0" layoutY="117.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@/Image/Trait_Noir.png" />
+                  <Image url="@../../images/black_line.png" />
                </image>
                <GridPane.margin>
                   <Insets left="200.0" top="100.0" />
@@ -174,7 +174,7 @@
       </GridPane>
    </center>
    <top>
-				<MenuBar snapToPixel="false" stylesheets="@MenuAndButtonStyles.css" BorderPane.alignment="CENTER">
+				<MenuBar snapToPixel="false" stylesheets="@../../css/menu_and_button.css" BorderPane.alignment="CENTER">
 					<menus>
 						<Menu mnemonicParsing="false" text="Exercice">
 							<items>

@@ -219,7 +219,7 @@ public class OptionsController implements Initializable {
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
-		InputStream is = MainEnseignant.class.getResourceAsStream("Manuel_Utilisateur.pdf");
+		InputStream is = MainEnseignant.class.getResourceAsStream("fr.weshdev.sae401/pdf/user_manual.pdf");
 
 		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
 		pdf.deleteOnExit();
@@ -246,7 +246,7 @@ public class OptionsController implements Initializable {
 	public void quitter(ActionEvent event) throws IOException {
 
 		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/ConfirmationQuitter.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/confirm_quit.fxml"));
 		Scene scene = new Scene(root, 400, 200);
 		//On bloque sur cette fen�tre
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -278,7 +278,7 @@ public class OptionsController implements Initializable {
 		}
 
 		Stage primaryStage = (Stage) nbMinute.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/PageApercu.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/apercu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
 		darkModeActivation(scene);
@@ -287,7 +287,7 @@ public class OptionsController implements Initializable {
 	//M�thode pour retourner au menu
 	public void retourMenu() throws IOException {
 		Stage stage = (Stage) CaraOccul.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/Menu.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root,  MainEnseignant.width, MainEnseignant.height - 60);
 		stage.setScene(scene);
 		darkModeActivation(scene);
@@ -305,7 +305,7 @@ public class OptionsController implements Initializable {
 		retourMenu();
 
 		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/ValidationEnregistrement.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/register_validation.fxml"));
 		Scene scene = new Scene(root, 320, 150);
 		DeplacementFenetre.deplacementFenetre((Pane) root, primaryStage);
 		//On bloque sur cette fen�tre
@@ -322,7 +322,7 @@ public class OptionsController implements Initializable {
 		AccueilController c = new AccueilController();
 		c.delete();
 		Stage primaryStage = (Stage) CaraOccul.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/NouvelExo.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
 		darkModeActivation(scene);
@@ -656,12 +656,12 @@ public class OptionsController implements Initializable {
 	public void darkMode() {
 
 		if(dark.isSelected()) {
-			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
 		} else {
-			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}
 
@@ -670,12 +670,12 @@ public class OptionsController implements Initializable {
 	//M�thode qui regarde si le darkMode est actif et l'applique en cons�quence � la scene
 	public void darkModeActivation(Scene scene) {
 		if(AccueilController.isDark) {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			dark.setSelected(true);
 		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			dark.setSelected(false);
 		}
 	}

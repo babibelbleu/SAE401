@@ -21,9 +21,9 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Version_Enseignant.All_Controllers.Controller_Importer_Ressource">
+<BorderPane prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.ImportRessourceController">
    <center>
-      <GridPane stylesheets="@boutonBlanc.css" BorderPane.alignment="CENTER">
+      <GridPane stylesheets="@../../css/whiteButton.css" BorderPane.alignment="CENTER">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -62,7 +62,7 @@
                <graphic>
                   <ImageView fx:id="playPauseVideo" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@/Image/Play.png" />
+                        <Image url="@../../images/play.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -108,7 +108,7 @@
             </Circle>
             <ImageView fitHeight="40.0" fitWidth="68.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@/Image/Trait_Noir.png" />
+                  <Image url="@../../images/black_line.png" />
                </image>
                <GridPane.margin>
                   <Insets top="147.0" />
@@ -116,7 +116,7 @@
             </ImageView>
             <ImageView fitHeight="40.0" fitWidth="68.0" layoutX="576.0" layoutY="157.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@/Image/Trait_Noir.png" />
+                  <Image url="@../../images/black_line.png" />
                </image>
                <GridPane.margin>
                   <Insets left="200.0" top="147.0" />
@@ -124,7 +124,7 @@
             </ImageView>
             <ImageView fitHeight="40.0" fitWidth="68.0" layoutX="576.0" layoutY="157.0" pickOnBounds="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <image>
-                  <Image url="@/Image/Trait_Vert.png" />
+                  <Image url="@../../images/green_line.png" />
                </image>
                <GridPane.margin>
                   <Insets right="200.0" top="147.0" />
@@ -132,7 +132,7 @@
             </ImageView>
             <ImageView fx:id="son" fitHeight="29.0" fitWidth="62.0" onMouseClicked="#sonCoupe" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@/Image/Volume.png" />
+                  <Image url="@../../images/volume.png" />
                </image>
                <GridPane.margin>
                   <Insets left="390.0" top="450.0" />
@@ -187,7 +187,7 @@
       </GridPane>
    </center>
    <top>
-				<MenuBar snapToPixel="false" stylesheets="@MenuAndButtonStyles.css" BorderPane.alignment="CENTER">
+				<MenuBar snapToPixel="false" stylesheets="@../../css/menu_and_button.css" BorderPane.alignment="CENTER">
 					<menus>
 						<Menu mnemonicParsing="false" text="Exercice">
 							<items>

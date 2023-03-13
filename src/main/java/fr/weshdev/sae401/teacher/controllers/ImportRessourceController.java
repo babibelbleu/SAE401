@@ -56,10 +56,10 @@ public class ImportRessourceController implements Initializable {
 	@FXML
 	private Slider sliderSon;
 	@FXML private ImageView son;
-	Image sonCoupe = new Image("/Image/VolumeCoupe.png");
-	Image sonPasCoupe = new Image("/Image/Volume.png");
-	Image play = new Image("/Image/Play.png");
-	Image pause = new Image("/Image/Pause.png");
+	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
+	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
+	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
+	Image pause = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
 	
 	@FXML private ImageView playPauseVideo;
 
@@ -112,7 +112,7 @@ public class ImportRessourceController implements Initializable {
 		public void quitter(ActionEvent event) throws IOException {
 			
 			Stage primaryStage = new Stage();
-			Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/ConfirmationQuitter.fxml"));
+			Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/confirm_quit.fxml"));
 			Scene scene = new Scene(root, 400, 200);
 			//On bloque sur cette fenêtre
 			primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -309,7 +309,7 @@ public class ImportRessourceController implements Initializable {
 		}
 
 		Stage primaryStage = (Stage) playPause.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/NouvelExo.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
 		darkModeActivation(scene);
@@ -324,7 +324,7 @@ public class ImportRessourceController implements Initializable {
 		mediaPlayer.stop();
 
 		Stage primaryStage = (Stage) playPause.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/PageApercu.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/apercu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
 		darkModeActivation(scene);
@@ -336,12 +336,12 @@ public class ImportRessourceController implements Initializable {
 	public void darkMode() {
 
 		if(dark.isSelected()) {
-			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			okImport.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			okImport.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
 		} else {
-			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			okImport.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			okImport.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}
 
@@ -350,12 +350,12 @@ public class ImportRessourceController implements Initializable {
 	//Méthode qui regarde si le darkMode est actif et l'applique en conséquence à la scene
 	public void darkModeActivation(Scene scene) {
 		if(AccueilController.isDark) {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			dark.setSelected(true);
 		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			dark.setSelected(false);
 		}
 	}
@@ -394,7 +394,7 @@ public class ImportRessourceController implements Initializable {
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
-		InputStream is = MainEnseignant.class.getResourceAsStream("Manuel_Utilisateur.pdf");
+		InputStream is = MainEnseignant.class.getResourceAsStream("fr.weshdev.sae401/pdf/user_manual.pdf");
 
 		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
 		pdf.deleteOnExit();
@@ -424,7 +424,7 @@ public class ImportRessourceController implements Initializable {
 		c.delete();
 		
 		Stage primaryStage = (Stage) playPause.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("../FXML_Files/NouvelExo.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setMaximized(true);
 		primaryStage.setScene(scene);

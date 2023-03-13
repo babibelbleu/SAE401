@@ -101,7 +101,7 @@ public class NewExerciseController implements Initializable{
 	public void quitter(ActionEvent event) throws IOException {
 		
 		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/ConfirmationQuitter.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/confirm_quit.fxml"));
 		Scene scene = new Scene(root, 400, 200);
 		//On bloque sur cette fenêtre
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -124,7 +124,7 @@ public class NewExerciseController implements Initializable{
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
-		InputStream is = MainEnseignant.class.getResourceAsStream("Manuel_Utilisateur.pdf");
+		InputStream is = MainEnseignant.class.getResourceAsStream("fr.weshdev.sae401/pdf/user_manual.pdf");
 
 		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
 		pdf.deleteOnExit();
@@ -158,7 +158,7 @@ public class NewExerciseController implements Initializable{
 		c.delete();
 		
 		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/NouvelExo.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setMaximized(true);
 		primaryStage.setScene(scene);
@@ -169,7 +169,7 @@ public class NewExerciseController implements Initializable{
 	@FXML
 	public void retourAccueil() throws IOException {
 		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/Menu.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
 		primaryStage.setScene(scene);
@@ -197,7 +197,7 @@ public class NewExerciseController implements Initializable{
 		contenuNomExo = nomExo.getText();
 		
 		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/Version_Enseignant/FXML_Files/ImporterRessource.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/import_ressource.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
 		primaryStage.setScene(scene);
@@ -209,12 +209,12 @@ public class NewExerciseController implements Initializable{
 	public void darkMode() {
 
 		if(dark.isSelected()) {
-			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
 		} else {
-			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}
 		
@@ -223,12 +223,12 @@ public class NewExerciseController implements Initializable{
 	//Méthode qui regarde si le darkMode est actif et l'applique en conséquence à la scene
 	public void darkModeActivation(Scene scene) {
 		if(AccueilController.isDark) {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			dark.setSelected(true);
 		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/Version_Enseignant/FXML_Files/darkModeTest.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/Version_Enseignant/FXML_Files/MenuAndButtonStyles.css").toExternalForm());
+			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			dark.setSelected(false);
 		}
 	}
