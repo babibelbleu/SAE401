@@ -5,12 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.FileInputStream;
 
 public class MainEnseignant extends Application {
 
@@ -23,11 +19,9 @@ public class MainEnseignant extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception{
 		System.out.println(getClass());
-		FXMLLoader loader = new FXMLLoader();
-		FileInputStream fis = new FileInputStream("src/main/resources/templates/teacher/menu.fxml");
-		root = loader.load(fis);
+		root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		primaryStage.setTitle("Reconstitution - Version Enseignante");
-		primaryStage.getIcons().add(new Image("/Image/Logo_Reconstitution.png"));
+		//primaryStage.getIcons().add(new Image("path:icons/logo.png"));
 
 		//On affiche le plein écran
 		primaryStage.setMaximized(true);
@@ -39,7 +33,7 @@ public class MainEnseignant extends Application {
 		width=screenBounds.getWidth();
 		height=screenBounds.getHeight();
 		Scene scene = new Scene(root, width, height);
-		scene.getStylesheets().addAll(getClass().getResource("/css/menu_and_buttons.css").toExternalForm());
+		scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
