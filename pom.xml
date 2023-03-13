@@ -64,7 +64,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>fr.weshdev.sae401/fr.weshdev.sae401.HelloApplication</mainClass>
+                            <mainClass>fr.weshdev.sae401/fr.weshdev.sae401.MainEnseignant</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>
