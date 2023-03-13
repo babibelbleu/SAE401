@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -12,7 +13,7 @@ public class MainEnseignant extends Application {
 
 	public static Parent root;
 
-	//Paramètres de taille d'écran
+	//Paramï¿½tres de taille d'ï¿½cran
 	public static double width;
 	public static double height;
 
@@ -21,14 +22,14 @@ public class MainEnseignant extends Application {
 		System.out.println(getClass());
 		root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		primaryStage.setTitle("Reconstitution - Version Enseignante");
-		//primaryStage.getIcons().add(new Image("path:icons/logo.png"));
+		primaryStage.getIcons().add(new Image(this.getClass().getResource("/fr.weshdev.sae401/icons/logo.png").toExternalForm()));
 
-		//On affiche le plein écran
+		//On affiche le plein ï¿½cran
 		primaryStage.setMaximized(true);
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(800);
 
-		//On récupère la largeur et la hauteur de l'écran
+		//On rï¿½cupï¿½re la largeur et la hauteur de l'ï¿½cran
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		width=screenBounds.getWidth();
 		height=screenBounds.getHeight();
