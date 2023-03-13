@@ -22,7 +22,7 @@ public class MainEnseignant extends Application {
 		System.out.println(getClass());
 		root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		primaryStage.setTitle("Reconstitution - Version Enseignante");
-		primaryStage.getIcons().add(new Image(this.getClass().getResource("/fr.weshdev.sae401/icons/logo.png").toExternalForm()));
+		primaryStage.getIcons().add(new Image(getClass().getResource("/fr.weshdev.sae401/icons/logo.png").toExternalForm()));
 
 		//On affiche le plein �cran
 		primaryStage.setMaximized(true);
