@@ -31,8 +31,8 @@ public class MainEnseignant extends Application {
 
 		//On r�cup�re la largeur et la hauteur de l'�cran
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-		width=screenBounds.getWidth();
-		height=screenBounds.getHeight();
+		width = screenBounds.getWidth();
+		height = screenBounds.getHeight();
 		Scene scene = new Scene(root, width, height);
 		scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 		primaryStage.setScene(scene);

@@ -11,7 +11,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -29,14 +28,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 public class MenuController implements Initializable {
-
-	// Menu
 	@FXML
 	private Text recupScene;
-	@FXML
-	private ImageView handicap;
-
-	// A propos
 	@FXML
 	private Label recuperation;
 
@@ -52,13 +45,11 @@ public class MenuController implements Initializable {
 
 	}
 
-	// Fonction pour quitter l'application
 	@FXML
 	public void quitter(ActionEvent event) {
 		Platform.exit();
 	}
 
-	//M�thode qui permet de se rendre au manuel utilisateur == tuto
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
@@ -83,24 +74,20 @@ public class MenuController implements Initializable {
 
 	}
 
-	// Fonction qui permet � l'�tudiant d'ouvrir un exercice (t�l�charg�
-	// au pr�alable)
 	@FXML
-	public void ouvrir(ActionEvent event) throws IOException {
+	public void ouvrir() throws IOException {
 
 		FileChooser fileChooser = new FileChooser();
-		File selectedFile = new File("");
+		File selectedFile;
 		fileChooser.setTitle("Ouvrez votre exercice");
 
 		selectedFile = fileChooser.showOpenDialog(null);
 		SaveAfterOpenController.nomExo = stripExtension(selectedFile);
 		decrypte(selectedFile);
 
-		// On load la page o� il y a l'exercice
 		loadExo();
 	}
-	
-	//M�thode qui strip une extension
+
 	public static String stripExtension(File file) {
         if (file == null) {
             return null;
@@ -116,7 +103,10 @@ public class MenuController implements Initializable {
         return name.substring(0, posPoint);
     }
 
-	// Fonction qui permet d'aller � la page o� se trouve l'exercice
+	/**
+	 * Fonction qui va charger l'exercice
+	 * @throws IOException
+	 */
 	public void loadExo() throws IOException {
 		Stage primaryStage = (Stage) recupScene.getScene().getWindow();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/fr.weshdev.sae401/templates/student/exercise.fxml"));
@@ -135,64 +125,59 @@ public class MenuController implements Initializable {
 		return c;
 	}
 
-	// Fonction qui converti des bytes en String
+	/**
+	 * Fonction qui va lire les n premiers octets du fichier
+	 * @param bytes nombre d'octets à lire
+	 * @return
+	 */
 	public String chaine(byte[] bytes) {
-		// Variable qui contiendra la chaine
 		String chaine = new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
 		return chaine;
 	}
 
-	// Fonction qui va load les informations du fichier s�lectionn� dans les
-	// diff�rents TextField...
+	/**
+	 *Fonction qui va load les informations du fichier s�lectionn� dans les
+	 * diff�rents TextField...
+	 *
+	 * @param file fichier s�lectionn�
+	 */
 	public void decrypte(File file) throws IOException {
 
-		// Variables pour r�cup�rer les informations du fichier
 		String consigne, aide, transcription, caraOccul, nbMin;
 		int nombreOctetALire, sensiCasse, mode, solution, motsDecouverts, motsIncomplets, lettre, extension;
 		File tmpFile;
 
-		// On ouvre le fichier en lecture
 		FileInputStream fin = new FileInputStream(file);
 
 		// On r�cup�re la longueur de la consigne + la consigne
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		consigne = chaine(readNBytes(fin, nombreOctetALire));
-		// On met la consigne dans la textField associ�
 		ExerciseController.contenuConsigne = consigne;
 
-		// On r�cup�re la longueur de la transcription + la transcription
+		// Même chose pour la transcription
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		transcription = chaine(readNBytes(fin, nombreOctetALire));
-		// On met la transcription dans le textField associ�
 		ExerciseController.contenuTranscription = transcription;
 
-		// On r�cup�re la longueur de l'aide + l'aide
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		aide = chaine(readNBytes(fin, nombreOctetALire));
-		// On met les aides dans le textField associ�
 		HintsController.contenuAide = aide;
 
 		// On r�cup�re le caract�re d'occultation
 		caraOccul = chaine(readNBytes(fin, 1));
-		// On met le caract�re dans le texField associ�
 		ExerciseController.caractereOccul = caraOccul;
 
 		// On r�cup�re la reponse de sensiCasse 0 = false, 1 = true
 		sensiCasse = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
-		// On met la variable associ�e en fonction de la r�ponse
-		if (sensiCasse == 1) {
+		if(sensiCasse == 1) {
 			ExerciseController.sensiCasse = true;
 		} else {
 			ExerciseController.sensiCasse = false;
 		}
 
-		// On r�cup�re le mode choisi par l'enseignant 0 = entrainement, 1 =
-		// evaluation
 		mode = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
-		// On met la variable associ�e en fonction de la r�ponse
-		// Mode Evaluation
 		if (mode == 1) {
 			ExerciseController.evaluation = true;
 			ExerciseController.entrainement = false;
@@ -202,36 +187,26 @@ public class MenuController implements Initializable {
 
 			ExerciseController.nbMin = nbMin;
 
-			// Mode Entrainement
 		} else {
 			ExerciseController.evaluation = false;
 			ExerciseController.entrainement = true;
 
-			// On r�cup�re la reponse de l'affiche de la solution 0 = false, 1 = true
 			solution = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
-			// On met la variable associ�e en fonction de la r�ponse
 			if (solution == 1) {
 				ExerciseController.solution = true;
 			} else {
 				ExerciseController.solution = false;
 			}
 
-			// On r�cup�re la reponse de l'affiche du nombre de mots d�couverts en
-			// temps
-			// r�el 0 = false, 1 = true
 			motsDecouverts = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
-			// On met la variable associ�e en fonction de la r�ponse
 			if (motsDecouverts == 1) {
 				ExerciseController.motDecouverts = true;
 			} else {
 				ExerciseController.motDecouverts = false;
 			}
 
-			// On r�cup�re la reponse de l'autorisation du nb min de lettre pour
-			// d�couvrir
-			// le mot 0 = false, 1 = true
 			motsIncomplets = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			// On met la variable associ�e en fonction de la r�ponse
@@ -273,19 +248,14 @@ public class MenuController implements Initializable {
 
 			ExerciseController.contenuImage = new Image(tmpFileImage.toURI().toString());
 
-			// On efface le fichier temporaire
 			tmpFileImage.deleteOnExit();
-
-			// On lit le mp3
-			nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 8)).getInt();
 
 			tmpFile = File.createTempFile("data", ".mp3");
 
 		}
-		// Sinon c'est un mp4
 		else {
 
-			// On r�cup�re ensuite le media
+			// On r�cup�re le media
 			nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 8)).getInt();
 
 			tmpFile = File.createTempFile("data", ".mp4");
@@ -298,10 +268,8 @@ public class MenuController implements Initializable {
 
 		ExerciseController.contenuMedia = new Media(tmpFile.toURI().toString());
 
-		// On efface le fichier temporaire
 		tmpFile.deleteOnExit();
 
-		// Fermeture du fichier
 		fin.close();
 	}
 
@@ -333,7 +301,6 @@ public class MenuController implements Initializable {
 		primaryStage.show();
 	}
 
-	// M�thode pour passer ou non le darkMode
 	@FXML
 	public void darkMode() {
 
@@ -352,8 +319,6 @@ public class MenuController implements Initializable {
 		}
 	}
 
-	// M�thode qui regarde si le darkMode est actif et l'applique en cons�quence
-	// � la scene
 	public void darkModeActivation(Scene scene) {
 		if (isDark) {
 			scene.getStylesheets().removeAll(
@@ -370,8 +335,6 @@ public class MenuController implements Initializable {
 		}
 	}
 
-	// M�thode qui va lire n bytes (ne marche pas sous java 1.8 donc on la remet ici
-	// telle quel
 	private static final int DEFAULT_BUFFER_SIZE = 8192;
 	private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
 
