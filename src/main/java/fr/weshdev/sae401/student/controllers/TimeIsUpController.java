@@ -4,7 +4,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 
-import java.io.IOException;
 
 public class TimeIsUpController {
 
@@ -13,12 +12,12 @@ public class TimeIsUpController {
 	@FXML private Button recupScene1;
 
 	@FXML
-	public void retourAccueil() throws IOException {
+	public void retourAccueil()  {
 		recupScene.getScene().getWindow().hide();
 	}
 	
 	@FXML
-	public void retourAccueil1() throws IOException {
+	public void retourAccueil1()  {
 		recupScene1.getScene().getWindow().hide();
 	}
 

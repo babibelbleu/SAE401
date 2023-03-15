@@ -2,7 +2,6 @@ package fr.weshdev.sae401.student.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -45,28 +44,20 @@ public class SaveAfterOpenController implements Initializable{
 		});
 		
 		//Pour le TextField du pr�nom de l'�tudiant
-		prenom.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
-					preEnregistrement.setDisable(true);
-				} else {
-					preEnregistrement.setDisable(false);
-				}
+		prenom.textProperty().addListener((arg01, arg11, arg2) -> {
+			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
+				preEnregistrement.setDisable(true);
+			} else {
+				preEnregistrement.setDisable(false);
 			}
 		});
 		
 		//Pour le TextField du repertoire dans lequel sera enregistr� le fichier de l'�tudiant
-		repertoire.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
-					preEnregistrement.setDisable(true);
-				} else {
-					preEnregistrement.setDisable(false);
-				}
+		repertoire.textProperty().addListener((arg012, arg112, arg2) -> {
+			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
+				preEnregistrement.setDisable(true);
+			} else {
+				preEnregistrement.setDisable(false);
 			}
 		});
 
@@ -75,7 +66,7 @@ public class SaveAfterOpenController implements Initializable{
 	
 	//M�thode qui permet � l'�tudiant de choisir le dossier dans lequel l'�tudiant verra son exercice enregistr�
 	@FXML
-	public void choixRepertoire(ActionEvent event) {
+	public void choixRepertoire() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		File selectedDirectory;
 		directoryChooser.setTitle("Choisissez un r�pertoire pour l'enregistrement de votre exercice");
@@ -89,7 +80,7 @@ public class SaveAfterOpenController implements Initializable{
 	
 	//M�thode qui permet de quitter la popUp, un fois les TextFields remplis et de sauvegarder les infos
 	@FXML
-	public void quitter(ActionEvent event) {
+	public void quitter() {
 		nomEtudiant = nom.getText();
 		prenEtudiant = prenom.getText();
 		repertoireEtudiant = repertoire.getText();
