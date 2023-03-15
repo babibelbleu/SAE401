@@ -2,12 +2,11 @@ package fr.weshdev.sae401.student.controllers;
 
 import fr.weshdev.sae401.DeplacementFenetre;
 import fr.weshdev.sae401.MainEtudiant;
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,7 +21,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -38,15 +36,15 @@ import javafx.util.Duration;
 
 import java.awt.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
+
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ExerciseController implements Initializable{
+public class ExerciseController implements Initializable {
 
 	//Variables qui vont contenir les diff�rentes informations sur l'exercice
 	//Informations textuelles
@@ -89,7 +87,7 @@ public class ExerciseController implements Initializable{
 	@FXML private ImageView son;
 
 	//Gestion du timer
-	private Timeline timer;
+
 	private Integer sec = 0;
 	private Integer min;
 	private boolean timerEstDeclenche = false;
@@ -100,10 +98,9 @@ public class ExerciseController implements Initializable{
 	@FXML private ImageView alertSolution;
 
 	//Listes des mots pour l'�tudiant
-	private ArrayList<String> lesMots = new ArrayList<>();
-	private ArrayList<String> lesMotsSensiCasse = new ArrayList<>();
-	private ArrayList<String> lesMotsEtudiant = new ArrayList<>();
-	private ArrayList<Integer> estDecouvert = new ArrayList<>();
+	private final ArrayList<String> lesMots = new ArrayList<>();
+	private final ArrayList<String> lesMotsSensiCasse = new ArrayList<>();
+	private final ArrayList<Integer> estDecouvert = new ArrayList<>();
 	private String encryptedText;
 	
 	public String getEncryptedText() {
@@ -115,14 +112,14 @@ public class ExerciseController implements Initializable{
 	}
 
 
-	private String clearText = contenuTranscription;
+	private final String clearText = contenuTranscription;
 	public int numberPartialReplacement;
 
 	//Tout ce qui concerne la barre de progression
 	@FXML private ProgressBar progressBar;
 	@FXML private Label pourcentageMots;
 	@FXML private Label labelMotsDecouverts;
-	private float nbMotsDecouverts = 0;
+	private final float nbMotsDecouverts = 0;
 	private float nbMotsTotal;
 
 	//Tooltip
@@ -136,45 +133,12 @@ public class ExerciseController implements Initializable{
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		int i;
-		String mot = "", motCrypte = "";
-
 		encryptedText = encryptText();
 
 		//On fait en sorte � ce que le texte ne d�passe pas du cadre
 		transcription.setWrapText(true);
 
-		/*//On affiche le texte crypt� dans le TextField
-		if(contenuTranscription != null) {
 
-			//Pour la transcription, on utilise le caractere d'occultation
-			for(i = 0; i < contenuTranscription.length(); i++) {
-
-				//Si cela correspond bien � la regex, on occulte le mot
-				if(okRegex(contenuTranscription.charAt(i)) == true) {
-					transcription.setText(transcription.getText() + caractereOccul);
-					mot += contenuTranscription.charAt(i);
-					motCrypte += caractereOccul;
-				} else {
-					transcription.setText(transcription.getText() + contenuTranscription.charAt(i));
-
-					if(mot != "") {
-						lesMots.add(mot);
-						lesMotsEtudiant.add(motCrypte);
-					} else {
-						lesMots.add(contenuTranscription.charAt(i - 1) + "");
-						lesMotsEtudiant.add(contenuTranscription.charAt(i - 1) + "");
-					}
-
-					mot = "";
-					motCrypte = "";
-				}
-			}
-
-			//Si on arrive � la fin de la boucle, on ajoute quand meme le dernier mot
-			lesMots.add(mot);
-			lesMotsEtudiant.add(motCrypte);
-		}*/
 
 		//On initialise la liste estDecouvert
 		for(String w : lesMots) {
@@ -210,7 +174,7 @@ public class ExerciseController implements Initializable{
 		}
 
 		//On load le temps n�cessaire si c'est en mode Evaluation
-		if(evaluation == true) {
+		if(evaluation) {
 			min = Integer.parseInt(nbMin);
 			time.setText(min + ":" + sec);
 
@@ -232,21 +196,21 @@ public class ExerciseController implements Initializable{
 			time.setText("00:00");
 
 			//Si l'enseignant n'a pas souhait� autoriser l'affichage de la solution
-			if(solution == false) {
+			if(!solution) {
 				ButtonSolution.setVisible(false);
 				alertSolution.setVisible(false);
 			}
 
 			//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
-			if(motDecouverts == false) {
+			if(!motDecouverts) {
 				progressBar.setVisible(false);
 				pourcentageMots.setVisible(false);
 				labelMotsDecouverts.setVisible(false);
 			}
 
-			if(lettres_2 == true) {
+			if(lettres_2) {
 				numberPartialReplacement = 2;
-			} else if(lettres_3 == true){
+			} else if(lettres_3){
 				numberPartialReplacement = 3;
 			} else {
 				numberPartialReplacement = 0;
@@ -257,7 +221,7 @@ public class ExerciseController implements Initializable{
 		//On fait appara�tre une fen�tre pour que l'�tudiant rentre son nom et pr�nom en vue du futur enregistrement
 		//Note : Seulement si l'exercice est en mode Entrainement
 		try {
-			if(evaluation == true) {
+			if(evaluation) {
 				popUpEnregistrement();
 			}
 		} catch (IOException e) {
@@ -282,13 +246,12 @@ public class ExerciseController implements Initializable{
 
 	private String encryptText() {
 		String constructString = "";
-		for (String string : clearText.split("")) {
+		for (String string : clearText.split(""))
 			if (string.matches("[a-zA-Z]") || (string.matches("[0-9]"))) {
 				constructString += caractereOccul;
-			}else {
+			} else {
 				constructString += string;
 			}
-		}
 		return constructString;
 	}
 
@@ -308,13 +271,7 @@ public class ExerciseController implements Initializable{
 	//Fonction qui fait avancer le slider en fonction de la video
 	public void sliderVideoChange() {
 
-		mediaPlayer.setOnReady(new Runnable() {
-
-			@Override
-			public void run() {
-				sliderVideo.setMax(mediaPlayer.getTotalDuration().toSeconds());
-			}
-		});
+		mediaPlayer.setOnReady(() -> sliderVideo.setMax(mediaPlayer.getTotalDuration().toSeconds()));
 
 		// Ecoute sur le slider. Quand il est modifi�, modifie le temps du media player.
 		InvalidationListener sliderChangeListener = o -> {
@@ -340,7 +297,7 @@ public class ExerciseController implements Initializable{
 
 	//Fonction qui permet de mute le son
 	@FXML
-	public void sonCoupe(MouseEvent event) {
+	public void sonCoupe() {
 
 		if(mediaPlayer.getVolume() != 0) {
 			son.setImage(sonCoupe);
@@ -354,13 +311,13 @@ public class ExerciseController implements Initializable{
 
 	//Fonction qui lance le media pour la premiere fois 
 	@FXML
-	public void firstPlay(MouseEvent event) {
+	public void firstPlay() {
 
 		mediaPlayer.play();
 		setKeyboardShortcut();
 		
 
-		if(timerEstDeclenche == false) {
+		if(!timerEstDeclenche) {
 			gestionTimer();
 			timerEstDeclenche = true;
 		}
@@ -370,7 +327,7 @@ public class ExerciseController implements Initializable{
 
 	//Fonction qui play / pause le media
 	@FXML
-	public void playOrPause(MouseEvent event) {
+	public void playOrPause() {
 
 		if(mediaPlayer.getStatus() == Status.PLAYING) {
 			mediaPlayer.pause();
@@ -384,14 +341,6 @@ public class ExerciseController implements Initializable{
 
 	}
 
-	//Fonction qui regarde si le caract�re est compatible avec la regex (toutes les lettres et chiffres)
-	private boolean okRegex(char caractere) {
-		String s = "" + caractere;
-		if(s.matches("[a-zA-Z0-9]")) {
-			return true;
-		} 
-		return false;
-	}
 
 	//Fonction qui regarde si le mot contient un caract�re de ponctuation
 	private boolean regexPoint(String mot) {
@@ -406,23 +355,25 @@ public class ExerciseController implements Initializable{
 
 	//M�thode qui permet de se rendre au manuel utilisateur == tuto
 	@FXML
-	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
+	public void tuto() throws IOException {
 
 		InputStream is = MainEtudiant.class.getResourceAsStream("Manuel_Utilisateur.pdf");
 
 		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
 		pdf.deleteOnExit();
-		OutputStream out = new FileOutputStream(pdf);
 
-		byte[] buffer = new byte[4096];
-		int bytesRead = 0;
+		try (OutputStream out = new FileOutputStream(pdf)) {
 
-		while (is.available() != 0) {
-			bytesRead = is.read(buffer);
-			out.write(buffer, 0, bytesRead);
+			byte[] buffer = new byte[4096];
+			int bytesRead = 0;
+
+			while (is.available() != 0) {
+				bytesRead = is.read(buffer);
+				out.write(buffer, 0, bytesRead);
+			}
+
+			out.close();
 		}
-
-		out.close();
 		is.close();
 
 		Desktop.getDesktop().open(pdf);
@@ -524,16 +475,18 @@ public class ExerciseController implements Initializable{
 		for (int i = 0; i < clear.length; i++) {
 			clearMatcher = punctionLessPattern.matcher(clear[i]);
 			if (clearMatcher.find() && clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
-				if (sensiCasse && !clearMatcher.group(0).equals(text)) {
+				if (sensiCasse && !clearMatcher.group(0).equals(text))
+				{
 					continue;
 				}
-				encrypted[i]=clear[i];
+				encrypted[i] = clear[i];
 			}
+
 			Pattern numberCharPattern = Pattern.compile(".{4,}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
 			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement 
 					&& encrypted[i].substring(0,text.length()).contains(""+caractereOccul) 
-					&& numberCharMatcher.group().substring(0,text.length()).equals(text)) {
+					&& numberCharMatcher.group().startsWith(text)) {
 
 				encrypted[i] = numberCharMatcher.group(0).substring(0,text.length());
 				for (int j = text.length(); j < clearMatcher.group(0).length(); j++) {
@@ -578,7 +531,7 @@ public class ExerciseController implements Initializable{
 			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
 			retourMenu();
 
-			if(evaluation == true) {
+			if(evaluation) {
 				finExercice();
 				enregistrementExo();
 			}
@@ -590,187 +543,12 @@ public class ExerciseController implements Initializable{
 
 	//M�thode pour quitter l'application
 	@FXML
-	public void quitter(ActionEvent event) {
+	public void quitter() {
 		Platform.exit();
 	}
 
-	//M�thode qui permet � l'�tudiant de proposer un mot, et affichage ou non dans le texte occult� si le mot est pr�sent
-	/*@FXML
-	public void propositionMot() throws IOException {
-
-		String mot = motPropose.getText(), word = "";
-		int remplacementPartiel = 0, cpt = 0;
-		boolean check = true;
-
-		//On set la variable en fonction du nombre de lettres autoris�es
-		if(lettres_2 == true) {
-			remplacementPartiel = 2;
-		} else if (lettres_3 == true) {
-			remplacementPartiel = 3;
-		}
-
-		//Si la sensibilit� � la casse n'est pas activ�e, on met le mot en minuscule
-		if(sensiCasse == false) {
-			mot = mot.toLowerCase();
-
-			for(int i = 0; i < lesMotsSensiCasse.size(); i++) {
-
-				check = true;
-
-				//Si le mot correspond exactement 
-				if(lesMotsSensiCasse.get(i).compareTo(mot) == 0) {
-					lesMotsEtudiant.set(i, lesMots.get(i));
-					estDecouvert.set(i, 1);
-					nbMotsDecouverts++;
-
-					//Gestion de la progressBar
-					progressBar.setProgress(nbMotsDecouverts / nbMotsTotal);
-					pourcentageMots.setText(Math.round((nbMotsDecouverts / nbMotsTotal) * 100)  + "%");
-				}
-
-				//Si le remplacement partiel est active et que l'�tudiant n'a pas encore trouve le mot
-				if(motIncomplet == true && estDecouvert.get(i) == 0) {
-
-					if(mot.length() >= remplacementPartiel && lesMotsSensiCasse.get(i).length() >= 4) {
-
-						for(int j = 0; j < mot.length(); j++) {
-							if(mot.charAt(j) == lesMotsSensiCasse.get(i).charAt(j)) {
-								cpt ++;
-							} else {
-								check = false;
-								break;
-							}
-						}
-					}
-
-					//Si les premi�res lettres sont les m�mes
-					if(cpt >= remplacementPartiel && check == true) {
-
-						//On "crypte" le mot
-						word = mot;
-
-						for(int z = 0; z < lesMotsSensiCasse.get(i).length() - mot.length(); z++) {
-							word += caractereOccul;
-						}
-						lesMotsEtudiant.set(i, word);
-					}
-
-					//On r�initialise le compteur
-					cpt = 0;
-
-				}
-			}
-
-
-			//Si la sensibilit� � la casse est activ�e
-		} else {
-
-			for(int i = 0; i < lesMots.size(); i++) {
-
-				check = true;
-
-				if(lesMots.get(i).compareTo(mot) == 0) {
-					lesMotsEtudiant.set(i, mot);
-					estDecouvert.set(i, 1);
-					nbMotsDecouverts++;
-
-					//Gestion de la progressBar
-					progressBar.setProgress(nbMotsDecouverts / nbMotsTotal);
-					pourcentageMots.setText(Math.round((nbMotsDecouverts / nbMotsTotal) * 100)  + "%");
-				}
-
-				//Si le remplacement partiel est active
-				if(motIncomplet == true && estDecouvert.get(i) == 0) {
-
-					if(mot.length() >= remplacementPartiel && lesMots.get(i).length() >= 4) {
-
-						for(int j = 0; j < mot.length(); j++) {
-							if(mot.charAt(j) == lesMots.get(i).charAt(j)) {
-								cpt ++;
-							} else {
-								check = false;
-								break;
-							}
-						}
-					}
-
-					//Si les premi�res lettres sont les m�mes
-					if(cpt >= remplacementPartiel && check == true) {
-
-						//On "crypte" le mot
-						word = mot;
-
-						for(int z = 0; z < lesMots.get(i).length() - mot.length(); z++) {
-							word += caractereOccul;
-						}
-						lesMotsEtudiant.set(i, word);
-					}
-
-					//On r�initialise le compteur
-					cpt = 0;
-				}
-			}
-		}
-
-		//Si c'est la premi�re fois que l'�tudiant propose un mot, le timer se d�clenche
-		if(timerEstDeclenche == false) {
-			gestionTimer();
-			timerEstDeclenche = true;
-		}
-
-		//On r�initialise le TextField et la transcription
-		motPropose.setText("");
-		transcription.setText("");
-
-		//On met � jour la transcription gr�ce � la liste des mots de l'�tudiant		
-		for(int o = 0; o < lesMotsEtudiant.size(); o++) {
-
-			word = lesMotsEtudiant.get(o);
-
-			//Si c'est le premier mot, on ne met pas d'espace avant
-			if(o == 0) {
-				transcription.setText(word);
-			}
-			//Si cela correspond � de la ponctuation
-			else if(regexPoint(word)){
-				transcription.setText(transcription.getText() + word);
-			}
-			//Si c'est un mot "normal"
-			else {
-				transcription.setText(transcription.getText() + " " + word);
-			}
-		}
-
-		//On regarde si l'�tudiant a termin� l'exercice
-		if(estTermine()) {
-
-			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
-			retourMenu();
-			finExercice();
-			enregistrementExo();
-		}
-	}*/
-
-	public ArrayList<String> getLesMots() {
-		return lesMots;
-	}
-
-	public ArrayList<String> getLesMotsEtudiant() {
-		return lesMotsEtudiant;
-	}
 
 	//M�thode qui regarde si l'�tudiant a fini l'exercice
-	public boolean estTermine() {
-
-		//L'exercice est termin� s'il l'�tudiant a d�couvert tous les mots
-		if(Math.round((nbMotsDecouverts / nbMotsTotal) * 100) == 100){
-			mediaPlayer.stop();
-			return true;
-		} else {
-			return false;
-		}
-
-	}
 
 	//M�thode qui va load le temps �coul� pour le mode �valuation
 	public void finExercice() throws IOException {
@@ -789,60 +567,54 @@ public class ExerciseController implements Initializable{
 
 	//M�thode permettant de cr�er un timer pour que l'�tudiant voit le temps qui d�file en mode Evaluation
 	public void gestionTimer() {
+  Timeline timer;
 		timer = new Timeline();
-		timer.setCycleCount(Timeline.INDEFINITE);
+		timer.setCycleCount(Animation.INDEFINITE);
 
-		if(evaluation == true) {
+		if(evaluation) {
+			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
-							new EventHandler<ActionEvent>() {
-						// KeyFrame event handler
-						@Override    
-						public void handle(ActionEvent arg0) {
-							sec--;
-							if (sec < 0) {
-								min--;
-								sec=59;
-							}
-							// update timerLabel
-							time.setText(min +":"+ sec +"s");
-
-							//S'il ne reste plus de temps, on load la fenetre d'enregistrement
-							if (sec <= 0 && min<=0) {
-								timer.stop();
-								try {
-									retourMenu();
-									loadEnregistrement();
-									enregistrementExo();
-								} catch (IOException e) {
-									e.printStackTrace();
+							arg0 -> {
+								sec--;
+								if (sec < 0) {
+									min--;
+									sec=59;
 								}
-								return;
-							}
+								// update timerLabel
+								time.setText(min +":"+ sec +"s");
 
-						}
-					}));
+								//S'il ne reste plus de temps, on load la fenetre d'enregistrement
+								if (sec <= 0 && min<=0) {
+									timer.stop();
+									try {
+										retourMenu();
+										loadEnregistrement();
+										enregistrementExo();
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
+								}
+
+							}));
 			timer.playFromStart();
 		}
 
-		if(entrainement == true) {
+		if(entrainement) {
+			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
-							new EventHandler<ActionEvent>() {
-						// KeyFrame event handler
-						@Override    
-						public void handle(ActionEvent arg0) {
-							sec++;
-							if (sec > 59) {
-								min++;
-								sec = 00;
-							}
+							arg0 -> {
+								sec++;
+								if (sec > 59) {
+									min++;
+									sec = 00;
+								}
 
-							// update timerLabel
-							time.setText(min +":"+ sec +"s");
+								// update timerLabel
+								time.setText(min +":"+ sec +"s");
 
-						}
-					}));
+							}));
 			timer.playFromStart();
 		}
 	}
@@ -869,13 +641,13 @@ public class ExerciseController implements Initializable{
 		File file = new File(SaveAfterOpenController.repertoireEtudiant + "\\" + SaveAfterOpenController.nomExo
 				+ "_" + SaveAfterOpenController.nomEtudiant + "_" + SaveAfterOpenController.prenEtudiant + ".rct");
 		FileWriter fwrite = new FileWriter(file);
-		BufferedWriter buffer = new BufferedWriter(fwrite);
+		try (BufferedWriter buffer = new BufferedWriter(fwrite)) {
 
-		buffer.write(transcription.getText());
-		buffer.newLine();
-		buffer.write(Double.toString(Math.round((nbMotsDecouverts / nbMotsTotal) * 100)) + '%');
+			buffer.write(transcription.getText());
+			buffer.newLine();
+			buffer.write(Double.toString(Math.round((nbMotsDecouverts / nbMotsTotal) * 100)) + '%');
 
-		buffer.close();
+		}
 		fwrite.close();
 	}
 
@@ -940,7 +712,7 @@ public class ExerciseController implements Initializable{
 
 	//M�thode pour passer ou non le darkMode
 	@FXML
-	public void darkMode() {
+	public  void darkMode() {
 
 		if(dark.isSelected()) {
 			ButtonAide.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
@@ -955,58 +727,51 @@ public class ExerciseController implements Initializable{
 
 
 	private void setKeyboardShortcut() {
-		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				System.out.println(ButtonAide.getScene().focusOwnerProperty().get());
-				 if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
-	                    if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
-	                    	if(!motPropose.getText().isEmpty()) {
-	    						try {
-	    							verify(motPropose.getText());
-	    							motPropose.setText("");
-	    						} catch (IOException e) {
-	    							e.printStackTrace();
-	    						}
-	    					}
-	                    }
-	                }
-				 else if (event.getCode() == KeyCode.SPACE) {
-					if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
-						mediaView.getMediaPlayer().play();
-						playOrPause.setImage(pause);
-					}
-					if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
-						mediaView.getMediaPlayer().pause();
-						playOrPause.setImage(play);
-					}
-
-				}
-				if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
-					mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
-				}
-				if (event.getCode() == KeyCode.UP) {
-					sliderSon.setValue(sliderSon.getValue() + 3);
-				}
-				if (event.getCode() == KeyCode.DOWN) {
-					sliderSon.setValue(sliderSon.getValue() - 3);
-				}
-			}
-
-		});
+		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_PRESSED, this::handle);
 		
-		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_RELEASED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				 if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
-	                    if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
-	    						motPropose.setText("");
-	                    }
-	                }
-			}
+		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+			 if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
+					if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
+							motPropose.setText("");
+					}
+				}
 		});
+	}
+
+	private void handle(KeyEvent event) {
+
+		if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
+			if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER && (!motPropose.getText().isEmpty())) {
+				try {
+					verify(motPropose.getText());
+					motPropose.setText("");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+			}
+		} else if (event.getCode() == KeyCode.SPACE) {
+			if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
+				mediaView.getMediaPlayer().play();
+				playOrPause.setImage(pause);
+			}
+			if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
+				mediaView.getMediaPlayer().pause();
+				playOrPause.setImage(play);
+			}
+
+		}
+		if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
+			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
+		}
+		if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
+			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
+		}
+		if (event.getCode() == KeyCode.UP) {
+			sliderSon.setValue(sliderSon.getValue() + 3);
+		}
+		if (event.getCode() == KeyCode.DOWN) {
+			sliderSon.setValue(sliderSon.getValue() - 3);
+		}
 	}
 }
