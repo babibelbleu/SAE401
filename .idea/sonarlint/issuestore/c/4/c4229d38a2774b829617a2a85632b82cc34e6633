@@ -1,0 +1,42 @@
+
+
+java:S1192¡"kDefine a constant instead of duplicating this literal "/fr.weshdev.sae401/css/menu_and_button.css" 4 times.(Ó®áa
+{
+java:S1192£"dDefine a constant instead of duplicating this literal "/fr.weshdev.sae401/css/darkMode.css" 4 times.(ü¼—Ş
+D
+java:S1604Ÿ"(Make this anonymous inner class a lambda(Èşç¾ûÿÿÿÿ
+D
+java:S1604§"(Make this anonymous inner class a lambda(˜¦Îöÿÿÿÿÿ
+D
+java:S1604®"(Make this anonymous inner class a lambda(Ò¾îæşÿÿÿÿ
+?
+java:S1604µ"(Make this anonymous inner class a lambda(ıêŒÆ
+v
+java:S11048"[Make contenuConsigne a static final constant or non-public and provide accessors if needed.(µéúÿÿÿÿ
+v
+java:S11049"`Make contenuTranscription a static final constant or non-public and provide accessors if needed.(ßÿç¨
+m
+java:S1104:"WMake contenuAide a static final constant or non-public and provide accessors if needed.(şÉªÕ
+P
+java:S14448"5Make this "public static contenuConsigne" field final(µéúÿÿÿÿ
+P
+java:S14449":Make this "public static contenuTranscription" field final(ßÿç¨
+G
+java:S1444:"1Make this "public static contenuAide" field final(şÉªÕ
+e
+java:S2095î"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(¿Î¤
+t	java:S1162"ZRename this field "MediaViewApercu" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ë”–ıÿÿÿÿ
+
+java:S1130è"yRemove the declaration of thrown exception 'java.net.MalformedURLException' which is a subclass of 'java.io.IOException'.(Â¸ì¤
+‹
+java:S1130è"tRemove the declaration of thrown exception 'java.net.URISyntaxException', as it cannot be thrown from method's body.(Â¸ì¤
+M
+java:S2696"6Make the enclosing method "static" or remove this set.(Òÿşå
+M
+java:S2696"6Make the enclosing method "static" or remove this set.(¨ûæ³
+M
+java:S2696‘"6Make the enclosing method "static" or remove this set.(â·é‘
+M
+java:S2696¤"6Make the enclosing method "static" or remove this set.(õô…ë
+R
+java:S2696ª"6Make the enclosing method "static" or remove this set.(™¹í§ûÿÿÿÿ
