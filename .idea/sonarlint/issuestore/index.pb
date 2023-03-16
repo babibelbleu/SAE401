@@ -76,5 +76,3 @@ Dsrc/main/resources/fr.weshdev.sae401/templates/student/exercise.fxml,5\0\50577
 Ksrc/main/java/fr/weshdev/sae401/student/controllers/ExerciseController.java,2\c\2cee14158dcf0c297772e60f09dc707eaf24335d
 €
 Psrc/main/java/fr/weshdev/sae401/student/controllers/SaveAfterOpenController.java,f\6\f6467bad70804af7df0fac40e221b1099ffb7aa6
-z
-Jsrc/main/java/fr/weshdev/sae401/teacher/controllers/AccueilController.java,5\9\5927fd45f3026fa3b0a778442b56a52ce1e6a011
