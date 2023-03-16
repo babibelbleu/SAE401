@@ -55,11 +55,11 @@ public class ImportRessourceController implements Initializable {
 
 	@FXML
 	private Slider sliderSon;
-	@FXML private ImageView son;
+	@FXML private ImageView sonIcone;
 	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
 	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
-	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
-	Image pause = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
+	Image playImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
+	Image pauseImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
 	
 	@FXML private ImageView playPauseVideo;
 
@@ -224,9 +224,9 @@ public class ImportRessourceController implements Initializable {
 			mediaPlayer.setVolume(sliderSon.getValue() / 100.0); 
 
 			if(sliderSon.getValue() == 0) {
-				son.setImage(sonCoupe);
+				sonIcone.setImage(sonCoupe);
 			} else {
-				son.setImage(sonPasCoupe);
+				sonIcone.setImage(sonPasCoupe);
 			}
 		}));
 	}
@@ -236,10 +236,10 @@ public class ImportRessourceController implements Initializable {
 	public void sonCoupe(MouseEvent event) {
 
 		if(mediaPlayer.getVolume() != 0) {
-			son.setImage(sonCoupe);
+			sonIcone.setImage(sonCoupe);
 			mediaPlayer.setVolume(0);
 		} else {
-			son.setImage(sonPasCoupe);
+			sonIcone.setImage(sonPasCoupe);
 			mediaPlayer.setVolume(sliderSon.getValue() / 100);
 		}
 
@@ -292,11 +292,11 @@ public class ImportRessourceController implements Initializable {
 		
 		if (mediaPlayer.getStatus() == Status.PAUSED || mediaPlayer.getStatus() == Status.READY) {
 			mediaPlayer.play();
-			playPauseVideo.setImage(pause);
+			playPauseVideo.setImage(pauseImage);
 			playPause.setText("Pause");
 		} else {
 			mediaPlayer.pause();
-			playPauseVideo.setImage(play);
+			playPauseVideo.setImage(playImage);
 			playPause.setText("Play");
 		}
 	}

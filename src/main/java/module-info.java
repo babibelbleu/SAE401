@@ -2,7 +2,7 @@ module fr.weshdev.sae401 {
     requires javafx.controls;
     requires javafx.fxml;
 
-    requires org.controlsfx.controls;
+    //requires org.controlsfx.controls;
     requires javafx.media;
     // requires java.datatransfer;
     requires java.desktop;

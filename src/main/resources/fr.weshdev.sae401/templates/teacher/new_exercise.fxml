@@ -38,7 +38,7 @@
                   <Insets bottom="50.0" left="80.0" />
                </GridPane.margin>
             </Label>
-            <TextField id="parcourirTextField" fx:id="repertoire" editable="false" prefHeight="43.0" prefWidth="722.0" promptText="Cliquez sur Parcourir pour choisir le répertoire où sera enregistré votre exercice" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+            <TextField id="parcourirTextField" fx:id="repertoireSortie" editable="false" prefHeight="43.0" prefWidth="722.0" promptText="Cliquez sur Parcourir pour choisir le répertoire où sera enregistré votre exercice" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="20.0" />
                </font>
@@ -78,7 +78,7 @@
                   <Insets bottom="45.0" right="100.0" />
                </GridPane.margin>
             </Button>
-            <Button id="confirmer" fx:id="okNouvelExo" disable="true" mnemonicParsing="false" onAction="#pageImportationRessource" prefHeight="44.0" prefWidth="170.0" text="Confirmer" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Button id="confirmer" fx:id="confirmerButton" disable="true" mnemonicParsing="false" onAction="#pageImportationRessource" prefHeight="44.0" prefWidth="170.0" text="Confirmer" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="20.0" />
                </font>

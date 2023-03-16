@@ -49,7 +49,7 @@ public class ApercuController implements Initializable {
 	@FXML
 	private MediaView MediaViewApercu;
 	@FXML
-	private Button okApercu;
+	private Button continueBouton;
 	@FXML
 	private ImageView imageViewApercu;
 
@@ -62,13 +62,11 @@ public class ApercuController implements Initializable {
 
 	// Gestion du media (son + video)
 	@FXML
-	private Button playPause;
-	@FXML
 	private Slider progressBar;
 	@FXML
 	private Slider sliderSon;
 	@FXML
-	private ImageView son;
+	private ImageView sonIcone;
 	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
 	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
 	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
@@ -129,9 +127,9 @@ public class ApercuController implements Initializable {
 				mediaPlayer.setVolume(sliderSon.getValue() / 100.0); 
 
 				if(sliderSon.getValue() == 0) {
-					son.setImage(sonCoupe);
+					sonIcone.setImage(sonCoupe);
 				} else {
-					son.setImage(sonPasCoupe);
+					sonIcone.setImage(sonPasCoupe);
 				}
 			}));
 		}
@@ -141,10 +139,10 @@ public class ApercuController implements Initializable {
 		public void sonCoupe(MouseEvent event) {
 
 			if(mediaPlayer.getVolume() != 0) {
-				son.setImage(sonCoupe);
+				sonIcone.setImage(sonCoupe);
 				mediaPlayer.setVolume(0);
 			} else {
-				son.setImage(sonPasCoupe);
+				sonIcone.setImage(sonPasCoupe);
 				mediaPlayer.setVolume(sliderSon.getValue() / 100);
 			}
 
@@ -219,7 +217,7 @@ public class ApercuController implements Initializable {
 		// R�initialisation des variables
 		AccueilController c = new AccueilController();
 		c.delete();
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) continueBouton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -255,7 +253,7 @@ public class ApercuController implements Initializable {
 	// M�thode pour charger la page d'importation de ressource (bouton retour)
 	@FXML
 	public void pageImporterRessource(ActionEvent event) throws IOException {
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) continueBouton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/import_ressource.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
@@ -272,7 +270,7 @@ public class ApercuController implements Initializable {
 		contenuTranscription = texteTranscription.getText();
 		contenuAide = texteAide.getText();
 
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) continueBouton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/options.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -285,15 +283,15 @@ public class ApercuController implements Initializable {
 	public void darkMode() {
 
 		if (dark.isSelected()) {
-			okApercu.getScene().getStylesheets().removeAll(
+			continueBouton.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			okApercu.getScene().getStylesheets()
+			continueBouton.getScene().getStylesheets()
 					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
 		} else {
-			okApercu.getScene().getStylesheets().removeAll(
+			continueBouton.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			okApercu.getScene().getStylesheets().addAll(
+			continueBouton.getScene().getStylesheets().addAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}

@@ -31,9 +31,9 @@ import java.util.ResourceBundle;
 public class NewExerciseController implements Initializable{
 
 
-	@FXML private TextField repertoire;
+	@FXML private TextField repertoireSortie;
 	@FXML private TextField nomExo;
-	@FXML private Button okNouvelExo;
+	@FXML private Button confirmerButton;
 	
 	public static String contenuRepertoire;
 	public static String contenuNomExo;
@@ -50,7 +50,7 @@ public class NewExerciseController implements Initializable{
 		
 		//On rempli les champs s'il ne sont pas null (si l'enseignant revient en arrière)
 		if(contenuRepertoire != null) {
-			repertoire.setText(contenuRepertoire);
+			repertoireSortie.setText(contenuRepertoire);
 		}
 		
 		if(contenuNomExo != null) {
@@ -59,18 +59,18 @@ public class NewExerciseController implements Initializable{
 		
 		//Si les deux champs sont remplis, on met le bouton cliquable
 		if(contenuRepertoire != null && nomExo != null) {
-			okNouvelExo.setDisable(false);
+			confirmerButton.setDisable(false);
 		}
 		
 		//On regarde si le textField du repertoire est vide ou non
-		repertoire.textProperty().addListener(new ChangeListener<String>() {
+		repertoireSortie.textProperty().addListener(new ChangeListener<String>() {
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newvalue) {
-				if(!repertoire.getText().isEmpty() && !nomExo.getText().isEmpty()) {
-					okNouvelExo.setDisable(false);
+				if(!repertoireSortie.getText().isEmpty() && !nomExo.getText().isEmpty()) {
+					confirmerButton.setDisable(false);
 				} else {
-					okNouvelExo.setDisable(true);
+					confirmerButton.setDisable(true);
 				}
 			}
 			
@@ -81,10 +81,10 @@ public class NewExerciseController implements Initializable{
 
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String oldValue, String newvalue) {
-				if(!nomExo.getText().isEmpty() && !repertoire.getText().isEmpty()) {
-					okNouvelExo.setDisable(false);
+				if(!nomExo.getText().isEmpty() && !repertoireSortie.getText().isEmpty()) {
+					confirmerButton.setDisable(false);
 				} else {
-					okNouvelExo.setDisable(true);
+					confirmerButton.setDisable(true);
 				}
 			}
 			
@@ -157,7 +157,7 @@ public class NewExerciseController implements Initializable{
 		AccueilController c = new AccueilController();
 		c.delete();
 		
-		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
+		Stage primaryStage = (Stage) repertoireSortie.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setMaximized(true);
@@ -168,7 +168,7 @@ public class NewExerciseController implements Initializable{
 	
 	@FXML
 	public void retourAccueil() throws IOException {
-		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
+		Stage primaryStage = (Stage) repertoireSortie.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
@@ -184,7 +184,7 @@ public class NewExerciseController implements Initializable{
 		directoryChooser.setTitle("Choisissez un répertoire pour l'enregistrement");
 		selectedDirectory = directoryChooser.showDialog(null);
 		if(selectedDirectory != null) {
-			repertoire.setText(selectedDirectory.getAbsolutePath());
+			repertoireSortie.setText(selectedDirectory.getAbsolutePath());
 		}
 	}
 	
@@ -193,10 +193,10 @@ public class NewExerciseController implements Initializable{
 	public void pageImportationRessource(ActionEvent event) throws IOException {
 		
 		//Au moment d'aller sur la page d'après, on récupère le contenu des TextFields
-		contenuRepertoire = repertoire.getText();
+		contenuRepertoire = repertoireSortie.getText();
 		contenuNomExo = nomExo.getText();
 		
-		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
+		Stage primaryStage = (Stage) repertoireSortie.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/import_ressource.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
