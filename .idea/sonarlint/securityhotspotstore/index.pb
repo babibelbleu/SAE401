@@ -1,8 +1,6 @@
 
 g
 7src/main/java/fr/weshdev/sae401/DeplacementFenetre.java,1\9\1985d63964b3fa66bbc060e17b584838d6f38c51
-c
-3src/main/java/fr/weshdev/sae401/MainEnseignant.java,7\a\7a0cbce28e31110711673453b6240f71f2ff98e2
 q
 Asrc/main/resources/fr.weshdev.sae401/templates/teacher/about.fxml,f\6\f6e2aec7f6db0a27d984e7960795d7330ab336f2
 x
@@ -25,8 +23,6 @@ x
 Hsrc/main/resources/fr.weshdev.sae401/templates/teacher/new_exercise.fxml,e\9\e9d7ed88bd1aa6e7fbb0eb3cb40c2e339a5103b9
 
 Osrc/main/resources/fr.weshdev.sae401/templates/teacher/register_validation.fxml,6\a\6aa371c061a78bfffeb026e1b4594023fc7d34ed
-a
-1src/main/java/fr/weshdev/sae401/MainEtudiant.java,8\f\8f717a08e158905d4b1590c1862c059373d36d51
 q
 Asrc/main/resources/fr.weshdev.sae401/templates/student/hints.fxml,9\c\9cac57132ce900cd81e14e3034e1ba5b511b5c6c
 U

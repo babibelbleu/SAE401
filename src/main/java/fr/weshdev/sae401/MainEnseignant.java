@@ -13,23 +13,19 @@ public class MainEnseignant extends Application {
 
 	public static Parent root;
 
-	//Param�tres de taille d'�cran
 	public static double width;
 	public static double height;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception{
-		System.out.println(getClass());
 		root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		primaryStage.setTitle("Reconstitution - Version Enseignante");
 		primaryStage.getIcons().add(new Image(getClass().getResource("/fr.weshdev.sae401/icons/logo.png").toExternalForm()));
 
-		//On affiche le plein �cran
 		primaryStage.setMaximized(true);
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(800);
 
-		//On r�cup�re la largeur et la hauteur de l'�cran
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		width = screenBounds.getWidth();
 		height = screenBounds.getHeight();
