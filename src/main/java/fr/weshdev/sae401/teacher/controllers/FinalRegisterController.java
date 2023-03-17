@@ -205,7 +205,7 @@ public class FinalRegisterController implements Initializable {
 		recupScene.getScene().getWindow().hide();
 	}
 
-	//M�thode qui r�cup�re la lonngueur en byte d'une chaine de caract�re
+	//M�thode qui r�cup�re la lonngueur en byte d'une convertBytesToString de caract�re
 	private byte[] getLongueur(String chaine) {
 
 		int nbCara = 0;

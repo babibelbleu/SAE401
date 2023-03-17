@@ -52,8 +52,6 @@ Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/ConfirmQuitController.java
 Ksrc/main/resources/fr.weshdev.sae401/templates/student/save_validation.fxml,3\b\3b2568b22d56b2e081acf78d0a342c5008b1c9ae
 {
 Ksrc/main/java/fr/weshdev/sae401/student/controllers/TimeIsUpController.java,e\f\efc9d7bbb46fcab7e75f897c9950d7f357d14da2
-{
-Ksrc/main/java/fr/weshdev/sae401/student/controllers/SolutionController.java,f\e\fee152635d275d97d53c579f2ad175d48d325eac
 t
 Dsrc/main/resources/fr.weshdev.sae401/templates/student/solution.fxml,9\5\95ada9d8181743982acefe47375c9e60531c221e
 ~
@@ -68,7 +66,5 @@ q
 Asrc/main/resources/fr.weshdev.sae401/templates/student/about.fxml,7\8\7830b228a33fdc2ccd8ab10ae8f69ae55be9d549
 t
 Dsrc/main/resources/fr.weshdev.sae401/templates/student/exercise.fxml,5\0\50577cf424129cfb3994e552cd0c869b540d977e
-{
-Ksrc/main/java/fr/weshdev/sae401/student/controllers/ExerciseController.java,2\c\2cee14158dcf0c297772e60f09dc707eaf24335d
 €
 Psrc/main/java/fr/weshdev/sae401/student/controllers/SaveAfterOpenController.java,f\6\f6467bad70804af7df0fac40e221b1099ffb7aa6
