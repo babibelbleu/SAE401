@@ -219,7 +219,7 @@ public class AccueilController implements Initializable {
 	}
 
 	/**
-	 * Méthode qui permet de convertir un tableau d'octets en chaine de caractère
+	 * Méthode qui permet de convertir un tableau d'octets en convertBytesToString de caractère
 	 * @param bytes
 	 * @return
 	 */
