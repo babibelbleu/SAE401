@@ -44,7 +44,7 @@ public class SaveAfterOpenController implements Initializable{
 		});
 		
 		//Pour le TextField du pr�nom de l'�tudiant
-		prenom.textProperty().addListener((arg01, arg11, arg2) -> {
+		prenom.textProperty().addListener(event -> {
 			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
 				preEnregistrement.setDisable(true);
 			} else {
@@ -53,7 +53,7 @@ public class SaveAfterOpenController implements Initializable{
 		});
 		
 		//Pour le TextField du repertoire dans lequel sera enregistr� le fichier de l'�tudiant
-		repertoire.textProperty().addListener((arg012, arg112, arg2) -> {
+		repertoire.textProperty().addListener(event -> {
 			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
 				preEnregistrement.setDisable(true);
 			} else {

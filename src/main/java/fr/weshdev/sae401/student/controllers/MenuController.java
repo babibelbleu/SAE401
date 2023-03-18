@@ -152,12 +152,12 @@ public class MenuController implements Initializable {
 		// On r�cup�re la longueur de la consigne + la consigne
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		consigne = chaine(readNBytes(fin, nombreOctetALire));
-		ExerciseController.contenuConsigne = consigne;
+		ExerciseController.instructionContent = consigne;
 
 		// Même chose pour la transcription
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		transcription = chaine(readNBytes(fin, nombreOctetALire));
-		ExerciseController.contenuTranscription = transcription;
+		ExerciseController.transcriptionContent = transcription;
 
 		nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 		aide = chaine(readNBytes(fin, nombreOctetALire));
@@ -165,22 +165,22 @@ public class MenuController implements Initializable {
 
 		// On r�cup�re le caract�re d'occultation
 		caraOccul = chaine(readNBytes(fin, 1));
-		ExerciseController.caractereOccul = caraOccul;
+		ExerciseController.hidddenChar = caraOccul;
 
 		// On r�cup�re la reponse de sensiCasse 0 = false, 1 = true
 		sensiCasse = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 		if(sensiCasse == 1) {
-			ExerciseController.sensiCasse = true;
+			ExerciseController.caseSensitivity = true;
 		} else {
-			ExerciseController.sensiCasse = false;
+			ExerciseController.caseSensitivity = false;
 		}
 
 		mode = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 		if (mode == 1) {
-			ExerciseController.evaluation = true;
-			ExerciseController.entrainement = false;
+			ExerciseController.isEvaluationModeSelected = true;
+			ExerciseController.isTrainingModeSelected = false;
 
 			nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 			nbMin = chaine(readNBytes(fin, nombreOctetALire));
@@ -188,30 +188,30 @@ public class MenuController implements Initializable {
 			ExerciseController.nbMin = nbMin;
 
 		} else {
-			ExerciseController.evaluation = false;
-			ExerciseController.entrainement = true;
+			ExerciseController.isEvaluationModeSelected = false;
+			ExerciseController.isTrainingModeSelected = true;
 
 			solution = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			if (solution == 1) {
-				ExerciseController.solution = true;
+				ExerciseController.isSolutionShowOptionSelected = true;
 			} else {
-				ExerciseController.solution = false;
+				ExerciseController.isSolutionShowOptionSelected = false;
 			}
 
 			motsDecouverts = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			if (motsDecouverts == 1) {
-				ExerciseController.motDecouverts = true;
+				ExerciseController.isDiscoveredWordShowOptionSelected = true;
 			} else {
-				ExerciseController.motDecouverts = false;
+				ExerciseController.isDiscoveredWordShowOptionSelected = false;
 			}
 
 			motsIncomplets = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			// On met la variable associ�e en fonction de la r�ponse
 			if (motsIncomplets == 1) {
-				ExerciseController.motIncomplet = true;
+				ExerciseController.isIncompleteWordOpionActive = true;
 
 				// On r�cup�re la reponse du nb min de lettre pour d�couvrir le mot 2 = 2
 				// lettres, 3 = 3 lettres
@@ -219,17 +219,17 @@ public class MenuController implements Initializable {
 
 				// On met la variable associ�e en fonction de la r�ponse
 				if (lettre == 2) {
-					ExerciseController.lettres_2 = true;
-					ExerciseController.lettres_3 = false;
+					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = true;
+					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
 				} else {
-					ExerciseController.lettres_2 = false;
-					ExerciseController.lettres_3 = true;
+					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
+					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = true;
 				}
 
 			} else {
-				ExerciseController.motIncomplet = false;
-				ExerciseController.lettres_2 = false;
-				ExerciseController.lettres_3 = false;
+				ExerciseController.isIncompleteWordOpionActive = false;
+				ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
+				ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
 			}
 		}
 
@@ -246,7 +246,7 @@ public class MenuController implements Initializable {
 			ecritureFileImage.write(readNBytes(fin, nombreOctetALire));
 			ecritureFileImage.close();
 
-			ExerciseController.contenuImage = new Image(tmpFileImage.toURI().toString());
+			ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
 
 			tmpFileImage.deleteOnExit();
 
@@ -266,7 +266,7 @@ public class MenuController implements Initializable {
 		ecritureFile.write(readAllBytes(fin));
 		ecritureFile.close();
 
-		ExerciseController.contenuMedia = new Media(tmpFile.toURI().toString());
+		ExerciseController.mediaContent = new Media(tmpFile.toURI().toString());
 
 		tmpFile.deleteOnExit();
 

@@ -133,7 +133,7 @@ public class FinalRegisterController implements Initializable {
 				}
 			}
 
-			// Sinon il s'agit du mode evaluation
+			// Sinon il s'agit du mode evaluationMode
 			else {
 
 				// Limite de temps (pour le mode Evaluation)

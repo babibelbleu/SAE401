@@ -48,53 +48,53 @@ public class ExerciseController implements Initializable {
 
 	//Variables qui vont contenir les diff�rentes informations sur l'exercice
 	//Informations textuelles
-	public static String contenuTranscription;
-	public static String contenuConsigne;
-	public static Media contenuMedia;
-	public static String caractereOccul;
+	public static String transcriptionContent;
+	public static String instructionContent;
+	public static Media mediaContent;
+	public static String hidddenChar;
 
 	//Options de l'exercice
-	public static boolean sensiCasse;
-	public static boolean entrainement;
-	public static boolean evaluation;
+	public static boolean caseSensitivity;
+	public static boolean isTrainingModeSelected;
+	public static boolean isEvaluationModeSelected;
 	public static String nbMin;
-	public static boolean solution;
-	public static boolean motDecouverts;
-	public static boolean motIncomplet;
-	public static boolean lettres_2;
-	public static boolean lettres_3;
-	public static Image contenuImage;
+	public static boolean isSolutionShowOptionSelected;
+	public static boolean isDiscoveredWordShowOptionSelected;
+	public static boolean isIncompleteWordOpionActive;
+	public static boolean isIncompleteWordWithTwoLettersOptionSelected;
+	public static boolean isIncompleteWordWithThreeLettersOptionSelected;
+	public static Image imageContent;
 
 	//TextFields et autre composants qui contiennent les informations de l'exercice
 	@FXML private TextArea transcription;
-	@FXML private TextArea consigne;
-	@FXML private ImageView imageView;
-	@FXML private MediaView mediaView;
+	@FXML private TextArea instruction;
+	@FXML private ImageView thumbnailContainerMp3;
+	@FXML private MediaView mediaContainer;
 	@FXML private Text time;
 	@FXML private Label titleTime;
-	@FXML private TextField motPropose;
+	@FXML private TextField userPropositionWord;
 
 	//Ce qui concerne le media
-	@FXML private ImageView firstPlay;
-	@FXML private ImageView playOrPause;
-	MediaPlayer mediaPlayer = new MediaPlayer(contenuMedia);
-	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
-	Image pause = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
-	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
-	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
-	@FXML private Slider sliderSon;
+	@FXML private ImageView launchVideoIcon;
+	@FXML private ImageView playOrPauseImageContainer;
+	MediaPlayer mediaPlayer = new MediaPlayer(mediaContent);
+	Image playIcon = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
+	Image pauseIcon = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
+	Image mutedLoudSpeakerIcon = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
+	Image loudspeakerIcon = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
+	@FXML private Slider sliderSound;
 	@FXML private Slider sliderVideo;
-	@FXML private ImageView son;
+	@FXML private ImageView soundContainerState;
 
 	//Gestion du timer
 
 	private Integer sec = 0;
 	private Integer min;
-	private boolean timerEstDeclenche = false;
+	private boolean isTimerRunning = false;
 
 	//Autres boutons
-	@FXML private Button ButtonAide;
-	@FXML private Button ButtonSolution;
+	@FXML private Button helpButton;
+	@FXML private Button solutionButton;
 	@FXML private ImageView alertSolution;
 
 	//Listes des mots pour l'�tudiant
@@ -112,22 +112,22 @@ public class ExerciseController implements Initializable {
 	}
 
 
-	private final String clearText = contenuTranscription;
+	private final String clearText = transcriptionContent;
 	public int numberPartialReplacement;
 
 	//Tout ce qui concerne la barre de progression
 	@FXML private ProgressBar progressBar;
-	@FXML private Label pourcentageMots;
-	@FXML private Label labelMotsDecouverts;
-	private final float nbMotsDecouverts = 0;
-	private float nbMotsTotal;
+	@FXML private Label rateDiscoveredWords;
+	@FXML private Label discoveredWordsLabel;
+	private final float nbDiscoveredWord = 0;
+	private float totalNbWord;
 
 	//Tooltip
-	@FXML private ImageView questionConsigne;
-	@FXML private ImageView questionTranscription;
-	@FXML private ImageView questionProposition;
+	@FXML private ImageView helpInstruction;
+	@FXML private ImageView helpTranscription;
+	@FXML private ImageView helpProposition;
 
-	@FXML private CheckMenuItem dark;
+	@FXML private CheckMenuItem darkMode;
 	@FXML private Button validateButton;
 
 	@Override
@@ -154,87 +154,50 @@ public class ExerciseController implements Initializable {
 			lesMotsSensiCasse.add(word.toLowerCase());
 
 			if(!regexPoint(word)) {
-				nbMotsTotal++;
+				totalNbWord++;
 			}
 		}
 
-		//On load la consigne
-		if(contenuConsigne != null) {
-			consigne.setText(contenuConsigne);
+		//On load la instruction
+		if(instructionContent != null) {
+			instruction.setText(instructionContent);
 		}
 
 		//On load le media
-		if(contenuMedia != null) {
-			mediaView.setMediaPlayer(mediaPlayer);
+		if(mediaContent != null) {
+			mediaContainer.setMediaPlayer(mediaPlayer);
 		}
 
 		//On load l'image quand il s'agit d'un mp3
-		if(contenuImage != null) {
-			imageView.setImage(contenuImage);
+		if(imageContent != null) {
+			thumbnailContainerMp3.setImage(imageContent);
 		}
 
 		//On load le temps n�cessaire si c'est en mode Evaluation
-		if(evaluation) {
-			min = Integer.parseInt(nbMin);
-			time.setText(min + ":" + sec);
-
-			//On masque les boutons qui ne sont pr�sent que ne mode entrainement
-			ButtonAide.setVisible(false);
-			ButtonSolution.setVisible(false);
-			alertSolution.setVisible(false);
-			//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
-			progressBar.setVisible(false);
-			pourcentageMots.setVisible(false);
-			labelMotsDecouverts.setVisible(false);
-
+		if(isEvaluationModeSelected) {
+			evalutationModeLoader();
 		} 
 		//Sinon cela veut dire que l'on est en mode Entrainement
 		else {
 
-			titleTime.setText("Temps Ecoul�");
-			min = 00;
-			time.setText("00:00");
-
-			//Si l'enseignant n'a pas souhait� autoriser l'affichage de la solution
-			if(!solution) {
-				ButtonSolution.setVisible(false);
-				alertSolution.setVisible(false);
-			}
-
-			//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
-			if(!motDecouverts) {
-				progressBar.setVisible(false);
-				pourcentageMots.setVisible(false);
-				labelMotsDecouverts.setVisible(false);
-			}
-
-			if(lettres_2) {
-				numberPartialReplacement = 2;
-			} else if(lettres_3){
-				numberPartialReplacement = 3;
-			} else {
-				numberPartialReplacement = 0;
+			try {
+				trainingModeLoader();
+			} catch (IOException e) {
+				throw new RuntimeException(e);
 			}
 
 		}
 
 		//On fait appara�tre une fen�tre pour que l'�tudiant rentre son nom et pr�nom en vue du futur enregistrement
 		//Note : Seulement si l'exercice est en mode Entrainement
-		try {
-			if(evaluation) {
-				popUpEnregistrement();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 
 		sliderSonChange();
 		sliderVideoChange();
 
 		validateButton.setOnAction(ActionEvent -> {
 			try {
-				verify(motPropose.getText());
-				motPropose.setText("");
+				verify(userPropositionWord.getText());
+				userPropositionWord.setText("");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -244,11 +207,53 @@ public class ExerciseController implements Initializable {
 
 	}
 
+	private void trainingModeLoader() throws IOException {
+		titleTime.setText("Temps Ecoul�");
+		min = 00;
+		time.setText("00:00");
+
+		//Si l'enseignant n'a pas souhait� autoriser l'affichage de la solution
+		if(!isSolutionShowOptionSelected) {
+			solutionButton.setVisible(false);
+			alertSolution.setVisible(false);
+		}
+
+		//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
+		if(!isDiscoveredWordShowOptionSelected) {
+			progressBar.setVisible(false);
+			rateDiscoveredWords.setVisible(false);
+			discoveredWordsLabel.setVisible(false);
+		}
+
+		if(isIncompleteWordWithTwoLettersOptionSelected) {
+			numberPartialReplacement = 2;
+		} else if(isIncompleteWordWithThreeLettersOptionSelected){
+			numberPartialReplacement = 3;
+		} else {
+			numberPartialReplacement = 0;
+		}
+		popUpEnregistrement();
+	}
+
+	private void evalutationModeLoader() {
+		min = Integer.parseInt(nbMin);
+		time.setText(min + ":" + sec);
+
+		//On masque les boutons qui ne sont pr�sent que ne mode entrainement
+		helpButton.setVisible(false);
+		solutionButton.setVisible(false);
+		alertSolution.setVisible(false);
+		//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
+		progressBar.setVisible(false);
+		rateDiscoveredWords.setVisible(false);
+		discoveredWordsLabel.setVisible(false);
+	}
+
 	private String encryptText() {
 		String constructString = "";
 		for (String string : clearText.split(""))
 			if (string.matches("[a-zA-Z]") || (string.matches("[0-9]"))) {
-				constructString += caractereOccul;
+				constructString += hidddenChar;
 			} else {
 				constructString += string;
 			}
@@ -257,13 +262,13 @@ public class ExerciseController implements Initializable {
 
 	public void sliderSonChange() {
 		// Change le volume sonore selon la valeur du slider
-		sliderSon.valueProperty().addListener((o -> {
-			mediaPlayer.setVolume(sliderSon.getValue() / 100.0); 
+		sliderSound.valueProperty().addListener((o -> {
+			mediaPlayer.setVolume(sliderSound.getValue() / 100.0);
 
-			if(sliderSon.getValue() == 0) {
-				son.setImage(sonCoupe);
+			if(sliderSound.getValue() == 0) {
+				soundContainerState.setImage(mutedLoudSpeakerIcon);
 			} else {
-				son.setImage(sonPasCoupe);
+				soundContainerState.setImage(loudspeakerIcon);
 			}
 		}));
 	}
@@ -300,11 +305,11 @@ public class ExerciseController implements Initializable {
 	public void sonCoupe() {
 
 		if(mediaPlayer.getVolume() != 0) {
-			son.setImage(sonCoupe);
+			soundContainerState.setImage(mutedLoudSpeakerIcon);
 			mediaPlayer.setVolume(0);
 		} else {
-			son.setImage(sonPasCoupe);
-			mediaPlayer.setVolume(sliderSon.getValue() / 100);
+			soundContainerState.setImage(loudspeakerIcon);
+			mediaPlayer.setVolume(sliderSound.getValue() / 100);
 		}
 
 	}
@@ -317,12 +322,12 @@ public class ExerciseController implements Initializable {
 		setKeyboardShortcut();
 		
 
-		if(!timerEstDeclenche) {
+		if(!isTimerRunning) {
 			gestionTimer();
-			timerEstDeclenche = true;
+			isTimerRunning = true;
 		}
 
-		firstPlay.setVisible(false);
+		launchVideoIcon.setVisible(false);
 	}
 
 	//Fonction qui play / pause le media
@@ -331,12 +336,12 @@ public class ExerciseController implements Initializable {
 
 		if(mediaPlayer.getStatus() == Status.PLAYING) {
 			mediaPlayer.pause();
-			playOrPause.setImage(play);
+			playOrPauseImageContainer.setImage(playIcon);
 		}
 
 		if(mediaPlayer.getStatus() == Status.PAUSED) {
 			mediaPlayer.play();
-			playOrPause.setImage(pause);
+			playOrPauseImageContainer.setImage(pauseIcon);
 		}
 
 	}
@@ -408,11 +413,11 @@ public class ExerciseController implements Initializable {
 		if(MenuController.isDark) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			dark.setSelected(true);
+			darkMode.setSelected(true);
 		} else {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			dark.setSelected(false);
+			darkMode.setSelected(false);
 		}
 	}
 
@@ -475,7 +480,7 @@ public class ExerciseController implements Initializable {
 		for (int i = 0; i < clear.length; i++) {
 			clearMatcher = punctionLessPattern.matcher(clear[i]);
 			if (clearMatcher.find() && clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
-				if (sensiCasse && !clearMatcher.group(0).equals(text))
+				if (caseSensitivity && !clearMatcher.group(0).equals(text))
 				{
 					continue;
 				}
@@ -485,12 +490,12 @@ public class ExerciseController implements Initializable {
 			Pattern numberCharPattern = Pattern.compile(".{4,}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
 			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement 
-					&& encrypted[i].substring(0,text.length()).contains(""+caractereOccul) 
+					&& encrypted[i].substring(0,text.length()).contains(""+ hidddenChar)
 					&& numberCharMatcher.group().startsWith(text)) {
 
 				encrypted[i] = numberCharMatcher.group(0).substring(0,text.length());
 				for (int j = text.length(); j < clearMatcher.group(0).length(); j++) {
-					encrypted[i] += caractereOccul;
+					encrypted[i] += hidddenChar;
 				}
 				encrypted[i] += clear[i].substring(clearMatcher.group(0).length());
 			}
@@ -510,16 +515,16 @@ public class ExerciseController implements Initializable {
 
 		int ok = 0;
 
-		if(motDecouverts) {
+		if(isDiscoveredWordShowOptionSelected) {
 			int numberWord = clear.length;
 			int numberFoundWord = 0;
 			for (String string : encrypted) {
-				if (!string.contains(caractereOccul)) {
+				if (!string.contains(hidddenChar)) {
 					numberFoundWord++;
 				}
 			}
 			progressBar.setProgress( (double) numberFoundWord / (double) numberWord);
-			pourcentageMots.setText(Math.round(( (double) numberFoundWord / (double) numberWord) * 100)  + "%");
+			rateDiscoveredWords.setText(Math.round(( (double) numberFoundWord / (double) numberWord) * 100)  + "%");
 
 			if (Math.round(( (double) numberFoundWord / (double) numberWord) * 100) == 100){
 				ok = 1;
@@ -531,7 +536,7 @@ public class ExerciseController implements Initializable {
 			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
 			retourMenu();
 
-			if(evaluation) {
+			if(isEvaluationModeSelected) {
 				finExercice();
 				enregistrementExo();
 			}
@@ -571,7 +576,7 @@ public class ExerciseController implements Initializable {
 		timer = new Timeline();
 		timer.setCycleCount(Animation.INDEFINITE);
 
-		if(evaluation) {
+		if(isEvaluationModeSelected) {
 			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
@@ -600,7 +605,7 @@ public class ExerciseController implements Initializable {
 			timer.playFromStart();
 		}
 
-		if(entrainement) {
+		if(isTrainingModeSelected) {
 			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
@@ -645,7 +650,7 @@ public class ExerciseController implements Initializable {
 
 			buffer.write(transcription.getText());
 			buffer.newLine();
-			buffer.write(Double.toString(Math.round((nbMotsDecouverts / nbMotsTotal) * 100)) + '%');
+			buffer.write(Double.toString(Math.round((nbDiscoveredWord / totalNbWord) * 100)) + '%');
 
 		}
 		fwrite.close();
@@ -662,77 +667,77 @@ public class ExerciseController implements Initializable {
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////
-	//M�thode pour affiicher une toolTip consigne + redimension d'image
+	//M�thode pour affiicher une toolTip instruction + redimension d'image
 	@FXML
 	public void tipConsigneEnter() {
-		Tooltip t = new Tooltip("Il s'agit de la consigne donn�e par le professeur");
-		questionConsigne.setFitWidth(questionConsigne.getFitWidth() + 2);
-		questionConsigne.setFitHeight(questionConsigne.getFitHeight() + 2);
-		Tooltip.install(questionConsigne, t);
+		Tooltip t = new Tooltip("Il s'agit de la instruction donn�e par le professeur");
+		helpInstruction.setFitWidth(helpInstruction.getFitWidth() + 2);
+		helpInstruction.setFitHeight(helpInstruction.getFitHeight() + 2);
+		Tooltip.install(helpInstruction, t);
 	}
 
-	//M�thode pour redimensionner l'image de la consigne quand on sort du champ
+	//M�thode pour redimensionner l'image de la instruction quand on sort du champ
 	@FXML
 	public void tipConsigneExit() {
-		questionConsigne.setFitWidth(questionConsigne.getFitWidth() - 2);
-		questionConsigne.setFitHeight(questionConsigne.getFitHeight() - 2);
+		helpInstruction.setFitWidth(helpInstruction.getFitWidth() - 2);
+		helpInstruction.setFitHeight(helpInstruction.getFitHeight() - 2);
 	}
 
 	//M�thode pour affiicher une toolTip transcription + redimension d'image
 	@FXML
 	public void tipTranscriptionEnter() {
 		Tooltip t = new Tooltip("Il s'agit du script de la vid�o que vous devez essayer de retrouver");
-		questionTranscription.setFitWidth(questionTranscription.getFitWidth() + 2);
-		questionTranscription.setFitHeight(questionTranscription.getFitHeight() + 2);
-		Tooltip.install(questionTranscription, t);
+		helpTranscription.setFitWidth(helpTranscription.getFitWidth() + 2);
+		helpTranscription.setFitHeight(helpTranscription.getFitHeight() + 2);
+		Tooltip.install(helpTranscription, t);
 	}
 
 	//M�thode pour redimensionner l'image de la transcription quand on sort du champ
 	@FXML
 	public void tipTranscriptionExit() {
-		questionTranscription.setFitWidth(questionTranscription.getFitWidth() - 2);
-		questionTranscription.setFitHeight(questionTranscription.getFitHeight() - 2);
+		helpTranscription.setFitWidth(helpTranscription.getFitWidth() - 2);
+		helpTranscription.setFitHeight(helpTranscription.getFitHeight() - 2);
 	}
 
 	//M�thode pour affiicher une toolTip transcription + redimension d'image
 	@FXML
 	public void tipPropositionEnter() {
 		Tooltip t = new Tooltip("Rentrez ici les mots que vous pensez entendre dans le document audio ou vid�o");
-		questionProposition.setFitWidth(questionProposition.getFitWidth() + 2);
-		questionProposition.setFitHeight(questionProposition.getFitHeight() + 2);
-		Tooltip.install(questionProposition, t);
+		helpProposition.setFitWidth(helpProposition.getFitWidth() + 2);
+		helpProposition.setFitHeight(helpProposition.getFitHeight() + 2);
+		Tooltip.install(helpProposition, t);
 	}
 
 	//M�thode pour redimensionner l'image de la transcription quand on sort du champ
 	@FXML
 	public void tipPropositionExit() {
-		questionProposition.setFitWidth(questionProposition.getFitWidth() - 2);
-		questionProposition.setFitHeight(questionProposition.getFitHeight() - 2);
+		helpProposition.setFitWidth(helpProposition.getFitWidth() - 2);
+		helpProposition.setFitHeight(helpProposition.getFitHeight() - 2);
 	}
 
 	//M�thode pour passer ou non le darkMode
 	@FXML
 	public  void darkMode() {
 
-		if(dark.isSelected()) {
-			ButtonAide.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			ButtonAide.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+		if(darkMode.isSelected()) {
+			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			MenuController.isDark = true;
 		} else {
-			ButtonAide.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			ButtonAide.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			MenuController.isDark = false;
 		}
 	}
 
 
 	private void setKeyboardShortcut() {
-		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_PRESSED, this::handle);
+		helpButton.getScene().addEventFilter(KeyEvent.KEY_PRESSED, this::handle);
 		
-		ButtonAide.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
-			 if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
+		helpButton.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
+			 if ((helpButton.getScene().focusOwnerProperty().get() instanceof TextField)) {
 					if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
-							motPropose.setText("");
+							userPropositionWord.setText("");
 					}
 				}
 		});
@@ -740,38 +745,38 @@ public class ExerciseController implements Initializable {
 
 	private void handle(KeyEvent event) {
 
-		if ((ButtonAide.getScene().focusOwnerProperty().get() instanceof TextField)) {
-			if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER && (!motPropose.getText().isEmpty())) {
+		if ((helpButton.getScene().focusOwnerProperty().get() instanceof TextField)) {
+			if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER && (!userPropositionWord.getText().isEmpty())) {
 				try {
-					verify(motPropose.getText());
-					motPropose.setText("");
+					verify(userPropositionWord.getText());
+					userPropositionWord.setText("");
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
 
 			}
 		} else if (event.getCode() == KeyCode.SPACE) {
-			if (mediaView.getMediaPlayer().getStatus() == Status.PAUSED) {
-				mediaView.getMediaPlayer().play();
-				playOrPause.setImage(pause);
+			if (mediaContainer.getMediaPlayer().getStatus() == Status.PAUSED) {
+				mediaContainer.getMediaPlayer().play();
+				playOrPauseImageContainer.setImage(pauseIcon);
 			}
-			if (mediaView.getMediaPlayer().getStatus() == Status.PLAYING) {
-				mediaView.getMediaPlayer().pause();
-				playOrPause.setImage(play);
+			if (mediaContainer.getMediaPlayer().getStatus() == Status.PLAYING) {
+				mediaContainer.getMediaPlayer().pause();
+				playOrPauseImageContainer.setImage(playIcon);
 			}
 
 		}
-		if (event.getCode() == KeyCode.RIGHT && mediaView.getMediaPlayer().getTotalDuration().greaterThan(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
-			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
+		if (event.getCode() == KeyCode.RIGHT && mediaContainer.getMediaPlayer().getTotalDuration().greaterThan(mediaContainer.getMediaPlayer().getCurrentTime().add(new Duration(5000)))) {
+			mediaContainer.getMediaPlayer().seek(mediaContainer.getMediaPlayer().getCurrentTime().add(new Duration(5000)));
 		}
-		if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
-			mediaView.getMediaPlayer().seek(mediaView.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
+		if (event.getCode() == KeyCode.LEFT && new Duration(0).lessThan(mediaContainer.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)))) {
+			mediaContainer.getMediaPlayer().seek(mediaContainer.getMediaPlayer().getCurrentTime().subtract(new Duration(5000)));
 		}
 		if (event.getCode() == KeyCode.UP) {
-			sliderSon.setValue(sliderSon.getValue() + 3);
+			sliderSound.setValue(sliderSound.getValue() + 3);
 		}
 		if (event.getCode() == KeyCode.DOWN) {
-			sliderSon.setValue(sliderSon.getValue() - 3);
+			sliderSound.setValue(sliderSound.getValue() - 3);
 		}
 	}
 }

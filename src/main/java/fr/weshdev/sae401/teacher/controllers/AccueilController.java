@@ -149,7 +149,7 @@ public class AccueilController implements Initializable {
 			OptionsController.sensiCasse = false;
 		}
 
-		// On r�cup�re le mode choisi par l'enseignant 0 = entrainement, 1 = evaluation
+		// On r�cup�re le mode choisi par l'enseignant 0 = entrainement, 1 = evaluationMode
 		mode = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 		// On met la variable associ�e en fonction de la r�ponse
