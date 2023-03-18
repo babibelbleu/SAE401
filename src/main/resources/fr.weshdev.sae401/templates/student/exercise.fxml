@@ -154,7 +154,7 @@
                   <Insets bottom="50.0" />
                </GridPane.margin>
                 </ImageView>
-                <Button fx:id="helpButton" mnemonicParsing="false" onAction="#affichageAide" prefHeight="27.0" prefWidth="87.0" style="-fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 1;" text="Aide(s)" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                <Button fx:id="helpButton" mnemonicParsing="false" onAction="#HelpShow" prefHeight="27.0" prefWidth="87.0" style="-fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 1;" text="Aide(s)" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
                         <Insets bottom="210.0" left="45.0" />
                     </GridPane.margin>
@@ -163,7 +163,7 @@
                     </cursor>
                 </Button>
 
-                <Button fx:id="solutionButton" mnemonicParsing="false" onAction="#affichageSolution" prefHeight="32.0" prefWidth="252.0" style="-fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 1; -fx-background-radius: 5;" text="Solution (Ferme l'exercice)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+                <Button fx:id="solutionButton" mnemonicParsing="false" onAction="#solutionShowed" prefHeight="32.0" prefWidth="252.0" style="-fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 1; -fx-background-radius: 5;" text="Solution (Ferme l'exercice)" textAlignment="CENTER" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
                         <Insets bottom="210.0" right="45.0" />
                     </GridPane.margin>
@@ -172,7 +172,7 @@
                     </cursor>
                 </Button>
 
-                <ImageView fx:id="playOrPauseImageContainer" fitHeight="22.0" fitWidth="20.0" onMousePressed="#playOrPause" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                <ImageView fx:id="playOrPauseImageContainer" fitHeight="22.0" fitWidth="20.0" onMousePressed="#playOrPauseClicked" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                     <image>
                         <Image url="@../../images/pause.png" />
                     </image>
@@ -184,7 +184,7 @@
                     </cursor>
                 </ImageView>
 
-                <ImageView fx:id="soundContainerState" fitHeight="26.0" fitWidth="49.0" onMousePressed="#sonCoupe" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+                <ImageView fx:id="soundContainerState" fitHeight="26.0" fitWidth="49.0" onMousePressed="#mute" preserveRatio="true" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                     <image>
                         <Image url="@../../images/volume.png" />
                     </image>
@@ -230,7 +230,7 @@
                   <Insets bottom="145.0" right="200.0" />
                </GridPane.margin>
             </Label>
-            <ImageView fx:id="helpInstruction" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipConsigneEnter" onMouseExited="#tipConsigneExit" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <ImageView fx:id="helpInstruction" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipInstructionEnter" onMouseExited="#tipInstructionExit" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <image>
                   <Image url="@../../images/help_black.png" />
                </image>

@@ -142,7 +142,7 @@ public class ExerciseController implements Initializable {
 
 		//On initialise la liste estDecouvert
 		for(String w : lesMots) {
-			if(regexPoint(w)) {
+			if(checkStringContainsPunctuation(w)) {
 				estDecouvert.add(1);
 			} else {
 				estDecouvert.add(0);
@@ -153,7 +153,7 @@ public class ExerciseController implements Initializable {
 		for(String word : lesMots) {
 			lesMotsSensiCasse.add(word.toLowerCase());
 
-			if(!regexPoint(word)) {
+			if(!checkStringContainsPunctuation(word)) {
 				totalNbWord++;
 			}
 		}
@@ -191,7 +191,7 @@ public class ExerciseController implements Initializable {
 		//On fait appara�tre une fen�tre pour que l'�tudiant rentre son nom et pr�nom en vue du futur enregistrement
 		//Note : Seulement si l'exercice est en mode Entrainement
 
-		sliderSonChange();
+		sliderSoundChange();
 		sliderVideoChange();
 
 		validateButton.setOnAction(ActionEvent -> {
@@ -232,7 +232,7 @@ public class ExerciseController implements Initializable {
 		} else {
 			numberPartialReplacement = 0;
 		}
-		popUpEnregistrement();
+		popUpUserRegister();
 	}
 
 	private void evalutationModeLoader() {
@@ -260,7 +260,7 @@ public class ExerciseController implements Initializable {
 		return constructString;
 	}
 
-	public void sliderSonChange() {
+	public void sliderSoundChange() {
 		// Change le volume sonore selon la valeur du slider
 		sliderSound.valueProperty().addListener((o -> {
 			mediaPlayer.setVolume(sliderSound.getValue() / 100.0);
@@ -302,7 +302,7 @@ public class ExerciseController implements Initializable {
 
 	//Fonction qui permet de mute le son
 	@FXML
-	public void sonCoupe() {
+	public void mute() {
 
 		if(mediaPlayer.getVolume() != 0) {
 			soundContainerState.setImage(mutedLoudSpeakerIcon);
@@ -332,7 +332,7 @@ public class ExerciseController implements Initializable {
 
 	//Fonction qui play / pause le media
 	@FXML
-	public void playOrPause() {
+	public void playOrPauseClicked() {
 
 		if(mediaPlayer.getStatus() == Status.PLAYING) {
 			mediaPlayer.pause();
@@ -348,7 +348,7 @@ public class ExerciseController implements Initializable {
 
 
 	//Fonction qui regarde si le mot contient un caract�re de ponctuation
-	private boolean regexPoint(String mot) {
+	private boolean checkStringContainsPunctuation(String mot) {
 
 		for(int i = 0; i < mot.length(); i++) {
 			if((mot.charAt(i) + "").matches("[.,;!?:]")) {
@@ -386,7 +386,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	//M�thode qui fait appara�tre la popUp pour que l'�tudiant rentre ses infos pour l'enregistrement
-	public void popUpEnregistrement() throws IOException {
+	public void popUpUserRegister() throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/save_after_open.fxml"));
 		Stage stage = new Stage();
 		Rectangle rect = new Rectangle(900,500);
@@ -423,7 +423,7 @@ public class ExerciseController implements Initializable {
 
 	//M�thode pur afficher l'aide propos�e par l'enseignant
 	@FXML
-	public void affichageAide() throws IOException {
+	public void HelpShow() throws IOException {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/hints.fxml"));
 		Stage stage = new Stage();
 		Rectangle rect = new Rectangle(400,600);
@@ -445,9 +445,9 @@ public class ExerciseController implements Initializable {
 
 	//M�thode pour afficher la solution
 	@FXML
-	public void affichageSolution() throws IOException {
+	public void solutionShowed() throws IOException {
 
-		retourMenu();
+		backToMenuClicked();
 
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/solution.fxml"));
 		Stage stage = new Stage();
@@ -534,11 +534,11 @@ public class ExerciseController implements Initializable {
 		if(ok == 1) {
 
 			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
-			retourMenu();
+			backToMenuClicked();
 
 			if(isEvaluationModeSelected) {
 				finExercice();
-				enregistrementExo();
+				registerExercice();
 			}
 		}
 
@@ -593,9 +593,9 @@ public class ExerciseController implements Initializable {
 								if (sec <= 0 && min<=0) {
 									timer.stop();
 									try {
-										retourMenu();
+										backToMenuClicked();
 										loadEnregistrement();
-										enregistrementExo();
+										registerExercice();
 									} catch (IOException e) {
 										e.printStackTrace();
 									}
@@ -641,7 +641,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	//M�thode qui va enregistrer l'exercice de l'�tudiant
-	public void enregistrementExo() throws IOException {
+	public void registerExercice() throws IOException {
 
 		File file = new File(SaveAfterOpenController.repertoireEtudiant + "\\" + SaveAfterOpenController.nomExo
 				+ "_" + SaveAfterOpenController.nomEtudiant + "_" + SaveAfterOpenController.prenEtudiant + ".rct");
@@ -657,7 +657,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	//M�thode pour retourner au menu
-	public void retourMenu() throws IOException {
+	public void backToMenuClicked() throws IOException {
 		Stage stage = (Stage) alertSolution.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
 		Scene scene = new Scene(root,  MainEtudiant.width, MainEtudiant.height - 60);
@@ -669,7 +669,7 @@ public class ExerciseController implements Initializable {
 	///////////////////////////////////////////////////////////////////////////////////////////////////
 	//M�thode pour affiicher une toolTip instruction + redimension d'image
 	@FXML
-	public void tipConsigneEnter() {
+	public void tipInstructionEnter() {
 		Tooltip t = new Tooltip("Il s'agit de la instruction donn�e par le professeur");
 		helpInstruction.setFitWidth(helpInstruction.getFitWidth() + 2);
 		helpInstruction.setFitHeight(helpInstruction.getFitHeight() + 2);
@@ -678,7 +678,7 @@ public class ExerciseController implements Initializable {
 
 	//M�thode pour redimensionner l'image de la instruction quand on sort du champ
 	@FXML
-	public void tipConsigneExit() {
+	public void tipInstructionExit() {
 		helpInstruction.setFitWidth(helpInstruction.getFitWidth() - 2);
 		helpInstruction.setFitHeight(helpInstruction.getFitHeight() - 2);
 	}
