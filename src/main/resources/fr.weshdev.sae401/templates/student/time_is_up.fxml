@@ -18,7 +18,7 @@
     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
-      <Label fx:id="recupScene" text="Temps Ecoulé !" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <Label fx:id="tempEcoulePopUp" text="Temps Ecoulé !" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <font>
             <Font name="Comic Sans MS Bold" size="24.0" />
          </font>
@@ -36,7 +36,7 @@
             <Font name="Comic Sans MS" size="14.0" />
          </font>
       </Text>
-      <Button mnemonicParsing="false" onAction="#retourAccueil" prefHeight="27.0" prefWidth="55.0" style="-fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-width: 1;" text="Ok" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
+      <Button mnemonicParsing="false" onAction="#backToHomePageTimeIsUp" prefHeight="27.0" prefWidth="55.0" style="-fx-border-color: black; -fx-background-radius: 5; -fx-border-radius: 5; -fx-border-width: 1;" text="Ok" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="20.0" />
          </GridPane.margin>

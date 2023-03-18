@@ -7,18 +7,12 @@ import javafx.scene.control.Label;
 
 public class TimeIsUpController {
 
-	@FXML private Label recupScene;
-	
-	@FXML private Button recupScene1;
+	@FXML private Label tempEcoulePopUp;
+
 
 	@FXML
-	public void retourAccueil()  {
-		recupScene.getScene().getWindow().hide();
-	}
-	
-	@FXML
-	public void retourAccueil1()  {
-		recupScene1.getScene().getWindow().hide();
+	public void backToHomePageTimeIsUp()  {
+		tempEcoulePopUp.getScene().getWindow().hide();
 	}
 
 }
