@@ -129,32 +129,32 @@ public class MenuController {
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
 		exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		ExerciseController.contenuConsigne = exerciseOrder;
+		ExerciseController.instructionContent = exerciseOrder;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
 		exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		ExerciseController.contenuTranscription = exerciseTranscription;
+		ExerciseController.transcriptionContent = exerciseTranscription;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
 		exerciseHint = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
 		HintsController.contenuAide = exerciseHint;
 
 		replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
-		ExerciseController.caractereOccul = replacingChar;
+		ExerciseController.hidddenChar = replacingChar;
 
 		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 		if(isCaseSensitive == 1) {
-			ExerciseController.sensiCasse = true;
+			ExerciseController.caseSensitivity = true;
 		} else {
-			ExerciseController.sensiCasse = false;
+			ExerciseController.caseSensitivity = false;
 		}
 
 		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 		if (isEvaluation == 1) {
-			ExerciseController.evaluation = true;
-			ExerciseController.entrainement = false;
+			ExerciseController.isEvaluationModeSelected = true;
+			ExerciseController.isTrainingModeSelected = false;
 
 			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
 			time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
@@ -162,44 +162,44 @@ public class MenuController {
 			ExerciseController.nbMin = time;
 
 		} else {
-			ExerciseController.evaluation = false;
-			ExerciseController.entrainement = true;
+			ExerciseController.isEvaluationModeSelected = false;
+			ExerciseController.isTrainingModeSelected = true;
 
 			exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (exereciseHaveSolution == 1) {
-				ExerciseController.solution = true;
+				ExerciseController.isSolutionShowOptionSelected = true;
 			} else {
-				ExerciseController.solution = false;
+				ExerciseController.isSolutionShowOptionSelected = false;
 			}
 
 			exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (exerciseHaveProgressBar == 1) {
-				ExerciseController.motDecouverts = true;
+				ExerciseController.isDiscoveredWordShowOptionSelected = true;
 			} else {
-				ExerciseController.motDecouverts = false;
+				ExerciseController.isDiscoveredWordShowOptionSelected = false;
 			}
 
 			isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (isIncompletedWordOptionSelected == 1) {
-				ExerciseController.motIncomplet = true;
+				ExerciseController.isIncompleteWordOpionActive = true;
 
 				numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 				if (numberOfMinimalLettersIncompletedWord == 2) {
-					ExerciseController.lettres_2 = true;
-					ExerciseController.lettres_3 = false;
+					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = true;
+					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
 				} else {
-					ExerciseController.lettres_2 = false;
-					ExerciseController.lettres_3 = true;
+					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
+					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = true;
 				}
 
 			} else {
-				ExerciseController.motIncomplet = false;
-				ExerciseController.lettres_2 = false;
-				ExerciseController.lettres_3 = false;
+				ExerciseController.isIncompleteWordOpionActive = false;
+				ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
+				ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
 			}
 		}
 
@@ -214,7 +214,7 @@ public class MenuController {
 			ecritureFileImage.write(readBytesFromFile(encodedExerciseFile, byteLength));
 			ecritureFileImage.close();
 
-			ExerciseController.contenuImage = new Image(tmpFileImage.toURI().toString());
+			ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
 
 			tmpFileImage.deleteOnExit();
 
@@ -229,7 +229,7 @@ public class MenuController {
 		clearExerciseFile.write(readAllBytesFromFile(encodedExerciseFile));
 		clearExerciseFile.close();
 
-		ExerciseController.contenuMedia = new Media(tempFile.toURI().toString());
+		ExerciseController.mediaContent = new Media(tempFile.toURI().toString());
 
 		tempFile.deleteOnExit();
 
