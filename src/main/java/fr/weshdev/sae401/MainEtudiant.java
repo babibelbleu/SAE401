@@ -12,8 +12,7 @@ import javafx.stage.Stage;
 public class MainEtudiant extends Application{
 	
 	public static Parent root;
-	
-	//Param�tres de taille d'�cran
+
 	public static double width;
 	public static double height;
 	
@@ -22,13 +21,11 @@ public class MainEtudiant extends Application{
         root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
         primaryStage.setTitle("Reconstitution - Version Etudiante");
         primaryStage.getIcons().add(new Image(getClass().getResource("/fr.weshdev.sae401/icons/logo.png").toExternalForm()));
-        
-        //On affiche le plein �cran
+
         primaryStage.setMaximized(true);
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(800);
-        
-        //On r�cup�re la largeur et la hauteur de l'�cran
+
         Rectangle2D screenBounds = Screen.getPrimary().getBounds();
         width=screenBounds.getWidth();
         height=screenBounds.getHeight();
@@ -38,7 +35,7 @@ public class MainEtudiant extends Application{
         primaryStage.show();
     }
 
-    public static void main(String[] args) { 
+    public static void main(String[] args){
         launch(args);
     }
 }

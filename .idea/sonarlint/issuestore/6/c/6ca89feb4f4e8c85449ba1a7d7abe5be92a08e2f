@@ -1,0 +1,57 @@
+
+b
+java:S2259–"KA "NullPointerException" could be thrown; "getExtension()" can return null.(œüô½
+i
+java:S2095M"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(îÂÆÓÿÿÿÿÿ
+h
+java:S3776"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ö¡¾û
+Z
+java:S2147D"DCombine this catch with the one at line 66, which has the same body.(ŸäÁ‚
+=
+java:S1125_"'Remove the unnecessary boolean literal.(³ÍãÚ
+=
+java:S1125g"'Remove the unnecessary boolean literal.(úÂû
+=
+java:S1125k"'Remove the unnecessary boolean literal.(÷Ä§é
+<
+java:S1125r"'Remove the unnecessary boolean literal.(é£Ö"
+<
+java:S1125y"'Remove the unnecessary boolean literal.(˜‘Ë^
+=
+java:S1125}"'Remove the unnecessary boolean literal.(æ±¿
+R
+java:S2696­"6Make the enclosing method "static" or remove this set.(ÚÓ¬Œüÿÿÿÿ
+R
+java:S2696®"6Make the enclosing method "static" or remove this set.(ğñÉ“øÿÿÿÿ
+M
+java:S2696¯"6Make the enclosing method "static" or remove this set.(öÃê
+R
+java:S2696°"6Make the enclosing method "static" or remove this set.(ÅÀíúÿÿÿÿ
+M
+java:S2696±"6Make the enclosing method "static" or remove this set.(¨š¿×
+M
+java:S2696²"6Make the enclosing method "static" or remove this set.(’ßå•
+R
+java:S2696³"6Make the enclosing method "static" or remove this set.(ÖåÀÊÿÿÿÿÿ
+R
+java:S2696´"6Make the enclosing method "static" or remove this set.(¸ì™øÿÿÿÿ
+R
+java:S2696µ"6Make the enclosing method "static" or remove this set.(Ä®Üüÿÿÿÿ
+R
+java:S2696¶"6Make the enclosing method "static" or remove this set.(ıŸÖ¼ùÿÿÿÿ
+M
+java:S2696·"6Make the enclosing method "static" or remove this set.(Ë›²¸
+R
+java:S2696¸"6Make the enclosing method "static" or remove this set.(«õ²ïşÿÿÿÿ
+R
+java:S2696¹"6Make the enclosing method "static" or remove this set.(§¯¯üÿÿÿÿ
+R
+java:S2696º"6Make the enclosing method "static" or remove this set.(—Ğºéÿÿÿÿÿ
+R
+java:S2696»"6Make the enclosing method "static" or remove this set.(úÕÚ¯øÿÿÿÿ
+R
+java:S2696¼"6Make the enclosing method "static" or remove this set.(«è¢¶ıÿÿÿÿ
+R
+java:S2696½"6Make the enclosing method "static" or remove this set.(»‡ñıÿÿÿÿ
+n
+java:S3776í"RRefactor this method to reduce its Cognitive Complexity from 24 to the 15 allowed.(å€ºäúÿÿÿÿ
