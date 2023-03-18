@@ -643,8 +643,8 @@ public class ExerciseController implements Initializable {
 	//M�thode qui va enregistrer l'exercice de l'�tudiant
 	public void registerExercice() throws IOException {
 
-		File file = new File(SaveAfterOpenController.repertoireEtudiant + "\\" + SaveAfterOpenController.nomExo
-				+ "_" + SaveAfterOpenController.nomEtudiant + "_" + SaveAfterOpenController.prenEtudiant + ".rct");
+		File file = new File(SaveAfterOpenController.studentDirectory + "\\" + SaveAfterOpenController.exerciceName
+				+ "_" + SaveAfterOpenController.studentLastName + "_" + SaveAfterOpenController.studentFirstName + ".rct");
 		FileWriter fwrite = new FileWriter(file);
 		try (BufferedWriter buffer = new BufferedWriter(fwrite)) {
 

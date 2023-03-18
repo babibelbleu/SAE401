@@ -53,7 +53,7 @@ public class MenuController {
 
 		File selectedFile = fileChooser.showOpenDialog(null);
 
-		SaveAfterOpenController.nomExo = getFileName(selectedFile);
+		SaveAfterOpenController.exerciceName = getFileName(selectedFile);
 		setExercise(selectedFile);
 
 		loadExercise();
