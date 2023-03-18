@@ -2,6 +2,8 @@ package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.MainEnseignant;
 import fr.weshdev.sae401.DeplacementFenetre;
+import fr.weshdev.sae401.teacher.classes.ImageObject;
+import fr.weshdev.sae401.teacher.classes.MediaObject;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -62,9 +64,8 @@ public class ImportRessourceController implements Initializable {
 	Image pauseImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
 	
 	@FXML private ImageView playPauseVideo;
-
-	public static Media contenuMedia;
-	public static Image contenuImage;
+	public static MediaObject.Accesor contenuMedia;
+	public static ImageObject.Accesor contenuImage;
 
 	@FXML private CheckMenuItem dark;
 	public static String cheminVideo = "";
@@ -76,8 +77,8 @@ public class ImportRessourceController implements Initializable {
 
 		// On rempli les champs s'il ne sont pas null (si l'enseignant revient en arrière)
 		if (contenuMedia != null) {
-			media = contenuMedia;
-			mediaPlayer = new MediaPlayer(contenuMedia);
+			media = contenuMedia.getContent();
+			mediaPlayer = new MediaPlayer(contenuMedia.getContent());
 			mediaView.setMediaPlayer(mediaPlayer);
 
 			// On réduit le ImageView
@@ -93,7 +94,7 @@ public class ImportRessourceController implements Initializable {
 		}
 
 		if (contenuImage != null) {
-			imageAudio.setImage(contenuImage);
+			imageAudio.setImage(contenuImage.getContent());
 
 			// On réduit le mediaView
 			mediaView.setFitWidth(0);
@@ -160,7 +161,7 @@ public class ImportRessourceController implements Initializable {
 		mediaPlayer = new MediaPlayer(media);
 
 		//On mémorise le contenu du media
-		contenuMedia = media;
+		contenuMedia = new MediaObject.Accesor(media);
 
 		// Boucle pour récupérer l'exension du fichier
 		for (int i = 0; i < path.length(); i++) {
@@ -206,7 +207,7 @@ public class ImportRessourceController implements Initializable {
 			// On set l'imageView avec l'image
 			imageAudio.setImage(image);
 
-			contenuImage = image;
+			contenuImage = new ImageObject.Accesor(image);
 		}
 
 		// On set le media dans le mediaView
@@ -320,7 +321,7 @@ public class ImportRessourceController implements Initializable {
 	@FXML
 	public void pageApercu(ActionEvent event) throws IOException {
 		//on récupère le media
-		contenuMedia = mediaPlayer.getMedia();
+		contenuMedia = new MediaObject.Accesor(mediaPlayer.getMedia());
 		mediaPlayer.stop();
 
 		Stage primaryStage = (Stage) playPause.getScene().getWindow();

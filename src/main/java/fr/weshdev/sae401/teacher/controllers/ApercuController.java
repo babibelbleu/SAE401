@@ -74,18 +74,18 @@ public class ApercuController implements Initializable {
 	@FXML private ImageView playPauseVideo;
 	
 	MediaPlayer mediaPlayer;
-	Media media = ImportRessourceController.contenuMedia;
+	Media media = ImportRessourceController.contenuMedia.getContent();
 
 	// M�thode d'initialisation de la page
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// On met le media dans la preview
-		mediaPlayer = new MediaPlayer(ImportRessourceController.contenuMedia);
+		mediaPlayer = new MediaPlayer(ImportRessourceController.contenuMedia.getContent());
 		MediaViewApercu.setMediaPlayer(mediaPlayer);
 
 		// On met l'image dans la preview
-		imageViewApercu.setImage(ImportRessourceController.contenuImage);
+		imageViewApercu.setImage(ImportRessourceController.contenuImage.getContent());
 
 		// Si les contenus ne sont pas null (lorsque l'enseignant fait retour), les
 		// informations sont conserv�es

@@ -1,6 +1,8 @@
 package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.MainEnseignant;
+import fr.weshdev.sae401.teacher.classes.ImageObject;
+import fr.weshdev.sae401.teacher.classes.MediaObject;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -230,7 +232,7 @@ public class AccueilController implements Initializable {
 			ecritureFileImage.write(readNBytes(fin, nombreOctetALire));
 			ecritureFileImage.close();
 
-			ImportRessourceController.contenuImage = new Image(tmpFileImage.toURI().toString());
+			ImportRessourceController.contenuImage = new ImageObject.Accesor(new Image(tmpFileImage.toURI().toString()));
 			ImportRessourceController.cheminImg = tmpFileImage.getAbsolutePath();
 
 			// On efface le fichier temporaire
@@ -259,7 +261,7 @@ public class AccueilController implements Initializable {
 		ecritureFile.write(readAllBytes(fin));
 		ecritureFile.close();
 
-		ImportRessourceController.contenuMedia = new Media(tmpFile.toURI().toString());
+		ImportRessourceController.contenuMedia = new MediaObject.Accesor(new Media(tmpFile.toURI().toString()));
 		ImportRessourceController.cheminVideo = tmpFile.getAbsolutePath();
 
 		// On efface le fichier temporaire

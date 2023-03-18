@@ -147,7 +147,7 @@ public class FinalRegisterController implements Initializable {
 			}
 
 			//S'il s'agit d'une extension mp3
-			if(getExtension(ImportRessourceController.contenuMedia.getSource()).compareTo(".mp3") == 0) {
+			if(getExtension(ImportRessourceController.contenuMedia.getContent().getSource()).compareTo(".mp3") == 0) {
 				out.write(0);
 				out.write(longueurImage);
 				out.write(contenuImage);

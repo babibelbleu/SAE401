@@ -34,7 +34,7 @@ public class NewExerciseController implements Initializable{
 	@FXML private TextField repertoireSortie;
 	@FXML private TextField nomExo;
 	@FXML private Button confirmerButton;
-	
+	//a
 	public static String contenuRepertoire;
 	public static String contenuNomExo;
 	
