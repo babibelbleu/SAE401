@@ -408,7 +408,7 @@ public class ExerciseController implements Initializable {
 		DeplacementFenetre.deplacementFenetre((Pane) root, stage);
 	}
 
-	//M�thode qui regarde si le darkMode est actif et l'applique en cons�quence � la scene
+	//M�thode qui regarde si le setDarkMode est actif et l'applique en cons�quence � la scene
 	public void darkModeActivation(Scene scene) {
 		if(MenuController.isInDarkMode) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
@@ -546,7 +546,7 @@ public class ExerciseController implements Initializable {
 	}
 
 
-	//M�thode pour quitter l'application
+	//M�thode pour loadQuittingPage l'application
 	@FXML
 	public void quitter() {
 		Platform.exit();
@@ -715,7 +715,7 @@ public class ExerciseController implements Initializable {
 		helpProposition.setFitHeight(helpProposition.getFitHeight() - 2);
 	}
 
-	//M�thode pour passer ou non le darkMode
+	//M�thode pour passer ou non le setDarkMode
 	@FXML
 	public  void darkMode() {
 

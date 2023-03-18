@@ -187,7 +187,7 @@ public class ApercuController implements Initializable {
 			
 		}
 
-	// Bouton Quitter qui permet � l'enseignant de quitter l'application (disponible
+	// Bouton Quitter qui permet � l'enseignant de loadQuittingPage l'application (disponible
 	// sur toutes les pages)
 	@FXML
 	public void quitter(ActionEvent event) throws IOException {
@@ -280,7 +280,7 @@ public class ApercuController implements Initializable {
 		primaryStage.show();
 	}
 
-	// M�thode pour passer ou non le darkMode
+	// M�thode pour passer ou non le setDarkMode
 	@FXML
 	public void darkMode() {
 
@@ -300,7 +300,7 @@ public class ApercuController implements Initializable {
 
 	}
 
-	// M�thode qui regarde si le darkMode est actif et l'applique en cons�quence �
+	// M�thode qui regarde si le setDarkMode est actif et l'applique en cons�quence �
 	// la scene
 	public void darkModeActivation(Scene scene) {
 		if (AccueilController.isDark) {

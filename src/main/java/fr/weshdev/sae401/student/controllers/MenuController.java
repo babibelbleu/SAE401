@@ -252,7 +252,7 @@ public class MenuController {
 	}
 
 	@FXML
-	public void retourMenu(ActionEvent event) throws IOException {
+	public void retourMenu() throws IOException {
 		Stage primaryStage = (Stage) aboutText.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
 		Scene scene = new Scene(root, MainEtudiant.width, MainEtudiant.height);

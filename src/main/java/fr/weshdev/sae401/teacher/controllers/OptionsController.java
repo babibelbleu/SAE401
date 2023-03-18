@@ -60,16 +60,15 @@ public class OptionsController implements Initializable {
 	public static boolean hasTwoLettersOption;
 	public static boolean hasThreeLettersOption;
 
-	@FXML private ImageView toolTipOccul;
-	@FXML private ImageView toolTipSensi;
-	@FXML private ImageView toolTipEntr;
-	@FXML private ImageView toolTipEval;
-	@FXML private ImageView toolTipNbMin;
-	@FXML private ImageView toolTipMotDecouvert;
-	@FXML private ImageView toolTipSolution;
-	@FXML private ImageView toolTipMotIncomplet;
-
-	@FXML private CheckMenuItem dark;
+	@FXML private ImageView hiddenCharToolTip;
+	@FXML private ImageView caseSensitiveToolTip;
+	@FXML private ImageView trainingModeToolTip;
+	@FXML private ImageView assessmentModeToolTip;
+	@FXML private ImageView timerToolTip;
+	@FXML private ImageView discoveredWordsToolTip;
+	@FXML private ImageView solutionToolTip;
+	@FXML private ImageView incompleteWordToolTip;
+	@FXML private CheckMenuItem darkModeOption;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -84,7 +83,6 @@ public class OptionsController implements Initializable {
 
 		if(isInTrainingMode) {
 			trainingModeRadioButtonOption.setSelected(true);
-
 			timerOption.setDisable(true);
 
 			if(hasSolution) {
@@ -105,11 +103,8 @@ public class OptionsController implements Initializable {
 				if(hasThreeLettersOption) {
 					threeLettersRadioButtonOption.setSelected(true);
 				}
-
 			}
-		}
-
-		if(isInAssessmentMode) {
+		} else {
 			assessmentModeRadioButtonOption.setSelected(true);
 
 			discoveredWordsCheckBoxOption.setDisable(true);
@@ -117,112 +112,92 @@ public class OptionsController implements Initializable {
 			solutionCheckBoxOption.setDisable(true);
 			twoLettersRadioButtonOption.setDisable(true);
 			threeLettersRadioButtonOption.setDisable(true);
-			
-			
+
+
 			timerOption.setText(timer);
 			timerOption.setDisable(false);
 		}
 
 		checkMode();
 
-		if(!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
+		if(
+				!hiddenCharOption.getText().isEmpty()
+						&& (
+								trainingModeRadioButtonOption.isSelected()
+										|| (
+												assessmentModeRadioButtonOption.isSelected()
+														&& !timerOption.getText().isEmpty()
+								)
+				)
+		){
 			saveButton.setDisable(false);
 		}
 
 	}
 
 	private void checkMode() {
-
 		hiddenCharOption.textProperty().addListener((arg0, arg1, arg2) -> {
-			if(!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
-				saveButton.setDisable(false);
-			} else {
-				saveButton.setDisable(true);
-			}
-
+			saveButton.setDisable(cannotActivateSaveButton());
 		});
 
 		trainingModeRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
-				saveButton.setDisable(false);
-			} else {
-				saveButton.setDisable(true);
-			}
+			saveButton.setDisable(cannotActivateSaveButton());
 		});
 
 		assessmentModeRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
-				saveButton.setDisable(false);
-			} else {
-				saveButton.setDisable(true);
-			}
+			saveButton.setDisable(cannotActivateSaveButton());
 		});
-
 
 		timerOption.textProperty().addListener((arg0, arg1, arg2) -> {
-
 			if(assessmentModeRadioButtonOption.isSelected()) {
-				if(!hiddenCharOption.getText().isEmpty() && !timerOption.getText().isEmpty()) {
-					saveButton.setDisable(false);
-				} else {
-					saveButton.setDisable(true);
-				}
+				saveButton.setDisable(
+						hiddenCharOption.getText().isEmpty() || timerOption.getText().isEmpty()
+				);
 			}
-
 		});
+	}
 
-
+	private boolean cannotActivateSaveButton(){
+		return hiddenCharOption.getText().isEmpty()
+				&& (
+				trainingModeRadioButtonOption.isSelected()
+						|| (
+						assessmentModeRadioButtonOption.isSelected()
+								&& !timerOption.getText().isEmpty()
+				)
+		);
 	}
 
 	@FXML
-	public void tuto() throws IOException, URISyntaxException {
-		
-		InputStream is = MainEnseignant.class.getResourceAsStream("fr.weshdev.sae401/pdf/user_manual.pdf");
-
-		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
-		pdf.deleteOnExit();
-        OutputStream out = new FileOutputStream(pdf);
-
-        byte[] buffer = new byte[4096];
-        int bytesRead = 0;
-
-        while (is.available() != 0) {
-            bytesRead = is.read(buffer);
-            out.write(buffer, 0, bytesRead);
-        }
-        
-        out.close();
-        is.close();
-        
-        Desktop.getDesktop().open(pdf);
-
+	public void loadUserManual() throws IOException, URISyntaxException {
+		File userManual = new File(MainEnseignant.class.getResource("/fr.weshdev.sae401/pdf/user_manual.pdf").toURI());
+		Desktop.getDesktop().open(userManual);
 	}
 
 	@FXML
-	public void quitter() throws IOException {
+	public void loadQuittingPage() throws IOException {
 
 		Stage primaryStage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/confirm_quit.fxml"));
-		Scene scene = new Scene(root, 400, 200);
+		Scene confirmQuitScene = new Scene(root, 400, 200);
 		//On bloque sur cette fen�tre
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
-		scene.setFill(Color.TRANSPARENT);
+		confirmQuitScene.setFill(Color.TRANSPARENT);
 
-		//Bordure
 		Rectangle rect = new Rectangle(400,200); 
 		rect.setArcHeight(20.0); 
 		rect.setArcWidth(20.0);  
 		root.setClip(rect);
 
 		DeplacementFenetre.deplacementFenetre((Pane) root, primaryStage);
-		primaryStage.setScene(scene);
-		darkModeActivation(scene);
+		primaryStage.setScene(confirmQuitScene);
+		activateDarkMode(confirmQuitScene);
 		primaryStage.show();
 	}
 
 	@FXML
-	public void pageApercu() throws IOException {
+	public void loadApercuPage() throws IOException {
 
 		if(!hiddenCharOption.getText().isEmpty() && hiddenCharOption.getText() != "") {
 			hiddenChar = hiddenCharOption.getText();
@@ -236,7 +211,7 @@ public class OptionsController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/apercu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
-		darkModeActivation(scene);
+		activateDarkMode(scene);
 	}
 
 	public void retourMenu() throws IOException {
@@ -244,7 +219,7 @@ public class OptionsController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root,  MainEnseignant.width, MainEnseignant.height - 60);
 		stage.setScene(scene);
-		darkModeActivation(scene);
+		activateDarkMode(scene);
 		stage.show();
 	}
 
@@ -264,7 +239,7 @@ public class OptionsController implements Initializable {
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		primaryStage.setScene(scene);
-		darkModeActivation(scene);
+		activateDarkMode(scene);
 		primaryStage.show();
 	}
 
@@ -277,7 +252,7 @@ public class OptionsController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
-		darkModeActivation(scene);
+		activateDarkMode(scene);
 		primaryStage.show();
 	}
 
@@ -471,88 +446,87 @@ public class OptionsController implements Initializable {
 
 	@FXML
 	public void tipOcculEnter() {
-		affichageToolTip(toolTipOccul, "Ce caract�re servira � crypter le script de votre document");
+		affichageToolTip(hiddenCharToolTip, "Ce caract�re servira � crypter le script de votre document");
 	}
 
 	@FXML
 	public void tipOcculExit() {
-		adaptationImage(toolTipOccul);
+		adaptationImage(hiddenCharToolTip);
 	}
 
 	@FXML
 	public void tipSensiEnter() {
-		affichageToolTip(toolTipSensi, "Activer la sensibilit� � la casse signifie prendre en compte la diff�rence entre minuscule et majuscule");
+		affichageToolTip(caseSensitiveToolTip, "Activer la sensibilit� � la casse signifie prendre en compte la diff�rence entre minuscule et majuscule");
 	}
 
 	@FXML
 	public void tipSensiExit() {
-		adaptationImage(toolTipSensi);
+		adaptationImage(caseSensitiveToolTip);
 	}
 
 	@FXML
 	public void tipEvalEnter() {
-		affichageToolTip(toolTipEval, "Le mode Evaluation n'autorise aucune aide pour l'�tudiant");
+		affichageToolTip(assessmentModeToolTip, "Le mode Evaluation n'autorise aucune aide pour l'�tudiant");
 	}
 
 	@FXML
 	public void tipEvalExit() {
-		adaptationImage(toolTipEval);
+		adaptationImage(assessmentModeToolTip);
 	}
 
 	@FXML
 	public void tipMinEnter() {
-		affichageToolTip(toolTipNbMin, "Le nombre de minutes dont l'�l�ve disposera pour faire l'exercice");
+		affichageToolTip(timerToolTip, "Le nombre de minutes dont l'�l�ve disposera pour faire l'exercice");
 	}
 
 	@FXML
 	public void tipMinExit() {
-		adaptationImage(toolTipNbMin);
+		adaptationImage(timerToolTip);
 	}
 
 	@FXML
 	public void tipEntrEnter() {
-		affichageToolTip(toolTipEntr, "Le mode Entra�nement autorise ou non ceratiens options (list�es ci-dessous)");
+		affichageToolTip(trainingModeToolTip, "Le mode Entra�nement autorise ou non ceratiens options (list�es ci-dessous)");
 	}
 
 	@FXML
 	public void tipEntrExit() {
-		adaptationImage(toolTipEntr);
+		adaptationImage(trainingModeToolTip);
 	}
 
 	@FXML
 	public void tipMotDecouvertEnter() {
-		affichageToolTip(toolTipMotDecouvert, "Cette option permet � l'�tudiant de voir en temps r�el le nombre de mots qu'il a trouv�");
+		affichageToolTip(discoveredWordsToolTip, "Cette option permet � l'�tudiant de voir en temps r�el le nombre de mots qu'il a trouv�");
 	}
 
 	@FXML
 	public void tipMotDecouvertExit() {
-		adaptationImage(toolTipMotDecouvert);
+		adaptationImage(discoveredWordsToolTip);
 	}
 
 	@FXML
 	public void tipSolutionEnter() {
-		affichageToolTip(toolTipSolution, "Autoriser � ce que l'�tudiant puisse consulter la hasSolution pendant l'exercice");
+		affichageToolTip(solutionToolTip, "Autoriser � ce que l'�tudiant puisse consulter la hasSolution pendant l'exercice");
 	}
 
 	@FXML
 	public void tipSolutionExit() {
-		adaptationImage(toolTipSolution);
+		adaptationImage(solutionToolTip);
 	}
 
 	@FXML
 	public void tipMotIncompletEnter() {
-		affichageToolTip(toolTipMotIncomplet, "Autoriser le remplacement partiel des mots � partir d'un nombre minimum de lettres");
+		affichageToolTip(incompleteWordToolTip, "Autoriser le remplacement partiel des mots � partir d'un nombre minimum de lettres");
 	}
 
 	@FXML
 	public void tipMotIncompletExit() {
-		adaptationImage(toolTipMotIncomplet);
+		adaptationImage(incompleteWordToolTip);
 	}
 
 	@FXML
-	public void darkMode() {
-
-		if(dark.isSelected()) {
+	public void setDarkMode(){
+		if(darkModeOption.isSelected()) {
 			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
@@ -561,18 +535,17 @@ public class OptionsController implements Initializable {
 			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}
-
 	}
 
-	public void darkModeActivation(Scene scene) {
+	public void activateDarkMode(Scene scene) {
 		if(AccueilController.isDark) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			dark.setSelected(true);
+			darkModeOption.setSelected(true);
 		} else {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			dark.setSelected(false);
+			darkModeOption.setSelected(false);
 		}
 	}
 }

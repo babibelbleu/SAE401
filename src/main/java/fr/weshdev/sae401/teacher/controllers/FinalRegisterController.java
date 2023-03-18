@@ -193,7 +193,7 @@ public class FinalRegisterController implements Initializable {
 	/////////////////////////////////////       METHODES GENERALES         /////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
-	// Bouton Quitter qui permet � l'enseignant de quitter l'application (disponible
+	// Bouton Quitter qui permet � l'enseignant de loadQuittingPage l'application (disponible
 	// sur toutes les pages)
 	@FXML
 	public void quitter(ActionEvent event) {

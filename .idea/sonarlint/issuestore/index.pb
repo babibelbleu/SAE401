@@ -31,9 +31,6 @@ U
 pom.xml,4\4\442292b8a7efeabbe4cc176709b833b1792140ec
 8
 mvnw.cmd,1\f\1f1763f358c257ea3515417352b82b0165647ad1
-:
-
-.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 {
 Ksrc/main/resources/fr.weshdev.sae401/templates/student/save_after_open.fxml,a\c\acac107bdbd5c80ad044a88961277469ce717a93
 p
@@ -50,8 +47,6 @@ Fsrc/main/resources/fr.weshdev.sae401/templates/student/time_is_up.fxml,0\6\061
 Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/ConfirmQuitController.java,e\1\e18b8c0025924499e85d786d296a615c7d477ed5
 {
 Ksrc/main/resources/fr.weshdev.sae401/templates/student/save_validation.fxml,3\b\3b2568b22d56b2e081acf78d0a342c5008b1c9ae
-{
-Ksrc/main/java/fr/weshdev/sae401/student/controllers/TimeIsUpController.java,e\f\efc9d7bbb46fcab7e75f897c9950d7f357d14da2
 y
 Isrc/main/java/fr/weshdev/sae401/teacher/controllers/ApercuController.java,c\4\c4229d38a2774b829617a2a85632b82cc34e6633
 €
