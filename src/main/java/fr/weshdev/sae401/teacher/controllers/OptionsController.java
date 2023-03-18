@@ -27,9 +27,9 @@ import java.util.ResourceBundle;
 public class OptionsController implements Initializable {
 
 	@FXML
-	private RadioButton trainingRadioButtonOption;
+	private RadioButton trainingModeRadioButtonOption;
 	@FXML
-	private RadioButton assessmentRadioButtonOption;
+	private RadioButton assessmentModeRadioButtonOption;
 	@FXML
 	private RadioButton twoLettersRadioButtonOption;
 	@FXML
@@ -58,7 +58,7 @@ public class OptionsController implements Initializable {
 	public static boolean hasDiscoveredWordsOption;
 	public static boolean hasIncompleteWordOption;
 	public static boolean hasTwoLettersOption;
-	public static boolean isHasThreeLettersOption;
+	public static boolean hasThreeLettersOption;
 
 	@FXML private ImageView toolTipOccul;
 	@FXML private ImageView toolTipSensi;
@@ -78,39 +78,39 @@ public class OptionsController implements Initializable {
 			hiddenCharOption.setText(hiddenChar);
 		}
 
-		if(isCaseSensitive == true) {
+		if(isCaseSensitive) {
 			caseSensitiveCheckBoxOption.setSelected(true);
 		}
 
-		if(isInTrainingMode == true) {
-			trainingRadioButtonOption.setSelected(true);
+		if(isInTrainingMode) {
+			trainingModeRadioButtonOption.setSelected(true);
 
 			timerOption.setDisable(true);
 
-			if(hasSolution == true) {
+			if(hasSolution) {
 				solutionCheckBoxOption.setSelected(true);
 			}
 
-			if(hasDiscoveredWordsOption == true) {
+			if(hasDiscoveredWordsOption) {
 				discoveredWordsCheckBoxOption.setSelected(true);
 			}
 
-			if(hasIncompleteWordOption ==  true) {
+			if(hasIncompleteWordOption) {
 				incompleteWordCheckBoxOption.setSelected(true);
 
-				if(hasTwoLettersOption == true) {
+				if(hasTwoLettersOption) {
 					twoLettersRadioButtonOption.setSelected(true);
 				}
 
-				if(isHasThreeLettersOption == true) {
+				if(hasThreeLettersOption) {
 					threeLettersRadioButtonOption.setSelected(true);
 				}
 
 			}
 		}
 
-		if(isInAssessmentMode == true) {
-			assessmentRadioButtonOption.setSelected(true);
+		if(isInAssessmentMode) {
+			assessmentModeRadioButtonOption.setSelected(true);
 
 			discoveredWordsCheckBoxOption.setDisable(true);
 			incompleteWordCheckBoxOption.setDisable(true);
@@ -125,7 +125,7 @@ public class OptionsController implements Initializable {
 
 		checkMode();
 
-		if(!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
+		if(!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
 			saveButton.setDisable(false);
 		}
 
@@ -134,7 +134,7 @@ public class OptionsController implements Initializable {
 	private void checkMode() {
 
 		hiddenCharOption.textProperty().addListener((arg0, arg1, arg2) -> {
-			if(!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
+			if(!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
 				saveButton.setDisable(false);
 			} else {
 				saveButton.setDisable(true);
@@ -142,16 +142,16 @@ public class OptionsController implements Initializable {
 
 		});
 
-		trainingRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
+		trainingModeRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
+			if (!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
 				saveButton.setDisable(false);
 			} else {
 				saveButton.setDisable(true);
 			}
 		});
 
-		assessmentRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
+		assessmentModeRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
+			if (!hiddenCharOption.getText().isEmpty() && (trainingModeRadioButtonOption.isSelected() || (assessmentModeRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
 				saveButton.setDisable(false);
 			} else {
 				saveButton.setDisable(true);
@@ -161,7 +161,7 @@ public class OptionsController implements Initializable {
 
 		timerOption.textProperty().addListener((arg0, arg1, arg2) -> {
 
-			if(assessmentRadioButtonOption.isSelected()) {
+			if(assessmentModeRadioButtonOption.isSelected()) {
 				if(!hiddenCharOption.getText().isEmpty() && !timerOption.getText().isEmpty()) {
 					saveButton.setDisable(false);
 				} else {
@@ -294,7 +294,7 @@ public class OptionsController implements Initializable {
 		twoLettersRadioButtonOption.setSelected(false);
 		hasTwoLettersOption = false;
 		threeLettersRadioButtonOption.setSelected(false);
-		isHasThreeLettersOption = false;
+		hasThreeLettersOption = false;
 
 		discoveredWordsCheckBoxOption.setDisable(true);
 		incompleteWordCheckBoxOption.setDisable(true);
@@ -302,12 +302,12 @@ public class OptionsController implements Initializable {
 		twoLettersRadioButtonOption.setDisable(true);
 		threeLettersRadioButtonOption.setDisable(true);
 
-		if (trainingRadioButtonOption.isSelected()) {
-			trainingRadioButtonOption.setSelected(false);
+		if (trainingModeRadioButtonOption.isSelected()) {
+			trainingModeRadioButtonOption.setSelected(false);
 			isInTrainingMode = false;
 		}
 
-		if (!assessmentRadioButtonOption.isSelected()) {
+		if (!assessmentModeRadioButtonOption.isSelected()) {
 			isInAssessmentMode = false;
 
 			timerOption.setText(null);
@@ -329,12 +329,12 @@ public class OptionsController implements Initializable {
 
 		timerOption.setText("");
 
-		if (assessmentRadioButtonOption.isSelected()) {
-			assessmentRadioButtonOption.setSelected(false);
+		if (assessmentModeRadioButtonOption.isSelected()) {
+			assessmentModeRadioButtonOption.setSelected(false);
 			isInAssessmentMode = false;
 		}
 
-		if (!trainingRadioButtonOption.isSelected()) {
+		if (!trainingModeRadioButtonOption.isSelected()) {
 
 			discoveredWordsCheckBoxOption.setDisable(true);
 			incompleteWordCheckBoxOption.setDisable(true);
@@ -351,7 +351,7 @@ public class OptionsController implements Initializable {
 			twoLettersRadioButtonOption.setSelected(false);
 			hasTwoLettersOption = false;
 			threeLettersRadioButtonOption.setSelected(false);
-			isHasThreeLettersOption = false;
+			hasThreeLettersOption = false;
 
 			isInTrainingMode = false;
 		}
@@ -364,7 +364,7 @@ public class OptionsController implements Initializable {
 			threeLettersRadioButtonOption.setSelected(false);
 
 			hasTwoLettersOption = true;
-			isHasThreeLettersOption = false;
+			hasThreeLettersOption = false;
 		} else {
 			hasTwoLettersOption = true;
 		}
@@ -375,11 +375,11 @@ public class OptionsController implements Initializable {
 		if (twoLettersRadioButtonOption.isSelected()) {
 			twoLettersRadioButtonOption.setSelected(false);
 
-			isHasThreeLettersOption = true;
+			hasThreeLettersOption = true;
 			hasTwoLettersOption = false;
 		} 
 		else {
-			isHasThreeLettersOption = true;
+			hasThreeLettersOption = true;
 		}
 	}
 
@@ -420,7 +420,7 @@ public class OptionsController implements Initializable {
 			threeLettersRadioButtonOption.setSelected(false);
 
 			hasTwoLettersOption = false;
-			isHasThreeLettersOption = false;
+			hasThreeLettersOption = false;
 
 			hasIncompleteWordOption = false;
 		}

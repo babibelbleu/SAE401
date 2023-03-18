@@ -182,7 +182,7 @@ public class FinalRegisterController implements Initializable {
 		OptionsController.isInTrainingMode = false;
 		OptionsController.isInAssessmentMode = false;
 		OptionsController.hasTwoLettersOption = false;
-		OptionsController.isHasThreeLettersOption = false;
+		OptionsController.hasThreeLettersOption = false;
 		OptionsController.hasDiscoveredWordsOption = false;
 		OptionsController.hasIncompleteWordOption = false;
 		OptionsController.hasSolution = false;

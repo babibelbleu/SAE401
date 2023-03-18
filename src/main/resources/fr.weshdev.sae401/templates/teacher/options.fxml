@@ -163,7 +163,7 @@
                   <Insets right="200.0" top="87.0" />
                </GridPane.margin>
             </CheckBox>
-            <RadioButton fx:id="trainingRadioButtonOption" mnemonicParsing="false" onAction="#selectionModeEntrainement" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <RadioButton fx:id="trainingModeRadioButtonOption" mnemonicParsing="false" onAction="#selectionModeEntrainement" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets right="100.0" top="20.0" />
                </GridPane.margin>
@@ -178,7 +178,7 @@
                   <Insets right="200.0" top="228.0" />
                </GridPane.margin>
             </RadioButton>
-            <RadioButton fx:id="assessmentRadioButtonOption" mnemonicParsing="false" onAction="#selectionModeEvaluation" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
+            <RadioButton fx:id="assessmentModeRadioButtonOption" mnemonicParsing="false" onAction="#selectionModeEvaluation" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="TOP">
                <GridPane.margin>
                   <Insets left="100.0" top="20.0" />
                </GridPane.margin>
@@ -258,7 +258,7 @@
             </ImageView>
             <ImageView fx:id="toolTipOccul" fitHeight="41.0" fitWidth="23.0" onMouseEntered="#tipOcculEnter" onMouseExited="#tipOcculExit" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <image>
-                  <Image url="@../../images/black_line.png" />
+                  <Image url="@../../images/help_black.png" />
                </image>
                <GridPane.margin>
                   <Insets left="20.0" top="120.0" />
