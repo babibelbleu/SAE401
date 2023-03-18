@@ -60,8 +60,6 @@ Psrc/main/java/fr/weshdev/sae401/teacher/controllers/FinalRegisterController.jav
 Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/NewExerciseController.java,b\e\bec28b45d7cc283300a392bf73aac47b14704c78
 q
 Asrc/main/resources/fr.weshdev.sae401/templates/student/about.fxml,7\8\7830b228a33fdc2ccd8ab10ae8f69ae55be9d549
-x
-Hsrc/main/java/fr/weshdev/sae401/student/controllers/HintsController.java,f\7\f7e93801354798dc36f78449995b1f47b1539904
 t
 Dsrc/main/resources/fr.weshdev.sae401/templates/student/solution.fxml,9\5\95ada9d8181743982acefe47375c9e60531c221e
 t

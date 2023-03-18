@@ -60,8 +60,6 @@ y
 Isrc/main/java/fr/weshdev/sae401/teacher/controllers/ApercuController.java,c\4\c4229d38a2774b829617a2a85632b82cc34e6633
 €
 Psrc/main/java/fr/weshdev/sae401/teacher/controllers/FinalRegisterController.java,6\c\6ca89feb4f4e8c85449ba1a7d7abe5be92a08e2f
-x
-Hsrc/main/java/fr/weshdev/sae401/student/controllers/HintsController.java,f\7\f7e93801354798dc36f78449995b1f47b1539904
 q
 Asrc/main/resources/fr.weshdev.sae401/templates/student/about.fxml,7\8\7830b228a33fdc2ccd8ab10ae8f69ae55be9d549
 t

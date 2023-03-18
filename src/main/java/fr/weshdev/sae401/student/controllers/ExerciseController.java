@@ -212,7 +212,7 @@ public class ExerciseController implements Initializable {
 		min = 00;
 		time.setText("00:00");
 
-		//Si l'enseignant n'a pas souhait� autoriser l'affichage de la solution
+		//Si l'enseignant n'a pas souhait� autoriser l'affichage de la hasSolution
 		if(!isSolutionShowOptionSelected) {
 			solutionButton.setVisible(false);
 			alertSolution.setVisible(false);
@@ -239,7 +239,7 @@ public class ExerciseController implements Initializable {
 		min = Integer.parseInt(nbMin);
 		time.setText(min + ":" + sec);
 
-		//On masque les boutons qui ne sont pr�sent que ne mode entrainement
+		//On masque les boutons qui ne sont pr�sent que ne mode isInTrainingMode
 		helpButton.setVisible(false);
 		solutionButton.setVisible(false);
 		alertSolution.setVisible(false);
@@ -443,7 +443,7 @@ public class ExerciseController implements Initializable {
 		DeplacementFenetre.deplacementFenetre((Pane) root, stage);
 	}
 
-	//M�thode pour afficher la solution
+	//M�thode pour afficher la hasSolution
 	@FXML
 	public void affichageSolution() throws IOException {
 

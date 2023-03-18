@@ -2,9 +2,6 @@ package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.DeplacementFenetre;
 import fr.weshdev.sae401.MainEnseignant;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -14,7 +11,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -24,7 +20,6 @@ import javafx.stage.StageStyle;
 
 import java.awt.*;
 import java.io.*;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -32,38 +27,38 @@ import java.util.ResourceBundle;
 public class OptionsController implements Initializable {
 
 	@FXML
-	private RadioButton radioButtonEntrainement;
+	private RadioButton trainingRadioButtonOption;
 	@FXML
-	private RadioButton radioButtonEvaluation;
+	private RadioButton assessmentRadioButtonOption;
 	@FXML
-	private RadioButton radioButton2Lettres;
+	private RadioButton twoLettersRadioButtonOption;
 	@FXML
-	private RadioButton radioButton3Lettres;
+	private RadioButton threeLettersRadioButtonOption;
 	@FXML
-	private TextField CaraOccul;
+	private TextField hiddenCharOption;
 	@FXML
-	private TextField nbMinute;
+	private TextField timerOption;
 	@FXML
-	private CheckBox checkBoxMotIncomplet;
+	private CheckBox incompleteWordCheckBoxOption;
 	@FXML
-	private CheckBox checkBoxSolution;
+	private CheckBox solutionCheckBoxOption;
 	@FXML
-	private CheckBox checkBoxMotsDecouverts;
+	private CheckBox discoveredWordsCheckBoxOption;
 	@FXML
-	private CheckBox sensibiliteCasse;
+	private CheckBox caseSensitiveCheckBoxOption;
 	@FXML
-	private Button enregistrer;
+	private Button saveButton;
 
-	public static String caraOccul;
-	public static String nbMin;
-	public static boolean sensiCasse;
-	public static boolean entrainement;
-	public static boolean evaluation;
-	public static boolean solution;
-	public static boolean motDecouverts;
-	public static boolean motIncomplet;
-	public static boolean lettres_2;
-	public static boolean lettres_3;
+	public static String hiddenChar;
+	public static String timer;
+	public static boolean isCaseSensitive;
+	public static boolean isInTrainingMode;
+	public static boolean isInAssessmentMode;
+	public static boolean hasSolution;
+	public static boolean hasDiscoveredWordsOption;
+	public static boolean hasIncompleteWordOption;
+	public static boolean hasTwoLettersOption;
+	public static boolean isHasThreeLettersOption;
 
 	@FXML private ImageView toolTipOccul;
 	@FXML private ImageView toolTipSensi;
@@ -79,98 +74,98 @@ public class OptionsController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		if(caraOccul != null) {
-			CaraOccul.setText(caraOccul);
+		if(hiddenChar != null) {
+			hiddenCharOption.setText(hiddenChar);
 		}
 
-		if(sensiCasse == true) {
-			sensibiliteCasse.setSelected(true);
+		if(isCaseSensitive == true) {
+			caseSensitiveCheckBoxOption.setSelected(true);
 		}
 
-		if(entrainement == true) {
-			radioButtonEntrainement.setSelected(true);
+		if(isInTrainingMode == true) {
+			trainingRadioButtonOption.setSelected(true);
 
-			nbMinute.setDisable(true);
+			timerOption.setDisable(true);
 
-			if(solution == true) {
-				checkBoxSolution.setSelected(true);
+			if(hasSolution == true) {
+				solutionCheckBoxOption.setSelected(true);
 			}
 
-			if(motDecouverts == true) {
-				checkBoxMotsDecouverts.setSelected(true);
+			if(hasDiscoveredWordsOption == true) {
+				discoveredWordsCheckBoxOption.setSelected(true);
 			}
 
-			if(motIncomplet ==  true) {
-				checkBoxMotIncomplet.setSelected(true);
+			if(hasIncompleteWordOption ==  true) {
+				incompleteWordCheckBoxOption.setSelected(true);
 
-				if(lettres_2 == true) {
-					radioButton2Lettres.setSelected(true);
+				if(hasTwoLettersOption == true) {
+					twoLettersRadioButtonOption.setSelected(true);
 				}
 
-				if(lettres_3 == true) {
-					radioButton3Lettres.setSelected(true);
+				if(isHasThreeLettersOption == true) {
+					threeLettersRadioButtonOption.setSelected(true);
 				}
 
 			}
 		}
 
-		if(evaluation == true) {
-			radioButtonEvaluation.setSelected(true);
+		if(isInAssessmentMode == true) {
+			assessmentRadioButtonOption.setSelected(true);
 
-			checkBoxMotsDecouverts.setDisable(true);
-			checkBoxMotIncomplet.setDisable(true);
-			checkBoxSolution.setDisable(true);
-			radioButton2Lettres.setDisable(true);
-			radioButton3Lettres.setDisable(true);
+			discoveredWordsCheckBoxOption.setDisable(true);
+			incompleteWordCheckBoxOption.setDisable(true);
+			solutionCheckBoxOption.setDisable(true);
+			twoLettersRadioButtonOption.setDisable(true);
+			threeLettersRadioButtonOption.setDisable(true);
 			
 			
-			nbMinute.setText(nbMin);
-			nbMinute.setDisable(false);
+			timerOption.setText(timer);
+			timerOption.setDisable(false);
 		}
 
 		checkMode();
 
-		if(!CaraOccul.getText().isEmpty() && (radioButtonEntrainement.isSelected() || (radioButtonEvaluation.isSelected()  && !nbMinute.getText().isEmpty()))) {
-			enregistrer.setDisable(false);
+		if(!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
+			saveButton.setDisable(false);
 		}
 
 	}
 
 	private void checkMode() {
 
-		CaraOccul.textProperty().addListener((arg0, arg1, arg2) -> {
-			if(!CaraOccul.getText().isEmpty() && (radioButtonEntrainement.isSelected() || (radioButtonEvaluation.isSelected()  && !nbMinute.getText().isEmpty()))) {
-				enregistrer.setDisable(false);
+		hiddenCharOption.textProperty().addListener((arg0, arg1, arg2) -> {
+			if(!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected()  && !timerOption.getText().isEmpty()))) {
+				saveButton.setDisable(false);
 			} else {
-				enregistrer.setDisable(true);
+				saveButton.setDisable(true);
 			}
 
 		});
 
-		radioButtonEntrainement.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!CaraOccul.getText().isEmpty() && (radioButtonEntrainement.isSelected() || (radioButtonEvaluation.isSelected() && !nbMinute.getText().isEmpty()))) {
-				enregistrer.setDisable(false);
+		trainingRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
+			if (!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
+				saveButton.setDisable(false);
 			} else {
-				enregistrer.setDisable(true);
+				saveButton.setDisable(true);
 			}
 		});
 
-		radioButtonEvaluation.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
-			if (!CaraOccul.getText().isEmpty() && (radioButtonEntrainement.isSelected() || (radioButtonEvaluation.isSelected() && !nbMinute.getText().isEmpty()))) {
-				enregistrer.setDisable(false);
+		assessmentRadioButtonOption.selectedProperty().addListener((obs, wasPreviouslySelected, isNowSelected) -> {
+			if (!hiddenCharOption.getText().isEmpty() && (trainingRadioButtonOption.isSelected() || (assessmentRadioButtonOption.isSelected() && !timerOption.getText().isEmpty()))) {
+				saveButton.setDisable(false);
 			} else {
-				enregistrer.setDisable(true);
+				saveButton.setDisable(true);
 			}
 		});
 
 
-		nbMinute.textProperty().addListener((arg0, arg1, arg2) -> {
+		timerOption.textProperty().addListener((arg0, arg1, arg2) -> {
 
-			if(radioButtonEvaluation.isSelected()) {
-				if(!CaraOccul.getText().isEmpty() && !nbMinute.getText().isEmpty()) {
-					enregistrer.setDisable(false);
+			if(assessmentRadioButtonOption.isSelected()) {
+				if(!hiddenCharOption.getText().isEmpty() && !timerOption.getText().isEmpty()) {
+					saveButton.setDisable(false);
 				} else {
-					enregistrer.setDisable(true);
+					saveButton.setDisable(true);
 				}
 			}
 
@@ -229,15 +224,15 @@ public class OptionsController implements Initializable {
 	@FXML
 	public void pageApercu() throws IOException {
 
-		if(!CaraOccul.getText().isEmpty() && CaraOccul.getText() != "") {
-			caraOccul = CaraOccul.getText();
+		if(!hiddenCharOption.getText().isEmpty() && hiddenCharOption.getText() != "") {
+			hiddenChar = hiddenCharOption.getText();
 		}
 
-		if(!nbMinute.getText().isEmpty() && nbMinute.getText() != "") {
-			nbMin = nbMinute.getText();
+		if(!timerOption.getText().isEmpty() && timerOption.getText() != "") {
+			timer = timerOption.getText();
 		}
 
-		Stage primaryStage = (Stage) nbMinute.getScene().getWindow();
+		Stage primaryStage = (Stage) timerOption.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/apercu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -245,7 +240,7 @@ public class OptionsController implements Initializable {
 	}
 
 	public void retourMenu() throws IOException {
-		Stage stage = (Stage) CaraOccul.getScene().getWindow();
+		Stage stage = (Stage) hiddenCharOption.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root,  MainEnseignant.width, MainEnseignant.height - 60);
 		stage.setScene(scene);
@@ -256,8 +251,8 @@ public class OptionsController implements Initializable {
 	@FXML
 	public void pageEnregistrementFinal() throws IOException {
 
-		caraOccul = CaraOccul.getText();
-		nbMin = nbMinute.getText();
+		hiddenChar = hiddenCharOption.getText();
+		timer = timerOption.getText();
 
 		retourMenu();
 
@@ -278,7 +273,7 @@ public class OptionsController implements Initializable {
 		//R�initialisation des variables
 		AccueilController c = new AccueilController();
 		c.delete();
-		Stage primaryStage = (Stage) CaraOccul.getScene().getWindow();
+		Stage primaryStage = (Stage) hiddenCharOption.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -288,118 +283,118 @@ public class OptionsController implements Initializable {
 
 	@FXML
 	public void selectionModeEvaluation() {
-		nbMinute.setDisable(false);
-		evaluation = true;
-		checkBoxMotIncomplet.setSelected(false);
-		motIncomplet = false;
-		checkBoxSolution.setSelected(false);
-		solution = false;
-		checkBoxMotsDecouverts.setSelected(false);
-		motDecouverts = false;
-		radioButton2Lettres.setSelected(false);
-		lettres_2 = false;
-		radioButton3Lettres.setSelected(false);
-		lettres_3 = false;
+		timerOption.setDisable(false);
+		isInAssessmentMode = true;
+		incompleteWordCheckBoxOption.setSelected(false);
+		hasIncompleteWordOption = false;
+		solutionCheckBoxOption.setSelected(false);
+		hasSolution = false;
+		discoveredWordsCheckBoxOption.setSelected(false);
+		hasDiscoveredWordsOption = false;
+		twoLettersRadioButtonOption.setSelected(false);
+		hasTwoLettersOption = false;
+		threeLettersRadioButtonOption.setSelected(false);
+		isHasThreeLettersOption = false;
 
-		checkBoxMotsDecouverts.setDisable(true);
-		checkBoxMotIncomplet.setDisable(true);
-		checkBoxSolution.setDisable(true);
-		radioButton2Lettres.setDisable(true);
-		radioButton3Lettres.setDisable(true);
+		discoveredWordsCheckBoxOption.setDisable(true);
+		incompleteWordCheckBoxOption.setDisable(true);
+		solutionCheckBoxOption.setDisable(true);
+		twoLettersRadioButtonOption.setDisable(true);
+		threeLettersRadioButtonOption.setDisable(true);
 
-		if (radioButtonEntrainement.isSelected()) {
-			radioButtonEntrainement.setSelected(false);
-			entrainement = false;
+		if (trainingRadioButtonOption.isSelected()) {
+			trainingRadioButtonOption.setSelected(false);
+			isInTrainingMode = false;
 		}
 
-		if (!radioButtonEvaluation.isSelected()) {
-			evaluation = false;
+		if (!assessmentRadioButtonOption.isSelected()) {
+			isInAssessmentMode = false;
 
-			nbMinute.setText(null);
-			nbMinute.setDisable(true);
+			timerOption.setText(null);
+			timerOption.setDisable(true);
 		}
 
 	}
 
 	@FXML
 	public void selectionModeEntrainement() {
-		checkBoxMotsDecouverts.setDisable(false);
-		checkBoxMotIncomplet.setDisable(false);
-		checkBoxSolution.setDisable(false);
-		radioButton2Lettres.setDisable(false);
-		radioButton3Lettres.setDisable(false);
+		discoveredWordsCheckBoxOption.setDisable(false);
+		incompleteWordCheckBoxOption.setDisable(false);
+		solutionCheckBoxOption.setDisable(false);
+		twoLettersRadioButtonOption.setDisable(false);
+		threeLettersRadioButtonOption.setDisable(false);
 
-		nbMinute.setDisable(true);
-		entrainement = true;
+		timerOption.setDisable(true);
+		isInTrainingMode = true;
 
-		nbMinute.setText("");
+		timerOption.setText("");
 
-		if (radioButtonEvaluation.isSelected()) {
-			radioButtonEvaluation.setSelected(false);
-			evaluation = false;
+		if (assessmentRadioButtonOption.isSelected()) {
+			assessmentRadioButtonOption.setSelected(false);
+			isInAssessmentMode = false;
 		}
 
-		if (!radioButtonEntrainement.isSelected()) {
+		if (!trainingRadioButtonOption.isSelected()) {
 
-			checkBoxMotsDecouverts.setDisable(true);
-			checkBoxMotIncomplet.setDisable(true);
-			checkBoxSolution.setDisable(true);
-			radioButton2Lettres.setDisable(true);
-			radioButton3Lettres.setDisable(true);
+			discoveredWordsCheckBoxOption.setDisable(true);
+			incompleteWordCheckBoxOption.setDisable(true);
+			solutionCheckBoxOption.setDisable(true);
+			twoLettersRadioButtonOption.setDisable(true);
+			threeLettersRadioButtonOption.setDisable(true);
 
-			checkBoxMotIncomplet.setSelected(false);
-			motIncomplet = false;
-			checkBoxSolution.setSelected(false);
-			solution = false;
-			checkBoxMotsDecouverts.setSelected(false);
-			motDecouverts = false;
-			radioButton2Lettres.setSelected(false);
-			lettres_2 = false;
-			radioButton3Lettres.setSelected(false);
-			lettres_3 = false;
+			incompleteWordCheckBoxOption.setSelected(false);
+			hasIncompleteWordOption = false;
+			solutionCheckBoxOption.setSelected(false);
+			hasSolution = false;
+			discoveredWordsCheckBoxOption.setSelected(false);
+			hasDiscoveredWordsOption = false;
+			twoLettersRadioButtonOption.setSelected(false);
+			hasTwoLettersOption = false;
+			threeLettersRadioButtonOption.setSelected(false);
+			isHasThreeLettersOption = false;
 
-			entrainement = false;
+			isInTrainingMode = false;
 		}
 
 	}
 
 	@FXML
 	public void selection2Lettres() {
-		if (radioButton3Lettres.isSelected()) {
-			radioButton3Lettres.setSelected(false);
+		if (threeLettersRadioButtonOption.isSelected()) {
+			threeLettersRadioButtonOption.setSelected(false);
 
-			lettres_2 = true;
-			lettres_3 = false;
+			hasTwoLettersOption = true;
+			isHasThreeLettersOption = false;
 		} else {
-			lettres_2 = true;
+			hasTwoLettersOption = true;
 		}
 	}
 
 	@FXML
 	public void selection3Lettres() {
-		if (radioButton2Lettres.isSelected()) {
-			radioButton2Lettres.setSelected(false);
+		if (twoLettersRadioButtonOption.isSelected()) {
+			twoLettersRadioButtonOption.setSelected(false);
 
-			lettres_3 = true;
-			lettres_2 = false;
+			isHasThreeLettersOption = true;
+			hasTwoLettersOption = false;
 		} 
 		else {
-			lettres_3 = true;
+			isHasThreeLettersOption = true;
 		}
 	}
 
 	@FXML
 	public void RestrictionOne() {
-		if (CaraOccul.getText().length() > 1) {
-			CaraOccul.deletePreviousChar();
+		if (hiddenCharOption.getText().length() > 1) {
+			hiddenCharOption.deletePreviousChar();
 		}
 	}
 
 	@FXML
 	public void RestrictionChiffre() {
-		if (nbMinute.getText().length() > 0) {
-			if (!nbMinute.getText().matches("[0-9]*")) {
-				nbMinute.deletePreviousChar();
+		if (timerOption.getText().length() > 0) {
+			if (!timerOption.getText().matches("[0-9]*")) {
+				timerOption.deletePreviousChar();
 			}
 		}
 	}
@@ -407,58 +402,58 @@ public class OptionsController implements Initializable {
 	@FXML
 	public void motIncomplet() {
 
-		if (checkBoxMotIncomplet.isSelected()) {
+		if (incompleteWordCheckBoxOption.isSelected()) {
 
-			radioButton2Lettres.setDisable(false);
+			twoLettersRadioButtonOption.setDisable(false);
 
-			radioButton2Lettres.setSelected(true);
-			lettres_2 = true;
-			radioButton3Lettres.setDisable(false);
+			twoLettersRadioButtonOption.setSelected(true);
+			hasTwoLettersOption = true;
+			threeLettersRadioButtonOption.setDisable(false);
 
-			motIncomplet = true;
+			hasIncompleteWordOption = true;
 		}
-		if (!checkBoxMotIncomplet.isSelected()) {
-			radioButton2Lettres.setDisable(true);
-			radioButton3Lettres.setDisable(true);
+		if (!incompleteWordCheckBoxOption.isSelected()) {
+			twoLettersRadioButtonOption.setDisable(true);
+			threeLettersRadioButtonOption.setDisable(true);
 
-			radioButton2Lettres.setSelected(false);
-			radioButton3Lettres.setSelected(false);
+			twoLettersRadioButtonOption.setSelected(false);
+			threeLettersRadioButtonOption.setSelected(false);
 
-			lettres_2 = false;
-			lettres_3 = false;
+			hasTwoLettersOption = false;
+			isHasThreeLettersOption = false;
 
-			motIncomplet = false;
+			hasIncompleteWordOption = false;
 		}
 
 	}
 
 	@FXML
 	public void sensiCasse() {
-		if (sensibiliteCasse.isSelected()) {
-			sensiCasse = true;
+		if (caseSensitiveCheckBoxOption.isSelected()) {
+			isCaseSensitive = true;
 		}
 		else {
-			sensiCasse = false;
+			isCaseSensitive = false;
 		}
 	}
 
 	@FXML
 	public void affichageSolution() {
-		if (checkBoxSolution.isSelected()) {
-			solution = true;
+		if (solutionCheckBoxOption.isSelected()) {
+			hasSolution = true;
 		}
 		else {
-			solution = false;
+			hasSolution = false;
 		}
 	}
 
 	@FXML
 	public void motDecouverts() {
-		if (checkBoxMotsDecouverts.isSelected()) {
-			motDecouverts = true;
+		if (discoveredWordsCheckBoxOption.isSelected()) {
+			hasDiscoveredWordsOption = true;
 		}
 		else {
-			motDecouverts = false;
+			hasDiscoveredWordsOption = false;
 		}
 	}
 
@@ -536,7 +531,7 @@ public class OptionsController implements Initializable {
 
 	@FXML
 	public void tipSolutionEnter() {
-		affichageToolTip(toolTipSolution, "Autoriser � ce que l'�tudiant puisse consulter la solution pendant l'exercice");
+		affichageToolTip(toolTipSolution, "Autoriser � ce que l'�tudiant puisse consulter la hasSolution pendant l'exercice");
 	}
 
 	@FXML
@@ -558,12 +553,12 @@ public class OptionsController implements Initializable {
 	public void darkMode() {
 
 		if(dark.isSelected()) {
-			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.isDark = true;
 		} else {
-			CaraOccul.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			CaraOccul.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
+			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
+			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.isDark = false;
 		}
 

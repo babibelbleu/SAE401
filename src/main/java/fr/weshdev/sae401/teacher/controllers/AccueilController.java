@@ -2,7 +2,6 @@ package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.MainEnseignant;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -18,8 +17,6 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -115,67 +112,67 @@ public class AccueilController implements Initializable {
 		ApercuController.contenuAide = aide;
 
 		caraOccul = chaine(readNBytes(fin, 1));
-		OptionsController.caraOccul = caraOccul;
+		OptionsController.hiddenChar = caraOccul;
 
-		// On r�cup�re la reponse de sensiCasse 0 = false, 1 = true
+		// On r�cup�re la reponse de isCaseSensitive 0 = false, 1 = true
 		sensiCasse = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 		if (sensiCasse == 1) {
-			OptionsController.sensiCasse = true;
+			OptionsController.isCaseSensitive = true;
 		} else {
-			OptionsController.sensiCasse = false;
+			OptionsController.isCaseSensitive = false;
 		}
 
 		mode = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 		if (mode == 1) {
-			OptionsController.evaluation = true;
-			OptionsController.entrainement = false;
+			OptionsController.isInAssessmentMode = true;
+			OptionsController.isInTrainingMode = false;
 
 			nombreOctetALire = ByteBuffer.wrap(readNBytes(fin, 4)).getInt();
 			nbMin = chaine(readNBytes(fin, nombreOctetALire));
 
-			OptionsController.nbMin = nbMin;
+			OptionsController.timer = nbMin;
 
 		} else {
-			OptionsController.evaluation = false;
-			OptionsController.entrainement = true;
+			OptionsController.isInAssessmentMode = false;
+			OptionsController.isInTrainingMode = true;
 
 			solution = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			if (solution == 1) {
-				OptionsController.solution = true;
+				OptionsController.hasSolution = true;
 			} else {
-				OptionsController.solution = false;
+				OptionsController.hasSolution = false;
 			}
 
 			motsDecouverts = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			if (motsDecouverts == 1) {
-				OptionsController.motDecouverts = true;
+				OptionsController.hasDiscoveredWordsOption = true;
 			} else {
-				OptionsController.motDecouverts = false;
+				OptionsController.hasDiscoveredWordsOption = false;
 			}
 
 			motsIncomplets = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 			if (motsIncomplets == 1) {
-				OptionsController.motIncomplet = true;
+				OptionsController.hasIncompleteWordOption = true;
 
 				lettre = ByteBuffer.wrap(readNBytes(fin, 1)).get();
 
 				if (lettre == 2) {
-					OptionsController.lettres_2 = true;
-					OptionsController.lettres_3 = false;
+					OptionsController.hasTwoLettersOption = true;
+					OptionsController.isHasThreeLettersOption = false;
 				} else {
-					OptionsController.lettres_2 = false;
-					OptionsController.lettres_3 = true;
+					OptionsController.hasTwoLettersOption = false;
+					OptionsController.isHasThreeLettersOption = true;
 				}
 
 			} else {
-				OptionsController.motIncomplet = false;
-				OptionsController.lettres_2 = false;
-				OptionsController.lettres_3 = false;
+				OptionsController.hasIncompleteWordOption = false;
+				OptionsController.hasTwoLettersOption = false;
+				OptionsController.isHasThreeLettersOption = false;
 			}
 		}
 
@@ -318,16 +315,16 @@ public class AccueilController implements Initializable {
 		ApercuController.contenuAide = null;
 		ApercuController.contenuConsigne = null;
 		ApercuController.contenuTranscription = null;
-		OptionsController.caraOccul = null;
-		OptionsController.sensiCasse = false;
-		OptionsController.entrainement = false;
-		OptionsController.evaluation = false;
-		OptionsController.lettres_2 = false;
-		OptionsController.lettres_3 = false;
-		OptionsController.motDecouverts = false;
-		OptionsController.motIncomplet = false;
-		OptionsController.solution = false;
-		OptionsController.nbMin = null;
+		OptionsController.hiddenChar = null;
+		OptionsController.isCaseSensitive = false;
+		OptionsController.isInTrainingMode = false;
+		OptionsController.isInAssessmentMode = false;
+		OptionsController.hasTwoLettersOption = false;
+		OptionsController.isHasThreeLettersOption = false;
+		OptionsController.hasDiscoveredWordsOption = false;
+		OptionsController.hasIncompleteWordOption = false;
+		OptionsController.hasSolution = false;
+		OptionsController.timer = null;
 	}
 
 	private static final int DEFAULT_BUFFER_SIZE = 8192;
