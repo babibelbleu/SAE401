@@ -410,7 +410,7 @@ public class ExerciseController implements Initializable {
 
 	//M�thode qui regarde si le darkMode est actif et l'applique en cons�quence � la scene
 	public void darkModeActivation(Scene scene) {
-		if(MenuController.isDark) {
+		if(MenuController.isInDarkMode) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			darkMode.setSelected(true);
@@ -722,11 +722,11 @@ public class ExerciseController implements Initializable {
 		if(darkMode.isSelected()) {
 			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			MenuController.isDark = true;
+			MenuController.isInDarkMode = true;
 		} else {
 			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			MenuController.isDark = false;
+			MenuController.isInDarkMode = false;
 		}
 	}
 
