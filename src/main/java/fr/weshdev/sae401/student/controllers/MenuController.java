@@ -1,10 +1,12 @@
 package fr.weshdev.sae401.student.controllers;
 
 import fr.weshdev.sae401.MainEtudiant;
+import fr.weshdev.sae401.model.Option;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
@@ -18,12 +20,12 @@ import javafx.stage.Stage;
 import java.awt.*;
 import java.io.*;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
 
-public class MenuController {
+public class MenuController implements Initializable {
 	@FXML
 	private Text welcomeText;
 	@FXML
@@ -33,12 +35,48 @@ public class MenuController {
 
 	public static boolean isInDarkMode = false;
 
+	private static HashMap <String, Option> options = new HashMap<>();
+
 	private static ExerciseController exerciseController;
+
+	public static HashMap<String,Option> getOptions() {
+
+		// TODO document why this method is empty
+		return options;
+	}
+
+
+	@Override
+	public void initialize(URL url, ResourceBundle resourceBundle) {
+		// TODO document why this method is empty
+		Option caseSensitiveOption = new Option("Case sensitive", "Permet de rendre sensible à la casse", false);
+		Option evaluationOption = new Option("Evaluation", "Permet de faire une évaluation", false);
+		Option trainingOption = new Option("Training", "Permet de faire de l'entrainement", false);
+		Option solutionShowOption = new Option("SolutionShow", "Permet d'afficher la solution", false);
+		Option discoveredWordRateProgressBarOption = new Option("Progress bar", "Permet d'afficher la barre de progression", false);
+		Option incompletedWordOption = new Option("Incompleted word", "Permet de faire des mots incomplets", false);
+		Option incompletedWordWithTwoLettersOption = new Option("Incompleted word with two letters", "Permet de faire des mots incomplets avec deux lettres", false);
+		Option incompleteWordWithThreeLettersOption = new Option("Incompleted word with three letters", "Permet de faire des mots incomplets avec trois lettres", false);
+
+
+		options.put("caseSensitiveOption", caseSensitiveOption);
+		options.put("evaluationOption", evaluationOption);
+		options.put("solutionShowOption", solutionShowOption);
+		options.put("discoveredWordRateProgressBarOption", discoveredWordRateProgressBarOption);
+		options.put("incompletedWordOption", incompletedWordOption);
+		options.put("incompletedWordWithTwoLettersOption", incompletedWordWithTwoLettersOption);
+		options.put("incompletedWordWithThreeLettersOption", incompleteWordWithThreeLettersOption);
+		options.put("trainingOption", trainingOption);
+
+
+	}
+
 
 	@FXML
 	public void closeApp() {
 		Platform.exit();
 	}
+
 
 	@FXML
 	public void loadUserManual() throws IOException, URISyntaxException {
@@ -145,16 +183,21 @@ public class MenuController {
 		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 		if(isCaseSensitive == 1) {
-			ExerciseController.caseSensitivity = true;
+			options.get("caseSensitiveOption").setActive(true);
+
+
 		} else {
-			ExerciseController.caseSensitivity = false;
+			options.get("caseSensitiveOption").setActive(false);
+
 		}
 
 		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 		if (isEvaluation == 1) {
-			ExerciseController.isEvaluationModeSelected = true;
-			ExerciseController.isTrainingModeSelected = false;
+			options.get("evaluationOption").setActive(true);
+
+			options.get("trainingOption").setActive(false);
+
 
 			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
 			time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
@@ -162,44 +205,47 @@ public class MenuController {
 			ExerciseController.nbMin = time;
 
 		} else {
-			ExerciseController.isEvaluationModeSelected = false;
-			ExerciseController.isTrainingModeSelected = true;
+			options.get("evaluationOption").setActive(false);
+			options.get("trainingOption").setActive(true);
 
 			exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (exereciseHaveSolution == 1) {
-				ExerciseController.isSolutionShowOptionSelected = true;
+				options.get("solutionShowOption").setActive(true);
+
 			} else {
-				ExerciseController.isSolutionShowOptionSelected = false;
+				options.get("solutionShowOption").setActive(false);
 			}
 
 			exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (exerciseHaveProgressBar == 1) {
-				ExerciseController.isDiscoveredWordShowOptionSelected = true;
+				options.get("discoveredWordRateProgressBarOption").setActive(true);
+
 			} else {
-				ExerciseController.isDiscoveredWordShowOptionSelected = false;
+				options.get("discoveredWordRateProgressBarOption").setActive(false);
 			}
 
 			isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 			if (isIncompletedWordOptionSelected == 1) {
-				ExerciseController.isIncompleteWordOpionActive = true;
+				options.get("incompletedWordOption").setActive(true);
+
 
 				numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
 				if (numberOfMinimalLettersIncompletedWord == 2) {
-					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = true;
-					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
+					options.get("incompletedWordWithTwoLettersOption").setActive(true);
+					options.get("incompletedWordWithThreeLettersOption").setActive(false);
 				} else {
-					ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
-					ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = true;
+					options.get("incompletedWordWithTwoLettersOption").setActive(false);
+					options.get("incompletedWordWithThreeLettersOption").setActive(true);
 				}
 
 			} else {
-				ExerciseController.isIncompleteWordOpionActive = false;
-				ExerciseController.isIncompleteWordWithTwoLettersOptionSelected = false;
-				ExerciseController.isIncompleteWordWithThreeLettersOptionSelected = false;
+				options.get("incompletedWordOption").setActive(false);
+				options.get("incompletedWordWithTwoLettersOption").setActive(false);
+				options.get("incompletedWordWithThreeLettersOption").setActive(false);
 			}
 		}
 
@@ -360,4 +406,5 @@ public class MenuController {
 	public static byte[] readAllBytesFromFile(FileInputStream file) throws IOException {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
 	}
+
 }

@@ -54,15 +54,8 @@ public class ExerciseController implements Initializable {
 	public static String hidddenChar;
 
 	//Options de l'exercice
-	public static boolean caseSensitivity;
-	public static boolean isTrainingModeSelected;
-	public static boolean isEvaluationModeSelected;
 	public static String nbMin;
-	public static boolean isSolutionShowOptionSelected;
-	public static boolean isDiscoveredWordShowOptionSelected;
-	public static boolean isIncompleteWordOpionActive;
-	public static boolean isIncompleteWordWithTwoLettersOptionSelected;
-	public static boolean isIncompleteWordWithThreeLettersOptionSelected;
+
 	public static Image imageContent;
 
 	//TextFields et autre composants qui contiennent les informations de l'exercice
@@ -132,6 +125,8 @@ public class ExerciseController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		MenuController.getOptions();
+
 
 		encryptedText = encryptText();
 
@@ -174,7 +169,7 @@ public class ExerciseController implements Initializable {
 		}
 
 		//On load le temps n�cessaire si c'est en mode Evaluation
-		if(isEvaluationModeSelected) {
+		if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
 			evalutationModeLoader();
 		} 
 		//Sinon cela veut dire que l'on est en mode Entrainement
@@ -213,21 +208,21 @@ public class ExerciseController implements Initializable {
 		time.setText("00:00");
 
 		//Si l'enseignant n'a pas souhait� autoriser l'affichage de la solution
-		if(!isSolutionShowOptionSelected) {
+		if(MenuController.getOptions().get("solutionShowOption").isActive() ==false) {
 			solutionButton.setVisible(false);
 			alertSolution.setVisible(false);
 		}
 
 		//Si l'enseignant n'a pas souhait� l'affichage de mots d�couverts en temps r�el
-		if(!isDiscoveredWordShowOptionSelected) {
+		if(MenuController.getOptions().get("discoveredWordRateProgressBarOption").isActive() == false) {
 			progressBar.setVisible(false);
 			rateDiscoveredWords.setVisible(false);
 			discoveredWordsLabel.setVisible(false);
 		}
 
-		if(isIncompleteWordWithTwoLettersOptionSelected) {
+		if(MenuController.getOptions().get("incompletedWordWithTwoLettersOption").isActive() == true) {
 			numberPartialReplacement = 2;
-		} else if(isIncompleteWordWithThreeLettersOptionSelected){
+		} else if(MenuController.getOptions().get("incompletedWordWithThreeLettersOption").isActive() == true){
 			numberPartialReplacement = 3;
 		} else {
 			numberPartialReplacement = 0;
@@ -480,7 +475,7 @@ public class ExerciseController implements Initializable {
 		for (int i = 0; i < clear.length; i++) {
 			clearMatcher = punctionLessPattern.matcher(clear[i]);
 			if (clearMatcher.find() && clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
-				if (caseSensitivity && !clearMatcher.group(0).equals(text))
+				if (MenuController.getOptions().get("caseSensitiveOption").isActive() == true && !clearMatcher.group(0).equals(text))
 				{
 					continue;
 				}
@@ -515,7 +510,7 @@ public class ExerciseController implements Initializable {
 
 		int ok = 0;
 
-		if(isDiscoveredWordShowOptionSelected) {
+		if(MenuController.getOptions().get("discoveredWordRateProgressBarOption").isActive()==true) {
 			int numberWord = clear.length;
 			int numberFoundWord = 0;
 			for (String string : encrypted) {
@@ -536,7 +531,7 @@ public class ExerciseController implements Initializable {
 			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
 			backToMenuClicked();
 
-			if(isEvaluationModeSelected) {
+			if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
 				finExercice();
 				registerExercice();
 			}
@@ -576,7 +571,7 @@ public class ExerciseController implements Initializable {
 		timer = new Timeline();
 		timer.setCycleCount(Animation.INDEFINITE);
 
-		if(isEvaluationModeSelected) {
+		if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
 			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
@@ -605,7 +600,7 @@ public class ExerciseController implements Initializable {
 			timer.playFromStart();
 		}
 
-		if(isTrainingModeSelected) {
+		if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
 			// KeyFrame event handler
 			timer.getKeyFrames().add(
 					new KeyFrame(Duration.seconds(1),
