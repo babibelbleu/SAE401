@@ -29,4 +29,10 @@ public class Option {
     public void setActive(boolean isActive) {
         this.isActive = isActive;
     }
+
+    public void reset(){
+        this.isActive = false;
+        this.name = null;
+        this.description = null;
+    }
 }

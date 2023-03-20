@@ -40,7 +40,7 @@ public class FinalRegisterController implements Initializable {
 		byte[] longueurAide = getLongueur(ApercuController.contenuAide);
 
 		// Caract�re d'occultation
-		byte[] caraOccul = OptionsController.caraOccul.getBytes();
+		byte[] caraOccul = OptionsController.hiddenChar.getBytes();
 
 		// Conteneurs du media
 		byte[] contenuMedia = null;
@@ -92,37 +92,37 @@ public class FinalRegisterController implements Initializable {
 			out.write(caraOccul);
 
 			// Si la sensibilit� � la casse est activ�e ou non
-			if (OptionsController.sensiCasse == true) {
+			if (OptionsController.isCaseSensitive == true) {
 				out.write(1);
 			} else {
 				out.write(0);
 			}
 
 			// On y �crit le mode (sur 1 octet)
-			// Si c'est le mode entrainement
-			if (OptionsController.entrainement == true) {
+			// Si c'est le mode isInTrainingMode
+			if (OptionsController.isInTrainingMode == true) {
 				out.write(0);
 
-				// Si l'affichage de la solution est autoris�
-				if (OptionsController.solution == true) {
+				// Si l'affichage de la hasSolution est autoris�
+				if (OptionsController.hasSolution == true) {
 					out.write(1);
 				} else {
 					out.write(0);
 				}
 
 				// Si l'affiche du nombre de mots d�couverts en temps r�el est autoris�
-				if (OptionsController.motDecouverts == true) {
+				if (OptionsController.hasDiscoveredWordsOption == true) {
 					out.write(1);
 				} else {
 					out.write(0);
 				}
 
 				// Si les mots incomplets sont autoris�s
-				if (OptionsController.motIncomplet == true) {
+				if (OptionsController.hasIncompleteWordOption == true) {
 					out.write(1);
 
 					//On pr�cise le nombre de lettres autoris�es
-					if (OptionsController.lettres_2 == true) {
+					if (OptionsController.hasTwoLettersOption == true) {
 						out.write(2);
 					} else {
 						out.write(3);
@@ -137,8 +137,8 @@ public class FinalRegisterController implements Initializable {
 			else {
 
 				// Limite de temps (pour le mode Evaluation)
-				byte[] nbMin = OptionsController.nbMin.getBytes();
-				byte[] longueurNbMin = getLongueur(OptionsController.nbMin);
+				byte[] nbMin = OptionsController.timer.getBytes();
+				byte[] longueurNbMin = getLongueur(OptionsController.timer);
 
 				out.write(1);
 				// On �crit la limite de temps
@@ -177,23 +177,23 @@ public class FinalRegisterController implements Initializable {
 		ApercuController.contenuAide = null;
 		ApercuController.contenuConsigne = null;
 		ApercuController.contenuTranscription = null;
-		OptionsController.caraOccul = null;
-		OptionsController.sensiCasse = false;
-		OptionsController.entrainement = false;
-		OptionsController.evaluation = false;
-		OptionsController.lettres_2 = false;
-		OptionsController.lettres_3 = false;
-		OptionsController.motDecouverts = false;
-		OptionsController.motIncomplet = false;
-		OptionsController.solution = false;
-		OptionsController.nbMin = null;
+		OptionsController.hiddenChar = null;
+		OptionsController.isCaseSensitive = false;
+		OptionsController.isInTrainingMode = false;
+		OptionsController.isInAssessmentMode = false;
+		OptionsController.hasTwoLettersOption = false;
+		OptionsController.hasThreeLettersOption = false;
+		OptionsController.hasDiscoveredWordsOption = false;
+		OptionsController.hasIncompleteWordOption = false;
+		OptionsController.hasSolution = false;
+		OptionsController.timer = null;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////       METHODES GENERALES         /////////////////////////////////////////////
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////// 
 
-	// Bouton Quitter qui permet � l'enseignant de quitter l'application (disponible
+	// Bouton Quitter qui permet � l'enseignant de loadQuittingPage l'application (disponible
 	// sur toutes les pages)
 	@FXML
 	public void quitter(ActionEvent event) {

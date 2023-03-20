@@ -146,12 +146,12 @@
                        <Menu mnemonicParsing="false" text="Aide">
                            <items>
                                <MenuItem mnemonicParsing="false" onAction="#loadUserManual" text="Tutoriel" />
-                               <MenuItem mnemonicParsing="false" onAction="#aPropos" text="A propos" />
+                               <MenuItem mnemonicParsing="false" onAction="#loadAboutPage" text="A propos" />
                            </items>
                        </Menu>
                        <Menu mnemonicParsing="false" text="Paramètres">
                            <items>
-                               <CheckMenuItem fx:id="darkModeMenuSelection" mnemonicParsing="false" onAction="#darkMode" text="Mode Sombre" />
+                               <CheckMenuItem fx:id="darkModeMenuSelection" mnemonicParsing="false" onAction="#setDarkMode" text="Mode Sombre" />
                            </items></Menu>
                    </menus>
                    <VBox.margin>

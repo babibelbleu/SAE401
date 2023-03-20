@@ -96,7 +96,7 @@ public class NewExerciseController implements Initializable{
 	/////////////////////////////////////			METHDOES GENERALES		////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//Bouton Quitter qui permet à l'enseignant de quitter l'application (disponible sur toutes les pages)
+	//Bouton Quitter qui permet à l'enseignant de loadQuittingPage l'application (disponible sur toutes les pages)
 	@FXML
 	public void quitter(ActionEvent event) throws IOException {
 		
@@ -120,7 +120,7 @@ public class NewExerciseController implements Initializable{
 		primaryStage.show();
 	}
 	
-	//Méthode qui permet de se rendre au manuel utilisateur == tuto
+	//Méthode qui permet de se rendre au manuel utilisateur == loadUserManual
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
@@ -204,7 +204,7 @@ public class NewExerciseController implements Initializable{
 		primaryStage.show();
 	}
 	
-	//Méthode pour passer ou non le darkMode
+	//Méthode pour passer ou non le setDarkMode
 	@FXML
 	public void darkMode() {
 
@@ -220,7 +220,7 @@ public class NewExerciseController implements Initializable{
 		
 	}
 
-	//Méthode qui regarde si le darkMode est actif et l'applique en conséquence à la scene
+	//Méthode qui regarde si le setDarkMode est actif et l'applique en conséquence à la scene
 	public void darkModeActivation(Scene scene) {
 		if(AccueilController.isDark) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());

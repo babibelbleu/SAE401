@@ -9,25 +9,23 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class HintsController implements Initializable {
-
-	// Aide
 	@FXML
-	private Button close;
+	private Button closeButton;
 	@FXML
-	private TextArea affichageAide;
+	private TextArea hintDisplay;
 	public static String contenuAide;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		affichageAide.setWrapText(true);
-		affichageAide.setText(contenuAide);
+		hintDisplay.setWrapText(true);
+		hintDisplay.setText(contenuAide);
 		
 	}
 
 	@FXML
 	public void closeAide() {
-		close.getScene().getWindow().hide();
+		closeButton.getScene().getWindow().hide();
 	}
 
 }

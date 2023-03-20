@@ -3,7 +3,6 @@ package fr.weshdev.sae401.student.controllers;
 import fr.weshdev.sae401.MainEtudiant;
 import fr.weshdev.sae401.model.Option;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -26,6 +25,8 @@ import java.util.*;
 import java.util.List;
 
 public class MenuController implements Initializable {
+
+	private static final int ENCRYPT_OFFSET = 3;
 	@FXML
 	private Text welcomeText;
 	@FXML
@@ -33,7 +34,7 @@ public class MenuController implements Initializable {
 	@FXML
 	private CheckMenuItem darkModeMenuSelection;
 
-	public static boolean isInDarkMode = false;
+	private static boolean isInDarkMode = false;
 
 	private static HashMap <String, Option> options = new HashMap<>();
 
@@ -117,9 +118,9 @@ public class MenuController implements Initializable {
 		Parent root = exercisePageLoader.load();
 		exerciseController = exercisePageLoader.getController();
 		primaryStage.setMaximized(true);
-		Scene exerciseScene = new Scene(root, MainEtudiant.width, MainEtudiant.height);
+		Scene exerciseScene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight());
 
-		darkModeActivation(exerciseScene);
+		changeTheme(exerciseScene);
 
 		primaryStage.setScene(exerciseScene);
 		primaryStage.show();
@@ -167,11 +168,11 @@ public class MenuController implements Initializable {
 		FileInputStream encodedExerciseFile = new FileInputStream(file);
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+		exerciseOrder = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
 		ExerciseController.instructionContent = exerciseOrder;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+		exerciseTranscription = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
 		ExerciseController.transcriptionContent = exerciseTranscription;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
@@ -183,14 +184,7 @@ public class MenuController implements Initializable {
 
 		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-		if(isCaseSensitive == 1) {
-			options.get("caseSensitiveOption").setActive(true);
-
-
-		} else {
-			options.get("caseSensitiveOption").setActive(false);
-
-		}
+		options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
 
 		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
@@ -211,21 +205,11 @@ public class MenuController implements Initializable {
 
 			exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-			if (exereciseHaveSolution == 1) {
-				options.get("solutionShowOption").setActive(true);
-
-			} else {
-				options.get("solutionShowOption").setActive(false);
-			}
+			options.get("solutionShowOption").setActive(exereciseHaveSolution == 1);
 
 			exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-			if (exerciseHaveProgressBar == 1) {
-				options.get("discoveredWordRateProgressBarOption").setActive(true);
-
-			} else {
-				options.get("discoveredWordRateProgressBarOption").setActive(false);
-			}
+			options.get("discoveredWordRateProgressBarOption").setActive(exerciseHaveProgressBar == 1);
 
 			isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
@@ -287,10 +271,10 @@ public class MenuController implements Initializable {
 	public void loadAboutPage() throws IOException {
 		Stage primaryStage = (Stage) welcomeText.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/about.fxml"));
-		Scene scene = new Scene(root, MainEtudiant.width, MainEtudiant.height - 60);
+		Scene scene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight() - 60);
 		primaryStage.setScene(scene);
 
-		darkModeActivation(scene);
+		changeTheme(scene);
 
 		primaryStage.setMaximized(true);
 		primaryStage.setMinHeight(800);
@@ -299,21 +283,20 @@ public class MenuController implements Initializable {
 	}
 
 	@FXML
-	public void retourMenu(ActionEvent event) throws IOException {
+	public void loadMenu() throws IOException {
 		Stage primaryStage = (Stage) aboutText.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
-		Scene scene = new Scene(root, MainEtudiant.width, MainEtudiant.height);
+		Scene scene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight());
 		primaryStage.setScene(scene);
 
-		darkModeActivation(scene);
+		changeTheme(scene);
 		primaryStage.setMinHeight(800);
 		primaryStage.setMinWidth(1200);
 		primaryStage.show();
 	}
 
 	@FXML
-	public void darkMode() {
-
+	public void setDarkMode() {
 		if (darkModeMenuSelection.isSelected()) {
 			welcomeText.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
@@ -329,7 +312,7 @@ public class MenuController implements Initializable {
 		}
 	}
 
-	public void darkModeActivation(Scene scene) {
+	public void changeTheme(Scene scene) {
 		if (isInDarkMode) {
 			scene.getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
@@ -406,6 +389,23 @@ public class MenuController implements Initializable {
 
 	public static byte[] readAllBytesFromFile(FileInputStream file) throws IOException {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
+	}
+
+	public static boolean isInDarkMode() {
+		return isInDarkMode;
+	}
+
+	public static void setDarkModeOption(boolean darkMode) {
+		isInDarkMode = darkMode;
+	}
+
+	private String decrypt(String text){
+		// Decrypt with Cesar method
+		StringBuilder decrypted = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			decrypted.append((char) (text.charAt(i) - ENCRYPT_OFFSET));
+		}
+		return decrypted.toString();
 	}
 
 }

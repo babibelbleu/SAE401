@@ -13,8 +13,8 @@ public class MainEtudiant extends Application{
 	
 	public static Parent root;
 
-	public static double width;
-	public static double height;
+	private static double width;
+	private static double height;
 	
 	@Override
     public void start(Stage primaryStage) throws Exception{
@@ -37,5 +37,13 @@ public class MainEtudiant extends Application{
 
     public static void main(String[] args){
         launch(args);
+    }
+
+    public static double getWidth() {
+    	return width;
+    }
+
+    public static double getHeight() {
+    	return height;
     }
 }

@@ -72,7 +72,7 @@ public class SaveAfterOpenController implements Initializable{
 		changeFileName();
 	}
 	
-	//M�thode qui permet de quitter la popUp, un fois les TextFields remplis et de sauvegarder les infos
+	//M�thode qui permet de loadQuittingPage la popUp, un fois les TextFields remplis et de sauvegarder les infos
 	@FXML
 	public void exitRegisterExercicePopUp() {
 		studentLastName = firstName.getText();

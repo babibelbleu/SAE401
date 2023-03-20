@@ -77,7 +77,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text fx:id="RecupScene" fill="#0400ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue sur Reconstitution !" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+                  <Text fx:id="welcomeText" fill="#0400ff" strokeType="OUTSIDE" strokeWidth="0.0" text="Bienvenue sur Reconstitution !" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                      <font>
                         <Font size="36.0" />
                      </font>
@@ -135,21 +135,21 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="Exercice">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#pageNouvelExo" text="Créer un exercice" />
-                                <MenuItem mnemonicParsing="false" onAction="#ouvrir" text="Ouvrir un exercice" />
+                                <MenuItem mnemonicParsing="false" onAction="#loadExercise" text="Créer un exercice" />
+                                <MenuItem mnemonicParsing="false" onAction="#openExercise" text="Ouvrir un exercice" />
                                 <SeparatorMenuItem mnemonicParsing="false" />
-                                <MenuItem mnemonicParsing="false" onAction="#quitter" text="Quitter" />
+                                <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Quitter" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Aide">
                             <items>
-                                <MenuItem mnemonicParsing="false" onAction="#tuto" text="Tutoriel" />
-                                <MenuItem mnemonicParsing="false" onAction="#aPropos" text="A propos" />
+                                <MenuItem mnemonicParsing="false" onAction="#loadUserManual" text="Tutoriel" />
+                                <MenuItem mnemonicParsing="false" onAction="#loadAboutPage" text="A propos" />
                             </items>
                         </Menu>
                         <Menu mnemonicParsing="false" text="Paramètres">
                             <items>
-                                <CheckMenuItem fx:id="dark" mnemonicParsing="false" onAction="#darkMode" text="Mode Sombre" />
+                                <CheckMenuItem fx:id="darkModeMenuSelection" mnemonicParsing="false" onAction="#setDarkMode" text="Mode Sombre" />
                             </items></Menu>
                     </menus>
                     <VBox.margin>
