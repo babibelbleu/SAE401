@@ -60,6 +60,7 @@ public class ExerciseController implements Initializable {
 
 	//TextFields et autre composants qui contiennent les informations de l'exercice
 	@FXML private TextArea transcription;
+	@FXML private Label propositionLabelText;
 	@FXML private TextArea instruction;
 	@FXML private ImageView thumbnailContainerMp3;
 	@FXML private MediaView mediaContainer;
@@ -466,6 +467,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	private void verify(String text) throws IOException {
+		propositionLabelText.setTextFill(Color.RED);
 		if (text == null) {
 			return;
 		}
@@ -478,9 +480,12 @@ public class ExerciseController implements Initializable {
 			if (clearMatcher.find() && clearMatcher.group(0).toLowerCase().equals(text.toLowerCase())) {
 				if (MenuController.getOptions().get("caseSensitiveOption").isActive() == true && !clearMatcher.group(0).equals(text))
 				{
+					propositionLabelText.setTextFill(Color.RED);
 					continue;
 				}
 				encrypted[i] = clear[i];
+				propositionLabelText.setTextFill(Color.GREEN);
+
 			}
 
 			Pattern numberCharPattern = Pattern.compile(".{4,}");
@@ -725,6 +730,8 @@ public class ExerciseController implements Initializable {
 				try {
 					verify(userPropositionWord.getText());
 					userPropositionWord.setText("");
+
+
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
