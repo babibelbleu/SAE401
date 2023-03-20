@@ -251,7 +251,7 @@
                   <Image url="@../../images/help_black.png" />
                </image>
                <GridPane.margin>
-                  <Insets bottom="145.0" left="241.0" />
+                  <Insets bottom="145.0" left="240.0" />
                </GridPane.margin>
             </ImageView>
             <ImageView fx:id="alertSolution" fitHeight="23.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">

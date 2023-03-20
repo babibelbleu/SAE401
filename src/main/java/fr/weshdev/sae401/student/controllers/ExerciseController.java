@@ -686,7 +686,7 @@ public class ExerciseController implements Initializable {
 		tooltip.setShowDelay(Duration.millis(0));
 		tooltip.setShowDuration(Duration.millis(5000));
 		Tooltip.install(helpProposition, tooltip);
-		int wallahram;
+
 	}
 
 
