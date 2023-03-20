@@ -353,7 +353,7 @@ public class ExerciseController implements Initializable {
 		return false;
 	}
 
-	//M�thode qui permet de se rendre au manuel utilisateur == tuto
+	//M�thode qui permet de se rendre au manuel utilisateur == loadUserManual
 	@FXML
 	public void tuto() throws IOException {
 

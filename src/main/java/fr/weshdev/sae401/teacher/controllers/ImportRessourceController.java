@@ -390,7 +390,7 @@ public class ImportRessourceController implements Initializable {
 
 	}
 	
-	//Méthode qui permet de se rendre au manuel utilisateur == tuto
+	//Méthode qui permet de se rendre au manuel utilisateur == loadUserManual
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		

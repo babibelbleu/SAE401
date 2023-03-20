@@ -25,6 +25,8 @@ import java.util.*;
 import java.util.List;
 
 public class MenuController implements Initializable {
+
+	private static final int ENCRYPT_OFFSET = 3;
 	@FXML
 	private Text welcomeText;
 	@FXML
@@ -32,7 +34,7 @@ public class MenuController implements Initializable {
 	@FXML
 	private CheckMenuItem darkModeMenuSelection;
 
-	public static boolean isInDarkMode = false;
+	private static boolean isInDarkMode = false;
 
 	private static HashMap <String, Option> options = new HashMap<>();
 
@@ -165,11 +167,11 @@ public class MenuController implements Initializable {
 		FileInputStream encodedExerciseFile = new FileInputStream(file);
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+		exerciseOrder = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
 		ExerciseController.instructionContent = exerciseOrder;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+		exerciseTranscription = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
 		ExerciseController.transcriptionContent = exerciseTranscription;
 
 		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
@@ -181,14 +183,7 @@ public class MenuController implements Initializable {
 
 		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-		if(isCaseSensitive == 1) {
-			options.get("caseSensitiveOption").setActive(true);
-
-
-		} else {
-			options.get("caseSensitiveOption").setActive(false);
-
-		}
+		options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
 
 		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
@@ -287,7 +282,7 @@ public class MenuController implements Initializable {
 	}
 
 	@FXML
-	public void retourMenu() throws IOException {
+	public void loadMenu() throws IOException {
 		Stage primaryStage = (Stage) aboutText.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
 		Scene scene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight());
@@ -393,6 +388,23 @@ public class MenuController implements Initializable {
 
 	public static byte[] readAllBytesFromFile(FileInputStream file) throws IOException {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
+	}
+
+	public static boolean isInDarkMode() {
+		return isInDarkMode;
+	}
+
+	public static void setDarkModeOption(boolean darkMode) {
+		isInDarkMode = darkMode;
+	}
+
+	private String decrypt(String text){
+		// Decrypt with Cesar method
+		StringBuilder decrypted = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			decrypted.append((char) (text.charAt(i) - ENCRYPT_OFFSET));
+		}
+		return decrypted.toString();
 	}
 
 }

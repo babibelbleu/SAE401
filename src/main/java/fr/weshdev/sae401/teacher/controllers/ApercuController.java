@@ -39,6 +39,8 @@ import java.util.ResourceBundle;
 
 public class ApercuController implements Initializable {
 
+	private static final int ENCRYPT_OFFSET = 3;
+
 	// Page Apercu
 	@FXML
 	private TextField texteConsigne;
@@ -93,12 +95,12 @@ public class ApercuController implements Initializable {
 		// informations sont conserv�es
 		// Consigne
 		if (contenuConsigne != null) {
-			texteConsigne.setText(contenuConsigne);
+			texteConsigne.setText(decrypt(contenuConsigne));
 		}
 
 		// Transcription
 		if (contenuTranscription != null) {
-			texteTranscription.setText(contenuTranscription);
+			texteTranscription.setText(decrypt(contenuTranscription));
 		}
 
 		// Aide
@@ -227,7 +229,7 @@ public class ApercuController implements Initializable {
 		primaryStage.show();
 	}
 
-	//M�thode qui permet de se rendre au manuel utilisateur == tuto
+	//M�thode qui permet de se rendre au manuel utilisateur == loadUserManual
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
@@ -267,9 +269,9 @@ public class ApercuController implements Initializable {
 	@FXML
 	public void pageOptions(ActionEvent event) throws IOException {
 		// Quand on passe � la page suivante, on r�ucp�re les informations des
-		// TextFields
-		contenuConsigne = texteConsigne.getText();
-		contenuTranscription = texteTranscription.getText();
+		// TextFields.
+		contenuConsigne = encrypt(texteConsigne.getText());
+		contenuTranscription = encrypt(texteTranscription.getText());
 		contenuAide = texteAide.getText();
 
 		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
@@ -289,13 +291,13 @@ public class ApercuController implements Initializable {
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			okApercu.getScene().getStylesheets()
 					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			AccueilController.isDark = true;
+			AccueilController.setDarkModeOption(true);
 		} else {
 			okApercu.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			okApercu.getScene().getStylesheets().addAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			AccueilController.isDark = false;
+			AccueilController.setDarkModeOption(false);
 		}
 
 	}
@@ -303,7 +305,7 @@ public class ApercuController implements Initializable {
 	// M�thode qui regarde si le setDarkMode est actif et l'applique en cons�quence �
 	// la scene
 	public void darkModeActivation(Scene scene) {
-		if (AccueilController.isDark) {
+		if (AccueilController.isInDarkMode()) {
 			scene.getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets()
@@ -316,6 +318,24 @@ public class ApercuController implements Initializable {
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			dark.setSelected(false);
 		}
+	}
+
+	private String encrypt(String text){
+		// Encrypt with Cesar method
+		StringBuilder encrypted = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			encrypted.append((char) (text.charAt(i) + ENCRYPT_OFFSET));
+		}
+		return encrypted.toString();
+	}
+
+	private String decrypt(String text){
+		// Decrypt with Cesar method
+		StringBuilder decrypted = new StringBuilder();
+		for (int i = 0; i < text.length(); i++) {
+			decrypted.append((char) (text.charAt(i) - ENCRYPT_OFFSET));
+		}
+		return decrypted.toString();
 	}
 
 }

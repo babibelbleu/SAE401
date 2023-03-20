@@ -55,7 +55,7 @@
             <Image url="@../../images/vincent.jpg" />
          </image>
       </ImageView>
-      <Label fx:id="recupScene" text="A Propos" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <Label text="A Propos" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <font>
             <Font name="Calibri Bold" size="36.0" />
          </font>
@@ -118,7 +118,7 @@
             <Insets />
          </GridPane.margin>
       </ImageView>
-      <Button mnemonicParsing="false" onAction="#retourMenu" prefHeight="26.0" prefWidth="100.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Quitter" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+      <Button mnemonicParsing="false" onAction="#loadMenu" prefHeight="26.0" prefWidth="100.0" style="-fx-border-color: black; -fx-border-radius: 10; -fx-background-radius: 10;" text="Quitter" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
          <GridPane.margin>
             <Insets bottom="30.0" right="10.0" />
          </GridPane.margin>

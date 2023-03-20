@@ -120,7 +120,7 @@ public class NewExerciseController implements Initializable{
 		primaryStage.show();
 	}
 	
-	//Méthode qui permet de se rendre au manuel utilisateur == tuto
+	//Méthode qui permet de se rendre au manuel utilisateur == loadUserManual
 	@FXML
 	public void tuto() throws MalformedURLException, IOException, URISyntaxException {
 		
