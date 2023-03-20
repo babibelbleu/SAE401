@@ -21,6 +21,7 @@ import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.List;
 
@@ -181,6 +182,7 @@ public class MenuController implements Initializable {
 
 		replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
 		ExerciseController.hidddenChar = replacingChar;
+
 
 		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
@@ -384,7 +386,9 @@ public class MenuController implements Initializable {
 			remainingBytes -= count;
 		}
 
-		return finalBuffer;
+		Charset utf8 = Charset.forName("UTF-8");
+		String str = new String(finalBuffer, utf8);
+		return str.getBytes(utf8);
 	}
 
 	public static byte[] readAllBytesFromFile(FileInputStream file) throws IOException {

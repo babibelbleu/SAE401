@@ -58,6 +58,8 @@ public class ExerciseController implements Initializable {
 
 	public static Image imageContent;
 
+	public double scrollBarState;
+
 	//TextFields et autre composants qui contiennent les informations de l'exercice
 	@FXML private TextArea transcription;
 	@FXML private Label propositionLabelText;
@@ -467,6 +469,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	private void verify(String text) throws IOException {
+		scrollBarState = transcription.getScrollTop();
 		propositionLabelText.setTextFill(Color.RED);
 		if (text == null) {
 			return;
@@ -500,6 +503,7 @@ public class ExerciseController implements Initializable {
 				}
 				encrypted[i] += clear[i].substring(clearMatcher.group(0).length());
 			}
+
 		}
 		encryptedText = "";
 		int length =0;
@@ -544,6 +548,7 @@ public class ExerciseController implements Initializable {
 		}
 
 		transcription.setText(encryptedText);
+		transcription.setScrollTop(scrollBarState);
 	}
 
 

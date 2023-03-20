@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -28,19 +29,19 @@ public class FinalRegisterController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// Conteneurs en octets de la consigne
-		byte[] contenuConsigne = ApercuController.instructionContent.getBytes();
+		byte[] contenuConsigne = ApercuController.instructionContent.getBytes(StandardCharsets.UTF_8);
 		byte[] longueurConsigne = getLongueur(ApercuController.instructionContent);
 
 		// Conteneurs en octets de la transcription
-		byte[] contenuTranscription = ApercuController.transcriptionContent.getBytes();
+		byte[] contenuTranscription = ApercuController.transcriptionContent.getBytes(StandardCharsets.UTF_8);
 		byte[] longueurTranscription = getLongueur(ApercuController.transcriptionContent);
 
 		// Conteneurs en octets de l'aide
-		byte[] contenuAide = ApercuController.helpContent.getBytes();
+		byte[] contenuAide = ApercuController.helpContent.getBytes(StandardCharsets.UTF_8);
 		byte[] longueurAide = getLongueur(ApercuController.helpContent);
 
 		// Caract�re d'occultation
-		byte[] caraOccul = OptionsController.hiddenChar.getBytes();
+		byte[] caraOccul = OptionsController.hiddenChar.getBytes(StandardCharsets.UTF_8);
 
 		// Conteneurs du media
 		byte[] contenuMedia = null;
