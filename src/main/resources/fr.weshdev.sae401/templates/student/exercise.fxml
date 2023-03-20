@@ -230,7 +230,7 @@
                   <Insets bottom="145.0" right="200.0" />
                </GridPane.margin>
             </Label>
-            <ImageView fx:id="helpInstruction" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipInstructionEnter" onMouseExited="#tipInstructionExit" pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <ImageView fx:id="helpInstruction" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipsInstruction"  pickOnBounds="true" preserveRatio="true" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <image>
                   <Image url="@../../images/help_black.png" />
                </image>
@@ -238,7 +238,7 @@
                   <Insets left="340.0" top="50.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="helpTranscription" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipTranscriptionEnter" onMouseExited="#tipTranscriptionExit" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
+            <ImageView fx:id="helpTranscription" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipsTranscription"  pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="TOP">
                <image>
                   <Image url="@../../images/help_black.png" />
                </image>
@@ -246,7 +246,7 @@
                   <Insets left="250.0" top="50.0" />
                </GridPane.margin>
             </ImageView>
-            <ImageView fx:id="helpProposition" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipPropositionEnter" onMouseExited="#tipPropositionExit" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+            <ImageView fx:id="helpProposition" fitHeight="35.0" fitWidth="20.0" onMouseEntered="#tipsProposition"  pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                <image>
                   <Image url="@../../images/help_black.png" />
                </image>

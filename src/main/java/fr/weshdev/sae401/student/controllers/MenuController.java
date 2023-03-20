@@ -86,6 +86,7 @@ public class MenuController implements Initializable {
 
 	@FXML
 	public void openExercise() throws IOException {
+
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Ouvrez votre exercice");
 

@@ -90,10 +90,11 @@ public class ExerciseController implements Initializable {
 	@FXML private Button solutionButton;
 	@FXML private ImageView alertSolution;
 
-	//Listes des mots pour l'�tudiant
-	private final ArrayList<String> lesMots = new ArrayList<>();
-	private final ArrayList<String> lesMotsSensiCasse = new ArrayList<>();
-	private final ArrayList<Integer> estDecouvert = new ArrayList<>();
+
+
+	private final ArrayList<String> wordExerciceList = new ArrayList<>();
+	private final ArrayList<String> sensivityCaseWordList = new ArrayList<>();
+	private final ArrayList<Integer> discoveredWordList = new ArrayList<>();
 	private String encryptedText;
 	
 	public String getEncryptedText() {
@@ -135,18 +136,18 @@ public class ExerciseController implements Initializable {
 
 
 
-		//On initialise la liste estDecouvert
-		for(String w : lesMots) {
+		//On initialise la liste discoveredWordList
+		for(String w : wordExerciceList) {
 			if(checkStringContainsPunctuation(w)) {
-				estDecouvert.add(1);
+				discoveredWordList.add(1);
 			} else {
-				estDecouvert.add(0);
+				discoveredWordList.add(0);
 			}
 		}
 
 		//On passe les mots comparatifs en minuscule dans une autre liste
-		for(String word : lesMots) {
-			lesMotsSensiCasse.add(word.toLowerCase());
+		for(String word : wordExerciceList) {
+			sensivityCaseWordList.add(word.toLowerCase());
 
 			if(!checkStringContainsPunctuation(word)) {
 				totalNbWord++;
@@ -660,57 +661,35 @@ public class ExerciseController implements Initializable {
 		darkModeActivation(scene);
 		stage.show();
 	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////////
-	//M�thode pour affiicher une toolTip instruction + redimension d'image
 	@FXML
-	public void tipInstructionEnter() {
-		Tooltip t = new Tooltip("Il s'agit de la instruction donn�e par le professeur");
-		helpInstruction.setFitWidth(helpInstruction.getFitWidth() + 2);
-		helpInstruction.setFitHeight(helpInstruction.getFitHeight() + 2);
-		Tooltip.install(helpInstruction, t);
+	public void tipsInstruction() {
+		Tooltip tooltip = new Tooltip();
+		tooltip.setText("Lisez bien la consigne du professeur ");
+		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
+		tooltip.setShowDelay(Duration.millis(0));
+		tooltip.setShowDuration(Duration.millis(5000));
+		Tooltip.install(helpInstruction, tooltip);
+	}
+	public void tipsTranscription() {
+		Tooltip tooltip = new Tooltip();
+		tooltip.setText("Transcrivez le texte en respectant la ponctuation et les majuscules");
+		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
+		tooltip.setShowDelay(Duration.millis(0));
+		tooltip.setShowDuration(Duration.millis(5000));
+		Tooltip.install(helpTranscription, tooltip);
+
+	}
+	public void tipsProposition(){
+		Tooltip tooltip = new Tooltip();
+		tooltip.setText("Proposez des mots qui correspondent au texte");
+		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
+		tooltip.setShowDelay(Duration.millis(0));
+		tooltip.setShowDuration(Duration.millis(5000));
+		Tooltip.install(helpProposition, tooltip);
 	}
 
-	//M�thode pour redimensionner l'image de la instruction quand on sort du champ
-	@FXML
-	public void tipInstructionExit() {
-		helpInstruction.setFitWidth(helpInstruction.getFitWidth() - 2);
-		helpInstruction.setFitHeight(helpInstruction.getFitHeight() - 2);
-	}
 
-	//M�thode pour affiicher une toolTip transcription + redimension d'image
-	@FXML
-	public void tipTranscriptionEnter() {
-		Tooltip t = new Tooltip("Il s'agit du script de la vid�o que vous devez essayer de retrouver");
-		helpTranscription.setFitWidth(helpTranscription.getFitWidth() + 2);
-		helpTranscription.setFitHeight(helpTranscription.getFitHeight() + 2);
-		Tooltip.install(helpTranscription, t);
-	}
 
-	//M�thode pour redimensionner l'image de la transcription quand on sort du champ
-	@FXML
-	public void tipTranscriptionExit() {
-		helpTranscription.setFitWidth(helpTranscription.getFitWidth() - 2);
-		helpTranscription.setFitHeight(helpTranscription.getFitHeight() - 2);
-	}
-
-	//M�thode pour affiicher une toolTip transcription + redimension d'image
-	@FXML
-	public void tipPropositionEnter() {
-		Tooltip t = new Tooltip("Rentrez ici les mots que vous pensez entendre dans le document audio ou vid�o");
-		helpProposition.setFitWidth(helpProposition.getFitWidth() + 2);
-		helpProposition.setFitHeight(helpProposition.getFitHeight() + 2);
-		Tooltip.install(helpProposition, t);
-	}
-
-	//M�thode pour redimensionner l'image de la transcription quand on sort du champ
-	@FXML
-	public void tipPropositionExit() {
-		helpProposition.setFitWidth(helpProposition.getFitWidth() - 2);
-		helpProposition.setFitHeight(helpProposition.getFitHeight() - 2);
-	}
-
-	//M�thode pour passer ou non le darkMode
 	@FXML
 	public  void darkMode() {
 
