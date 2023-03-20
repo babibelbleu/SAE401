@@ -41,7 +41,7 @@
 						</Menu>
 						<Menu mnemonicParsing="false" text="Paramètres">
                <items>
-                  <CheckMenuItem fx:id="dark" mnemonicParsing="false" onAction="#darkMode" text="Mode Sombre" />
+                  <CheckMenuItem fx:id="darkModeMenuSelection" mnemonicParsing="false" onAction="#darkMode" text="Mode Sombre" />
                </items>
             </Menu>
 					</menus>
@@ -72,7 +72,7 @@
                         <Insets bottom="380.0" right="380.0" />
                      </GridPane.margin>
                   </Label>
-                  <TextField fx:id="texteAide" alignment="TOP_LEFT" prefHeight="54.0" prefWidth="480.0" promptText="Mettez les aides ici (non obligatoire). Elles ne sont pas disponible en mode évaluation" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
+                  <TextField fx:id="helpText" alignment="TOP_LEFT" prefHeight="54.0" prefWidth="480.0" promptText="Mettez les aides ici (non obligatoire). Elles ne sont pas disponible en mode évaluation" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="95.0" left="40.0" right="80.0" />
                      </GridPane.margin>
@@ -80,7 +80,7 @@
                         <Font size="14.0" />
                      </font>
                   </TextField>
-                  <TextField fx:id="texteConsigne" alignment="TOP_LEFT" prefHeight="48.0" promptText="Mettez votre consigne ici" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <TextField fx:id="instructionText" alignment="TOP_LEFT" prefHeight="48.0" promptText="Mettez votre consigne ici" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets left="40.0" right="80.0" top="50.0" />
                      </GridPane.margin>
@@ -112,17 +112,17 @@
                         <Insets bottom="150.0" left="40.0" />
                      </GridPane.margin>
                   </Label>
-                  <MediaView fx:id="MediaViewApercu" fitHeight="240.0" fitWidth="460.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <MediaView fx:id="apercuMediaView" fitHeight="240.0" fitWidth="460.0" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets top="150.0" />
                      </GridPane.margin>
                   </MediaView>
-                  <ImageView fx:id="imageViewApercu" fitHeight="240.0" fitWidth="460.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                  <ImageView fx:id="apercuImageView" fitHeight="240.0" fitWidth="460.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                      <GridPane.margin>
                         <Insets top="150.0" />
                      </GridPane.margin>
                   </ImageView>
-                  <Button fx:id="okApercu" alignment="CENTER" mnemonicParsing="false" onAction="#pageOptions" prefHeight="25.0" prefWidth="120.0" text="Continuer" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
+                  <Button fx:id="nextPageButton" alignment="CENTER" mnemonicParsing="false" onAction="#pageOptions" prefHeight="25.0" prefWidth="120.0" text="Continuer" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="BOTTOM">
                      <GridPane.margin>
                         <Insets bottom="20.0" right="20.0" />
                      </GridPane.margin>
@@ -138,7 +138,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <TextArea fx:id="texteTranscription" promptText="Mettez le script ici !" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <TextArea fx:id="transcriptionText" promptText="Mettez le script ici !" wrapText="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets bottom="220.0" left="40.0" right="80.0" top="165.0" />
                      </GridPane.margin>
@@ -151,18 +151,18 @@
                         <Insets right="400.0" top="280.0" />
                      </GridPane.margin>
                      <graphic>
-                        <ImageView fx:id="playPauseVideo" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="videoStatusImageView" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/play.png" />
                            </image></ImageView>
                      </graphic>
                   </Button>
-                  <Slider fx:id="progressBar" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="260.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Slider fx:id="videoProgressBar" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="260.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="140.0" right="200.0" top="280.0" />
                      </GridPane.margin>
                   </Slider>
-                  <ImageView fx:id="son" fitHeight="29.0" fitWidth="62.0" onMouseClicked="#sonCoupe" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <ImageView fx:id="soundImage" fitHeight="29.0" fitWidth="62.0" onMouseClicked="#sonCoupe" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="260.0" right="20.0" top="280.0" />
                      </GridPane.margin>
@@ -170,7 +170,7 @@
                         <Image url="@../../images/volume.png" />
                      </image>
                   </ImageView>
-                  <Slider fx:id="sliderSon" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" value="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                  <Slider fx:id="soundSlider" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="14.0" prefWidth="75.0" value="100.0" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                      <GridPane.margin>
                         <Insets left="450.0" right="70.0" top="280.0" />
                      </GridPane.margin>

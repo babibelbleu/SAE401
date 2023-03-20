@@ -63,12 +63,12 @@ public class ImportRessourceController implements Initializable {
 	
 	@FXML private ImageView playPauseVideo;
 
-	public static Media contenuMedia;
-	public static Image contenuImage;
+	private static Media contenuMedia;
+	private static Image contenuImage;
 
 	@FXML private CheckMenuItem dark;
-	public static String cheminVideo = "";
-	public static String cheminImg = "";
+	private static String cheminVideo = "";
+	private static String cheminImg = "";
 
 	// Méthode d'initialisation de la page
 	@Override
@@ -338,18 +338,18 @@ public class ImportRessourceController implements Initializable {
 		if(dark.isSelected()) {
 			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			okImport.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			AccueilController.isDark = true;
+			AccueilController.setDarkModeOption(true);
 		} else {
 			okImport.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			okImport.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			AccueilController.isDark = false;
+			AccueilController.setDarkModeOption(false);
 		}
 
 	}
 
 	//Méthode qui regarde si le setDarkMode est actif et l'applique en conséquence à la scene
 	public void darkModeActivation(Scene scene) {
-		if(AccueilController.isDark) {
+		if(AccueilController.isInDarkMode()) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			dark.setSelected(true);
@@ -432,4 +432,21 @@ public class ImportRessourceController implements Initializable {
 		primaryStage.show();
 
 	}
+
+	public static Media getContenuMedia() {
+		return contenuMedia;
+	}
+
+	public static Image getContenuImage() {
+		return contenuImage;
+	}
+
+	public static String getCheminVideo() {
+		return cheminVideo;
+	}
+
+	public static String getCheminImg() {
+		return cheminImg;
+	}
+
 }

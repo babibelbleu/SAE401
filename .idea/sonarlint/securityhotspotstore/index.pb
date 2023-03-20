@@ -37,8 +37,6 @@ p
 @src/main/resources/fr.weshdev.sae401/templates/student/menu.fxml,a\8\a8dcb1b102b4a7718344e756e0632e32e5aa71cd
 4
 mvnw,5\d\5d837c4ed85ecaaf932c506e80ff5d7b9f3d590d
-‚
-Rsrc/main/java/fr/weshdev/sae401/teacher/controllers/ImportRessourceController.java,8\f\8fa0e57c0fa1a5e15a7daa4f6be9b250143fbbf6
 N
 src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
 v

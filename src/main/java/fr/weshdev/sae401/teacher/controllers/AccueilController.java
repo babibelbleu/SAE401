@@ -306,9 +306,9 @@ public class AccueilController implements Initializable {
 		NewExerciseController.contenuRepertoire = null;
 		ImportRessourceController.contenuMedia = null;
 		ImportRessourceController.contenuImage = null;
-		ApercuController.contenuAide = null;
-		ApercuController.contenuConsigne = null;
-		ApercuController.contenuTranscription = null;
+		ApercuController.helpContent = null;
+		ApercuController.instructionContent = null;
+		ApercuController.transcriptionContent = null;
 		OptionsController.hiddenChar = null;
 		OptionsController.isCaseSensitive = false;
 		OptionsController.isInTrainingMode = false;

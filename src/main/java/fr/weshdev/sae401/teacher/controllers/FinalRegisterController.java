@@ -28,16 +28,16 @@ public class FinalRegisterController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// Conteneurs en octets de la consigne
-		byte[] contenuConsigne = ApercuController.contenuConsigne.getBytes();
-		byte[] longueurConsigne = getLongueur(ApercuController.contenuConsigne);
+		byte[] contenuConsigne = ApercuController.instructionContent.getBytes();
+		byte[] longueurConsigne = getLongueur(ApercuController.instructionContent);
 
 		// Conteneurs en octets de la transcription
-		byte[] contenuTranscription = ApercuController.contenuTranscription.getBytes();
-		byte[] longueurTranscription = getLongueur(ApercuController.contenuTranscription);
+		byte[] contenuTranscription = ApercuController.transcriptionContent.getBytes();
+		byte[] longueurTranscription = getLongueur(ApercuController.transcriptionContent);
 
 		// Conteneurs en octets de l'aide
-		byte[] contenuAide = ApercuController.contenuAide.getBytes();
-		byte[] longueurAide = getLongueur(ApercuController.contenuAide);
+		byte[] contenuAide = ApercuController.helpContent.getBytes();
+		byte[] longueurAide = getLongueur(ApercuController.helpContent);
 
 		// Caract�re d'occultation
 		byte[] caraOccul = OptionsController.hiddenChar.getBytes();
@@ -53,12 +53,12 @@ public class FinalRegisterController implements Initializable {
 		// On r�cup�re le media / image et on lui demande sa taille
 		try {
 			
-			FileInputStream fus = new FileInputStream(ImportRessourceController.cheminVideo);
+			FileInputStream fus = new FileInputStream(ImportRessourceController.getCheminVideo());
 			contenuMedia = readAllBytes(fus);
 			longueurMedia = ByteBuffer.allocate(8).putInt(contenuMedia.length).array();
 
-			if(ImportRessourceController.contenuImage != null) {
-				FileInputStream fusImg = new FileInputStream(ImportRessourceController.cheminImg);
+			if(ImportRessourceController.getContenuImage() != null) {
+				FileInputStream fusImg = new FileInputStream(ImportRessourceController.getCheminImg());
 				contenuImage = readAllBytes(fusImg);
 				longueurImage = ByteBuffer.allocate(8).putInt(contenuImage.length).array();
 			}
@@ -147,7 +147,7 @@ public class FinalRegisterController implements Initializable {
 			}
 
 			//S'il s'agit d'une extension mp3
-			if(getExtension(ImportRessourceController.contenuMedia.getSource()).compareTo(".mp3") == 0) {
+			if(getExtension(ImportRessourceController.getContenuMedia().getSource()).compareTo(".mp3") == 0) {
 				out.write(0);
 				out.write(longueurImage);
 				out.write(contenuImage);
@@ -174,9 +174,9 @@ public class FinalRegisterController implements Initializable {
 		NewExerciseController.contenuRepertoire = null;
 		ImportRessourceController.contenuMedia = null;
 		ImportRessourceController.contenuImage = null;
-		ApercuController.contenuAide = null;
-		ApercuController.contenuConsigne = null;
-		ApercuController.contenuTranscription = null;
+		ApercuController.helpContent = null;
+		ApercuController.instructionContent = null;
+		ApercuController.transcriptionContent = null;
 		OptionsController.hiddenChar = null;
 		OptionsController.isCaseSensitive = false;
 		OptionsController.isInTrainingMode = false;

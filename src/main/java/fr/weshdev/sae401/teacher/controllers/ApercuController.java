@@ -41,75 +41,72 @@ public class ApercuController implements Initializable {
 
 	private static final int ENCRYPT_OFFSET = 3;
 
-	// Page Apercu
 	@FXML
-	private TextField texteConsigne;
+	private TextField instructionText;
 	@FXML
-	private TextArea texteTranscription;
+	private TextArea transcriptionText;
 	@FXML
-	private TextField texteAide;
+	private TextField helpText;
 	@FXML
-	private MediaView MediaViewApercu;
-	@FXML
-	private Button okApercu;
-	@FXML
-	private ImageView imageViewApercu;
+	private MediaView apercuMediaView;
 
-	public static String contenuConsigne;
-	public static String contenuTranscription;
-	public static String contenuAide;
+	// Bouton "continuer"
+	@FXML
+	private Button nextPageButton;
+	@FXML
+	private ImageView apercuImageView;
+
+	public static String instructionContent;
+	public static String transcriptionContent;
+	public static String helpContent;
 
 	@FXML
-	private CheckMenuItem dark;
-
-	// Gestion du media (son + video)
+	private CheckMenuItem darkModeMenuSelection;
 	@FXML
-	private Button playPause;
+	private Slider videoProgressBar;
 	@FXML
-	private Slider progressBar;
+	private Slider soundSlider;
 	@FXML
-	private Slider sliderSon;
-	@FXML
-	private ImageView son;
-	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
-	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
-	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
-	Image pause = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
-	@FXML private ImageView playPauseVideo;
+	private ImageView soundImage;
+	Image cutSongImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
+	Image activeSoundImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
+	Image playImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
+	Image pauseImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
+	@FXML private ImageView videoStatusImageView;
 	
 	MediaPlayer mediaPlayer;
-	Media media = ImportRessourceController.contenuMedia;
+	Media media = ImportRessourceController.getContenuMedia();
 
 	// M�thode d'initialisation de la page
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// On met le media dans la preview
-		mediaPlayer = new MediaPlayer(ImportRessourceController.contenuMedia);
-		MediaViewApercu.setMediaPlayer(mediaPlayer);
+		mediaPlayer = new MediaPlayer(ImportRessourceController.getContenuMedia());
+		apercuMediaView.setMediaPlayer(mediaPlayer);
 
 		// On met l'image dans la preview
-		imageViewApercu.setImage(ImportRessourceController.contenuImage);
+		apercuImageView.setImage(ImportRessourceController.getContenuImage());
 
 		// Si les contenus ne sont pas null (lorsque l'enseignant fait retour), les
 		// informations sont conserv�es
 		// Consigne
-		if (contenuConsigne != null) {
-			texteConsigne.setText(decrypt(contenuConsigne));
+		if (instructionContent != null) {
+			instructionText.setText(decrypt(instructionContent));
 		}
 
 		// Transcription
-		if (contenuTranscription != null) {
-			texteTranscription.setText(decrypt(contenuTranscription));
+		if (transcriptionContent != null) {
+			transcriptionText.setText(decrypt(transcriptionContent));
 		}
 
 		// Aide
-		if (contenuAide != null) {
-			texteAide.setText(contenuAide);
+		if (helpContent != null) {
+			helpText.setText(helpContent);
 		}
 	}
 	
-	// Fonction qui permet � l'enseignant de visualiser sa video ou son son
+	// Fonction qui permet � l'enseignant de visualiser sa video ou soundImage soundImage
 		@FXML
 		public void playOrPause() {
 
@@ -118,36 +115,36 @@ public class ApercuController implements Initializable {
 			
 			if (mediaPlayer.getStatus() == Status.PAUSED || mediaPlayer.getStatus() == Status.READY) {
 				mediaPlayer.play();
-				playPauseVideo.setImage(pause);
+				videoStatusImageView.setImage(pauseImage);
 			} else {
 				mediaPlayer.pause();
-				playPauseVideo.setImage(play);
+				videoStatusImageView.setImage(playImage);
 			}
 		}
 		
 		public void sliderSonChange() {
 			// Change le volume sonore selon la valeur du slider
-			sliderSon.valueProperty().addListener((o -> {
-				mediaPlayer.setVolume(sliderSon.getValue() / 100.0); 
+			soundSlider.valueProperty().addListener((o -> {
+				mediaPlayer.setVolume(soundSlider.getValue() / 100.0);
 
-				if(sliderSon.getValue() == 0) {
-					son.setImage(sonCoupe);
+				if(soundSlider.getValue() == 0) {
+					soundImage.setImage(cutSongImage);
 				} else {
-					son.setImage(sonPasCoupe);
+					soundImage.setImage(activeSoundImage);
 				}
 			}));
 		}
 
-		//Fonction qui permet de mute le son
+		//Fonction qui permet de mute le soundImage
 		@FXML
 		public void sonCoupe(MouseEvent event) {
 
 			if(mediaPlayer.getVolume() != 0) {
-				son.setImage(sonCoupe);
+				soundImage.setImage(cutSongImage);
 				mediaPlayer.setVolume(0);
 			} else {
-				son.setImage(sonPasCoupe);
-				mediaPlayer.setVolume(sliderSon.getValue() / 100);
+				soundImage.setImage(activeSoundImage);
+				mediaPlayer.setVolume(soundSlider.getValue() / 100);
 			}
 
 		}
@@ -156,34 +153,34 @@ public class ApercuController implements Initializable {
 		public void sliderVideoChange() {
 
 			Duration total = media.getDuration();
-			progressBar.setMax(total.toSeconds());
+			videoProgressBar.setMax(total.toSeconds());
 
 			mediaPlayer.setOnReady(new Runnable() {
 				@Override
 				public void run() {
 					Duration total = media.getDuration();
-					progressBar.setMax(total.toSeconds());
+					videoProgressBar.setMax(total.toSeconds());
 				}
 			});
 
 			mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
 				@Override
 				public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-					progressBar.setValue(newValue.toSeconds());
+					videoProgressBar.setValue(newValue.toSeconds());
 				}
 			});
 
-			progressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
+			videoProgressBar.setOnMousePressed(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+					mediaPlayer.seek(Duration.seconds(videoProgressBar.getValue()));
 				}
 			});
 
-			progressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
+			videoProgressBar.setOnMouseDragged(new EventHandler<MouseEvent>() {
 				@Override
 				public void handle(MouseEvent event) {
-					mediaPlayer.seek(Duration.seconds(progressBar.getValue()));
+					mediaPlayer.seek(Duration.seconds(videoProgressBar.getValue()));
 				}
 			});
 			
@@ -221,7 +218,7 @@ public class ApercuController implements Initializable {
 		// R�initialisation des variables
 		AccueilController c = new AccueilController();
 		c.delete();
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) nextPageButton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -257,7 +254,7 @@ public class ApercuController implements Initializable {
 	// M�thode pour charger la page d'importation de ressource (bouton retour)
 	@FXML
 	public void pageImporterRessource(ActionEvent event) throws IOException {
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) nextPageButton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/import_ressource.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		darkModeActivation(scene);
@@ -270,11 +267,11 @@ public class ApercuController implements Initializable {
 	public void pageOptions(ActionEvent event) throws IOException {
 		// Quand on passe � la page suivante, on r�ucp�re les informations des
 		// TextFields.
-		contenuConsigne = encrypt(texteConsigne.getText());
-		contenuTranscription = encrypt(texteTranscription.getText());
-		contenuAide = texteAide.getText();
+		instructionContent = encrypt(instructionText.getText());
+		transcriptionContent = encrypt(transcriptionText.getText());
+		helpContent = helpText.getText();
 
-		Stage primaryStage = (Stage) okApercu.getScene().getWindow();
+		Stage primaryStage = (Stage) nextPageButton.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/options.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
@@ -286,16 +283,16 @@ public class ApercuController implements Initializable {
 	@FXML
 	public void darkMode() {
 
-		if (dark.isSelected()) {
-			okApercu.getScene().getStylesheets().removeAll(
+		if (darkModeMenuSelection.isSelected()) {
+			nextPageButton.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			okApercu.getScene().getStylesheets()
+			nextPageButton.getScene().getStylesheets()
 					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			AccueilController.setDarkModeOption(true);
 		} else {
-			okApercu.getScene().getStylesheets().removeAll(
+			nextPageButton.getScene().getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			okApercu.getScene().getStylesheets().addAll(
+			nextPageButton.getScene().getStylesheets().addAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			AccueilController.setDarkModeOption(false);
 		}
@@ -310,13 +307,13 @@ public class ApercuController implements Initializable {
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets()
 					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			dark.setSelected(true);
+			darkModeMenuSelection.setSelected(true);
 		} else {
 			scene.getStylesheets().removeAll(
 					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			scene.getStylesheets().addAll(
 					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			dark.setSelected(false);
+			darkModeMenuSelection.setSelected(false);
 		}
 	}
 
