@@ -151,7 +151,7 @@
                         <Insets right="400.0" top="280.0" />
                      </GridPane.margin>
                      <graphic>
-                        <ImageView fx:id="playPauseVideo" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="videoStatusImageView" fitHeight="39.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../../images/play.png" />
                            </image></ImageView>

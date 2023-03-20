@@ -405,7 +405,7 @@ public class ExerciseController implements Initializable {
 
 	//M�thode qui regarde si le setDarkMode est actif et l'applique en cons�quence � la scene
 	public void darkModeActivation(Scene scene) {
-		if(MenuController.isInDarkMode) {
+		if(MenuController.isInDarkMode()) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			darkMode.setSelected(true);
@@ -655,7 +655,7 @@ public class ExerciseController implements Initializable {
 	public void backToMenuClicked() throws IOException {
 		Stage stage = (Stage) alertSolution.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
-		Scene scene = new Scene(root,  MainEtudiant.width, MainEtudiant.height - 60);
+		Scene scene = new Scene(root,  MainEtudiant.getWidth(), MainEtudiant.getHeight() - 60);
 		stage.setScene(scene);
 		darkModeActivation(scene);
 		stage.show();

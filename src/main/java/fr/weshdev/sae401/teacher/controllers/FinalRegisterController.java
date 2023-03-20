@@ -53,12 +53,12 @@ public class FinalRegisterController implements Initializable {
 		// On r�cup�re le media / image et on lui demande sa taille
 		try {
 			
-			FileInputStream fus = new FileInputStream(ImportRessourceController.cheminVideo);
+			FileInputStream fus = new FileInputStream(ImportRessourceController.getCheminVideo());
 			contenuMedia = readAllBytes(fus);
 			longueurMedia = ByteBuffer.allocate(8).putInt(contenuMedia.length).array();
 
-			if(ImportRessourceController.contenuImage != null) {
-				FileInputStream fusImg = new FileInputStream(ImportRessourceController.cheminImg);
+			if(ImportRessourceController.getContenuImage() != null) {
+				FileInputStream fusImg = new FileInputStream(ImportRessourceController.getCheminImg());
 				contenuImage = readAllBytes(fusImg);
 				longueurImage = ByteBuffer.allocate(8).putInt(contenuImage.length).array();
 			}
@@ -147,7 +147,7 @@ public class FinalRegisterController implements Initializable {
 			}
 
 			//S'il s'agit d'une extension mp3
-			if(getExtension(ImportRessourceController.contenuMedia.getSource()).compareTo(".mp3") == 0) {
+			if(getExtension(ImportRessourceController.getContenuMedia().getSource()).compareTo(".mp3") == 0) {
 				out.write(0);
 				out.write(longueurImage);
 				out.write(contenuImage);

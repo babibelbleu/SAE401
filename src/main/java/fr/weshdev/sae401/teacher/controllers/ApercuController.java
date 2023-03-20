@@ -68,25 +68,25 @@ public class ApercuController implements Initializable {
 	private Slider soundSlider;
 	@FXML
 	private ImageView soundImage;
-	Image sonCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
-	Image sonPasCoupe = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
-	Image play = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
-	Image pause = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
-	@FXML private ImageView playPauseVideo;
+	Image cutSongImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume_cut.png").toExternalForm());
+	Image activeSoundImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/volume.png").toExternalForm());
+	Image playImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/play.png").toExternalForm());
+	Image pauseImage = new Image(getClass().getResource("/fr.weshdev.sae401/images/pause.png").toExternalForm());
+	@FXML private ImageView videoStatusImageView;
 	
 	MediaPlayer mediaPlayer;
-	Media media = ImportRessourceController.contenuMedia;
+	Media media = ImportRessourceController.getContenuMedia();
 
 	// M�thode d'initialisation de la page
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// On met le media dans la preview
-		mediaPlayer = new MediaPlayer(ImportRessourceController.contenuMedia);
+		mediaPlayer = new MediaPlayer(ImportRessourceController.getContenuMedia());
 		apercuMediaView.setMediaPlayer(mediaPlayer);
 
 		// On met l'image dans la preview
-		apercuImageView.setImage(ImportRessourceController.contenuImage);
+		apercuImageView.setImage(ImportRessourceController.getContenuImage());
 
 		// Si les contenus ne sont pas null (lorsque l'enseignant fait retour), les
 		// informations sont conserv�es
@@ -115,10 +115,10 @@ public class ApercuController implements Initializable {
 			
 			if (mediaPlayer.getStatus() == Status.PAUSED || mediaPlayer.getStatus() == Status.READY) {
 				mediaPlayer.play();
-				playPauseVideo.setImage(pause);
+				videoStatusImageView.setImage(pauseImage);
 			} else {
 				mediaPlayer.pause();
-				playPauseVideo.setImage(play);
+				videoStatusImageView.setImage(playImage);
 			}
 		}
 		
@@ -128,9 +128,9 @@ public class ApercuController implements Initializable {
 				mediaPlayer.setVolume(soundSlider.getValue() / 100.0);
 
 				if(soundSlider.getValue() == 0) {
-					soundImage.setImage(sonCoupe);
+					soundImage.setImage(cutSongImage);
 				} else {
-					soundImage.setImage(sonPasCoupe);
+					soundImage.setImage(activeSoundImage);
 				}
 			}));
 		}
@@ -140,10 +140,10 @@ public class ApercuController implements Initializable {
 		public void sonCoupe(MouseEvent event) {
 
 			if(mediaPlayer.getVolume() != 0) {
-				soundImage.setImage(sonCoupe);
+				soundImage.setImage(cutSongImage);
 				mediaPlayer.setVolume(0);
 			} else {
-				soundImage.setImage(sonPasCoupe);
+				soundImage.setImage(activeSoundImage);
 				mediaPlayer.setVolume(soundSlider.getValue() / 100);
 			}
 
