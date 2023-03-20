@@ -14,31 +14,31 @@ public class SolutionController implements Initializable {
 
 	// Solution
 	@FXML
-	private TextFlow solution;
+	private TextFlow solutionContainer;
 	@FXML
-	private Button closeSol;
+	private Button exitPopUpButton;
 
-	ExerciseController c = MenuController.getC();
+	ExerciseController exerciseController = MenuController.getController();
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		String[] encrypted = c.getEncryptedText().split("[ \\t\\n\\x0B\\f\\r]");
-		String[] clear = c.getClearText().split("[ \\t\\n\\x0B\\f\\r]");
+		String[] encryptedText = exerciseController.getEncryptedText().split("[ \\t\\n\\x0B\\f\\r]");
+		String[] clearText = exerciseController.getClearText().split("[ \\t\\n\\x0B\\f\\r]");
 		int length = 0;
-		for (int i = 0; i < clear.length; i++) {
-			Text t = new Text(clear[i]);
-			if (clear[i].equals(encrypted[i])) {
+		for (int i = 0; i < clearText.length; i++) {
+			Text t = new Text(clearText[i]);
+			if (clearText[i].equals(encryptedText[i])) {
 				t.setFill(Color.GREEN);
 			}else {
 				t.setFill(Color.RED);
 			}
-			solution.getChildren().add(t);
-			if (length + clear[i].length() < c.getClearText().length()) {
-				length += clear[i].length();
+			solutionContainer.getChildren().add(t);
+			if (length + clearText[i].length() < exerciseController.getClearText().length()) {
+				length += clearText[i].length();
 			}
-			if (Character.isWhitespace(c.getClearText().charAt(length)) || Character.isSpaceChar(c.getClearText().charAt(length))) {
-				solution.getChildren().add(new Text(""+c.getClearText().charAt(length)));
+			if (Character.isWhitespace(exerciseController.getClearText().charAt(length)) || Character.isSpaceChar(exerciseController.getClearText().charAt(length))) {
+				solutionContainer.getChildren().add(new Text(""+ exerciseController.getClearText().charAt(length)));
 			}
 			length++;
 		}
@@ -46,8 +46,8 @@ public class SolutionController implements Initializable {
 	}
 
 	@FXML
-	public void closeSolution() {
-		closeSol.getScene().getWindow().hide();
+	public void hideSolutionPopUp() {
+		exitPopUpButton.getScene().getWindow().hide();
 	}
 
 }

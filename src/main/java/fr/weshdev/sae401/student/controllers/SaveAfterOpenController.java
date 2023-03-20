@@ -1,7 +1,5 @@
 package fr.weshdev.sae401.student.controllers;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -14,50 +12,46 @@ import java.util.ResourceBundle;
 
 public class SaveAfterOpenController implements Initializable{
 
-	@FXML private TextField nom;
-	@FXML private TextField prenom;
-	@FXML private TextField repertoire;
-	@FXML private TextField nomFichier;
-	@FXML private Button preEnregistrement;
+	@FXML private TextField firstName;
+	@FXML private TextField lastName;
+	@FXML private TextField directory;
+	@FXML private TextField fileName;
+	@FXML private Button validateRegisterButton;
 	
 	//Variables pour stocker les informations relatives � l'etudiant
-	public static String nomEtudiant;
-	public static String prenEtudiant;
-	public static String repertoireEtudiant;
-	public static String nomExo;
+	public static String studentLastName;
+	public static String studentFirstName;
+	public static String studentDirectory;
+	public static String exerciceName;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		//Listener, tant qu'un TextField est vide, le bouton n'est pas disponible
 		//Pour le TextField du nom de l'�tudiant
-		nom.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String arg2) {
-				if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
-					preEnregistrement.setDisable(true);
-				} else {
-					preEnregistrement.setDisable(false);
-				}
+		firstName.textProperty().addListener(event -> {
+			if(firstName.getText().isEmpty() || lastName.getText().isEmpty() || directory.getText().isEmpty()) {
+				validateRegisterButton.setDisable(true);
+			} else {
+				validateRegisterButton.setDisable(false);
 			}
 		});
 		
 		//Pour le TextField du pr�nom de l'�tudiant
-		prenom.textProperty().addListener(event -> {
-			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
-				preEnregistrement.setDisable(true);
+		lastName.textProperty().addListener(event -> {
+			if(firstName.getText().isEmpty() || lastName.getText().isEmpty() || directory.getText().isEmpty()) {
+				validateRegisterButton.setDisable(true);
 			} else {
-				preEnregistrement.setDisable(false);
+				validateRegisterButton.setDisable(false);
 			}
 		});
 		
 		//Pour le TextField du repertoire dans lequel sera enregistr� le fichier de l'�tudiant
-		repertoire.textProperty().addListener(event -> {
-			if(nom.getText().isEmpty() || prenom.getText().isEmpty() || repertoire.getText().isEmpty()) {
-				preEnregistrement.setDisable(true);
+		directory.textProperty().addListener(event -> {
+			if(firstName.getText().isEmpty() || lastName.getText().isEmpty() || directory.getText().isEmpty()) {
+				validateRegisterButton.setDisable(true);
 			} else {
-				preEnregistrement.setDisable(false);
+				validateRegisterButton.setDisable(false);
 			}
 		});
 
@@ -66,13 +60,13 @@ public class SaveAfterOpenController implements Initializable{
 	
 	//M�thode qui permet � l'�tudiant de choisir le dossier dans lequel l'�tudiant verra son exercice enregistr�
 	@FXML
-	public void choixRepertoire() {
+	public void registerLocationFileExplorer() {
 		DirectoryChooser directoryChooser = new DirectoryChooser();
 		File selectedDirectory;
 		directoryChooser.setTitle("Choisissez un r�pertoire pour l'enregistrement de votre exercice");
 		selectedDirectory = directoryChooser.showDialog(null);
 		if(selectedDirectory != null) {
-			repertoire.setText(selectedDirectory.getAbsolutePath());
+			directory.setText(selectedDirectory.getAbsolutePath());
 		}
 		
 		changeFileName();
@@ -80,16 +74,16 @@ public class SaveAfterOpenController implements Initializable{
 	
 	//M�thode qui permet de loadQuittingPage la popUp, un fois les TextFields remplis et de sauvegarder les infos
 	@FXML
-	public void quitter() {
-		nomEtudiant = nom.getText();
-		prenEtudiant = prenom.getText();
-		repertoireEtudiant = repertoire.getText();
+	public void exitRegisterExercicePopUp() {
+		studentLastName = firstName.getText();
+		studentFirstName = lastName.getText();
+		studentDirectory = directory.getText();
 		
-		nom.getScene().getWindow().hide();
+		firstName.getScene().getWindow().hide();
 	}
 	
 	@FXML public void changeFileName() {
-        nomFichier.setText(repertoire.getText() + "\\" + nomExo + "_" + prenom.getText() + "_" + nom.getText() + ".rct");
+        fileName.setText(directory.getText() + "\\" + exerciceName + "_" + lastName.getText() + "_" + firstName.getText() + ".rct");
 
     }
 	
