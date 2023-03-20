@@ -28,16 +28,16 @@ public class FinalRegisterController implements Initializable {
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
 		// Conteneurs en octets de la consigne
-		byte[] contenuConsigne = ApercuController.contenuConsigne.getBytes();
-		byte[] longueurConsigne = getLongueur(ApercuController.contenuConsigne);
+		byte[] contenuConsigne = ApercuController.instructionContent.getBytes();
+		byte[] longueurConsigne = getLongueur(ApercuController.instructionContent);
 
 		// Conteneurs en octets de la transcription
-		byte[] contenuTranscription = ApercuController.contenuTranscription.getBytes();
-		byte[] longueurTranscription = getLongueur(ApercuController.contenuTranscription);
+		byte[] contenuTranscription = ApercuController.transcriptionContent.getBytes();
+		byte[] longueurTranscription = getLongueur(ApercuController.transcriptionContent);
 
 		// Conteneurs en octets de l'aide
-		byte[] contenuAide = ApercuController.contenuAide.getBytes();
-		byte[] longueurAide = getLongueur(ApercuController.contenuAide);
+		byte[] contenuAide = ApercuController.helpContent.getBytes();
+		byte[] longueurAide = getLongueur(ApercuController.helpContent);
 
 		// Caract�re d'occultation
 		byte[] caraOccul = OptionsController.hiddenChar.getBytes();
@@ -174,9 +174,9 @@ public class FinalRegisterController implements Initializable {
 		NewExerciseController.contenuRepertoire = null;
 		ImportRessourceController.contenuMedia = null;
 		ImportRessourceController.contenuImage = null;
-		ApercuController.contenuAide = null;
-		ApercuController.contenuConsigne = null;
-		ApercuController.contenuTranscription = null;
+		ApercuController.helpContent = null;
+		ApercuController.instructionContent = null;
+		ApercuController.transcriptionContent = null;
 		OptionsController.hiddenChar = null;
 		OptionsController.isCaseSensitive = false;
 		OptionsController.isInTrainingMode = false;
