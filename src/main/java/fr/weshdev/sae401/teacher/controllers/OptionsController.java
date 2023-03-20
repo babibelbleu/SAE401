@@ -529,16 +529,16 @@ public class OptionsController implements Initializable {
 		if(darkModeOption.isSelected()) {
 			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			AccueilController.isDark = true;
+			AccueilController.setDarkModeOption(true);
 		} else {
 			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			AccueilController.isDark = false;
+			AccueilController.setDarkModeOption(false);
 		}
 	}
 
 	public void activateDarkMode(Scene scene) {
-		if(AccueilController.isDark) {
+		if(AccueilController.isInDarkMode()) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			darkModeOption.setSelected(true);
@@ -547,5 +547,18 @@ public class OptionsController implements Initializable {
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			darkModeOption.setSelected(false);
 		}
+	}
+
+	public static void reset(){
+		hiddenChar = null;
+		isCaseSensitive = false;
+		isInTrainingMode = false;
+		isInAssessmentMode = false;
+		hasTwoLettersOption = false;
+		hasThreeLettersOption = false;
+		hasDiscoveredWordsOption = false;
+		hasIncompleteWordOption = false;
+		hasSolution = false;
+		timer = null;
 	}
 }

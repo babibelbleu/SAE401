@@ -41,8 +41,6 @@ N
 src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
 v
 Fsrc/main/resources/fr.weshdev.sae401/templates/student/time_is_up.fxml,0\6\061415fba458afefd67005de5cd30fe0f76ded4f
-~
-Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/ConfirmQuitController.java,e\1\e18b8c0025924499e85d786d296a615c7d477ed5
 {
 Ksrc/main/resources/fr.weshdev.sae401/templates/student/save_validation.fxml,3\b\3b2568b22d56b2e081acf78d0a342c5008b1c9ae
 q

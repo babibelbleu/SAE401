@@ -702,11 +702,11 @@ public class ExerciseController implements Initializable {
 		if(darkMode.isSelected()) {
 			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			MenuController.isInDarkMode = true;
+			MenuController.setDarkModeOption(true);
 		} else {
 			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			MenuController.isInDarkMode = false;
+			MenuController.setDarkModeOption(false);
 		}
 	}
 

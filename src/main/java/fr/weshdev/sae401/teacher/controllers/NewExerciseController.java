@@ -35,8 +35,8 @@ public class NewExerciseController implements Initializable{
 	@FXML private TextField nomExo;
 	@FXML private Button okNouvelExo;
 	
-	public static String contenuRepertoire;
-	public static String contenuNomExo;
+	private static String directoryPath;
+	private static String exerciseName;
 	
 	@FXML private CheckMenuItem dark;
 
@@ -49,16 +49,16 @@ public class NewExerciseController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		
 		//On rempli les champs s'il ne sont pas null (si l'enseignant revient en arrière)
-		if(contenuRepertoire != null) {
-			repertoire.setText(contenuRepertoire);
+		if(directoryPath != null) {
+			repertoire.setText(directoryPath);
 		}
 		
-		if(contenuNomExo != null) {
-			nomExo.setText(contenuNomExo);
+		if(exerciseName != null) {
+			nomExo.setText(exerciseName);
 		}
 		
 		//Si les deux champs sont remplis, on met le bouton cliquable
-		if(contenuRepertoire != null && nomExo != null) {
+		if(directoryPath != null && nomExo != null) {
 			okNouvelExo.setDisable(false);
 		}
 		
@@ -193,8 +193,8 @@ public class NewExerciseController implements Initializable{
 	public void pageImportationRessource(ActionEvent event) throws IOException {
 		
 		//Au moment d'aller sur la page d'après, on récupère le contenu des TextFields
-		contenuRepertoire = repertoire.getText();
-		contenuNomExo = nomExo.getText();
+		directoryPath = repertoire.getText();
+		exerciseName = nomExo.getText();
 		
 		Stage primaryStage = (Stage) repertoire.getScene().getWindow();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/import_ressource.fxml"));
@@ -211,18 +211,18 @@ public class NewExerciseController implements Initializable{
 		if(dark.isSelected()) {
 			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			AccueilController.isDark = true;
+			AccueilController.setDarkModeOption(true);
 		} else {
 			nomExo.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			nomExo.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			AccueilController.isDark = false;
+			AccueilController.setDarkModeOption(false);
 		}
 		
 	}
 
 	//Méthode qui regarde si le setDarkMode est actif et l'applique en conséquence à la scene
 	public void darkModeActivation(Scene scene) {
-		if(AccueilController.isDark) {
+		if(AccueilController.isInDarkMode()) {
 			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
 			dark.setSelected(true);
@@ -231,5 +231,27 @@ public class NewExerciseController implements Initializable{
 			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
 			dark.setSelected(false);
 		}
+	}
+
+	public static String getDirectoryPath() {
+		return directoryPath;
+	}
+
+	public static String getExerciseName() {
+		return exerciseName;
+	}
+
+	//setters
+	public static void setDirectoryPath(String newDirectoryPath) {
+		directoryPath = newDirectoryPath;
+	}
+
+	public static void setExerciseName(String newExerciseName) {
+		exerciseName = newExerciseName;
+	}
+
+	public static void delete() {
+		directoryPath = null;
+		exerciseName = null;
 	}
 }
