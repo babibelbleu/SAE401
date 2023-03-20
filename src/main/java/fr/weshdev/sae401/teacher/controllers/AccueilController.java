@@ -73,9 +73,9 @@ public class AccueilController implements Initializable {
 		selectedFile = fileChooser.showOpenDialog(null);
 		setExercise(selectedFile);
 
-		NewExerciseController.contenuNomExo = getFileName(selectedFile);
+		NewExerciseController.setExerciseName(getFileName(selectedFile));
 
-		NewExerciseController.contenuRepertoire = getDirectoryPath(selectedFile);
+		NewExerciseController.setDirectoryPath(getDirectoryPath(selectedFile));
 
 		loadExercise();
 	}
@@ -302,23 +302,10 @@ public class AccueilController implements Initializable {
 		for(Option option: options.values()){
 			option.reset();
 		}
-		NewExerciseController.contenuNomExo = null;
-		NewExerciseController.contenuRepertoire = null;
-		ImportRessourceController.contenuMedia = null;
-		ImportRessourceController.contenuImage = null;
-		ApercuController.helpContent = null;
-		ApercuController.instructionContent = null;
-		ApercuController.transcriptionContent = null;
-		OptionsController.hiddenChar = null;
-		OptionsController.isCaseSensitive = false;
-		OptionsController.isInTrainingMode = false;
-		OptionsController.isInAssessmentMode = false;
-		OptionsController.hasTwoLettersOption = false;
-		OptionsController.hasThreeLettersOption = false;
-		OptionsController.hasDiscoveredWordsOption = false;
-		OptionsController.hasIncompleteWordOption = false;
-		OptionsController.hasSolution = false;
-		OptionsController.timer = null;
+		NewExerciseController.delete();
+		ImportRessourceController.reset();
+		ApercuController.reset();
+		OptionsController.reset();
 	}
 
 	private static final int DEFAULT_BUFFER_SIZE = 8192;

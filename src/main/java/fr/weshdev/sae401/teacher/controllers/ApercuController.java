@@ -335,4 +335,10 @@ public class ApercuController implements Initializable {
 		return decrypted.toString();
 	}
 
+	public static void reset(){
+		helpContent = null;
+		instructionContent = null;
+		transcriptionContent = null;
+	}
+
 }

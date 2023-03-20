@@ -48,11 +48,7 @@ public class SaveAfterOpenController implements Initializable{
 		
 		//Pour le TextField du repertoire dans lequel sera enregistr� le fichier de l'�tudiant
 		directory.textProperty().addListener(event -> {
-			if(firstName.getText().isEmpty() || lastName.getText().isEmpty() || directory.getText().isEmpty()) {
-				validateRegisterButton.setDisable(true);
-			} else {
-				validateRegisterButton.setDisable(false);
-			}
+			validateRegisterButton.setDisable(firstName.getText().isEmpty() || lastName.getText().isEmpty() || directory.getText().isEmpty());
 		});
 
 	}

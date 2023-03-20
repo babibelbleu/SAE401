@@ -449,4 +449,9 @@ public class ImportRessourceController implements Initializable {
 		return cheminImg;
 	}
 
+	public static void reset(){
+		contenuMedia = null;
+		contenuImage = null;
+	}
+
 }

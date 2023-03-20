@@ -73,7 +73,7 @@ public class FinalRegisterController implements Initializable {
 
 			// On ouvre un fichier o� on va enregistrer les informations
 			// On lui donne l'endroit o� il doit �tre enregistr� et le nom
-			File file = new File(NewExerciseController.contenuRepertoire, NewExerciseController.contenuNomExo + ".rct");
+			File file = new File(NewExerciseController.getDirectoryPath(), NewExerciseController.getExerciseName() + ".rct");
 			FileOutputStream out = new FileOutputStream(file);
 
 			// On y �crit la consigne
@@ -167,26 +167,10 @@ public class FinalRegisterController implements Initializable {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-
-		//On remet toutes les variables statiques � null
-		NewExerciseController.contenuNomExo = null;
-		NewExerciseController.contenuRepertoire = null;
-		ImportRessourceController.contenuMedia = null;
-		ImportRessourceController.contenuImage = null;
-		ApercuController.helpContent = null;
-		ApercuController.instructionContent = null;
-		ApercuController.transcriptionContent = null;
-		OptionsController.hiddenChar = null;
-		OptionsController.isCaseSensitive = false;
-		OptionsController.isInTrainingMode = false;
-		OptionsController.isInAssessmentMode = false;
-		OptionsController.hasTwoLettersOption = false;
-		OptionsController.hasThreeLettersOption = false;
-		OptionsController.hasDiscoveredWordsOption = false;
-		OptionsController.hasIncompleteWordOption = false;
-		OptionsController.hasSolution = false;
-		OptionsController.timer = null;
+		NewExerciseController.delete();
+		ImportRessourceController.reset();
+		ApercuController.reset();
+		OptionsController.reset();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
