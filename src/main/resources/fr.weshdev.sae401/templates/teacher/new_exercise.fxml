@@ -18,7 +18,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.NewExerciseController">
+<BorderPane fx:id="mainPain" minHeight="800.0" minWidth="1200.0" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.NewExerciseController">
    <center>
       <GridPane BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -54,7 +54,7 @@
                   <Insets left="250.0" right="220.0" top="45.0" />
                </GridPane.margin>
             </TextField>
-            <Button id="annuler" mnemonicParsing="false" onAction="#retourAccueil" prefHeight="44.0" prefWidth="170.0" text="Annuler" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
+            <Button id="annuler" mnemonicParsing="false" prefHeight="44.0" prefWidth="170.0" text="Annuler" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="20.0" />
                </font>
@@ -174,28 +174,6 @@
       </GridPane>
    </center>
    <top>
-				<MenuBar snapToPixel="false" stylesheets="@../../css/menu_and_button.css" BorderPane.alignment="CENTER">
-					<menus>
-						<Menu mnemonicParsing="false" text="Exercice">
-							<items>
-								<MenuItem mnemonicParsing="false" onAction="#pageNouvelExo" text="Créer un exercice" />
-								<MenuItem disable="true" mnemonicParsing="false" text="Ouvrir un exercice" />
-								<SeparatorMenuItem mnemonicParsing="false" />
-								<MenuItem mnemonicParsing="false" onAction="#quitter" text="Quitter" />
-							</items>
-						</Menu>
-						<Menu mnemonicParsing="false" text="Aide">
-							<items>
-								<MenuItem mnemonicParsing="false" onAction="#tuto" text="Tutoriel" />
-								<MenuItem disable="true" mnemonicParsing="false" text="A propos" />
-							</items>
-						</Menu>
-						<Menu mnemonicParsing="false" text="Paramètres">
-               <items>
-                  <CheckMenuItem fx:id="dark" mnemonicParsing="false" onAction="#darkMode" text="Mode Sombre" />
-               </items>
-            </Menu>
-					</menus>
-				</MenuBar>
+
    </top>
 </BorderPane>

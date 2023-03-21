@@ -2,6 +2,8 @@ package fr.weshdev.sae401.student.controllers;
 
 import fr.weshdev.sae401.DeplacementFenetre;
 import fr.weshdev.sae401.MainEtudiant;
+import fr.weshdev.sae401.model.DarkModeManager;
+import fr.weshdev.sae401.model.TooltipManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,6 +16,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
@@ -21,6 +24,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -34,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+
 import java.awt.*;
 import java.io.*;
 
@@ -45,6 +50,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class ExerciseController implements Initializable {
+
+
 
 	//Variables qui vont contenir les diff�rentes informations sur l'exercice
 	//Informations textuelles
@@ -88,6 +95,8 @@ public class ExerciseController implements Initializable {
 	private Integer min;
 	private boolean isTimerRunning = false;
 
+	TooltipManager tooltipManager = new TooltipManager();
+
 	//Autres boutons
 	@FXML private Button helpButton;
 	@FXML private Button solutionButton;
@@ -99,7 +108,10 @@ public class ExerciseController implements Initializable {
 	private final ArrayList<String> sensivityCaseWordList = new ArrayList<>();
 	private final ArrayList<Integer> discoveredWordList = new ArrayList<>();
 	private String encryptedText;
-	
+
+	@FXML
+	private BorderPane mainPain;
+
 	public String getEncryptedText() {
 		return encryptedText;
 	}
@@ -118,6 +130,7 @@ public class ExerciseController implements Initializable {
 	@FXML private Label discoveredWordsLabel;
 	private final float nbDiscoveredWord = 0;
 	private float totalNbWord;
+	DarkModeManager darkModeManager = new DarkModeManager();
 
 	//Tooltip
 	@FXML private ImageView helpInstruction;
@@ -129,6 +142,8 @@ public class ExerciseController implements Initializable {
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+
+		playOrPauseImageContainer.setImage(playIcon);
 		MenuController.getOptions();
 
 
@@ -203,6 +218,13 @@ public class ExerciseController implements Initializable {
 		});
 
 		transcription.setText(encryptedText);
+		try {
+			MenuBar header = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/header.fxml"));
+			mainPain.setTop(header);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 
 	}
 
@@ -231,7 +253,8 @@ public class ExerciseController implements Initializable {
 		} else {
 			numberPartialReplacement = 0;
 		}
-		popUpUserRegister();
+		RegisterController registerController = new RegisterController();
+		registerController.popUpUserRegister();
 	}
 
 	private void evalutationModeLoader() {
@@ -279,8 +302,17 @@ public class ExerciseController implements Initializable {
 
 		// Ecoute sur le slider. Quand il est modifi�, modifie le temps du media player.
 		InvalidationListener sliderChangeListener = o -> {
+			if ( sliderVideo.getValue() == sliderVideo.getMax() ) {
+				//icon pause
+				playOrPauseImageContainer.setImage(playIcon);
+				mediaPlayer.stop();
+				launchVideoIcon.setVisible(true);
+				mediaPlayer.seek(Duration.ZERO);
+				sliderVideo.setValue(0);
+			}
 			Duration seekTo = Duration.seconds(sliderVideo.getValue());
 			mediaPlayer.seek(seekTo);
+
 		};
 		sliderVideo.valueProperty().addListener(sliderChangeListener);
 
@@ -295,6 +327,8 @@ public class ExerciseController implements Initializable {
 
 			// R�activation de l'�coute du slider
 			sliderVideo.valueProperty().addListener(sliderChangeListener);
+
+
 
 		});
 	}
@@ -384,41 +418,11 @@ public class ExerciseController implements Initializable {
 
 	}
 
-	//M�thode qui fait appara�tre la popUp pour que l'�tudiant rentre ses infos pour l'enregistrement
-	public void popUpUserRegister() throws IOException {
-		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/save_after_open.fxml"));
-		Stage stage = new Stage();
-		Rectangle rect = new Rectangle(900,500);
-		rect.setArcHeight(20.0);
-		rect.setArcWidth(20.0);
-		root.setClip(rect);
 
-		//On bloque sur cette fen�tre
-		stage.initModality(Modality.APPLICATION_MODAL);
-		stage.initStyle(StageStyle.TRANSPARENT);
-		Scene scene = new Scene(root, 900, 500);
-		scene.setFill(Color.TRANSPARENT);
-		darkModeActivation(scene);
 
-		//On bloque le resize
-		stage.setResizable(false);
-		stage.setScene(scene);
-		stage.show();
-		DeplacementFenetre.deplacementFenetre((Pane) root, stage);
-	}
 
-	//M�thode qui regarde si le darkMode est actif et l'applique en cons�quence � la scene
-	public void darkModeActivation(Scene scene) {
-		if(MenuController.isInDarkMode()) {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			darkMode.setSelected(true);
-		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			darkMode.setSelected(false);
-		}
-	}
+
+
 
 	//M�thode pur afficher l'aide propos�e par l'enseignant
 	@FXML
@@ -435,7 +439,7 @@ public class ExerciseController implements Initializable {
 		stage.initStyle(StageStyle.TRANSPARENT);
 		Scene scene = new Scene(root, 400, 600);
 		scene.setFill(Color.TRANSPARENT);
-		darkModeActivation(scene);
+
 
 		stage.setScene(scene);
 		stage.show();
@@ -459,8 +463,7 @@ public class ExerciseController implements Initializable {
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.initStyle(StageStyle.TRANSPARENT);
 		Scene scene = new Scene(root, 600, 400);
-		scene.setFill(Color.TRANSPARENT);
-		darkModeActivation(scene);
+
 
 		stage.setScene(scene);
 		stage.show();
@@ -571,7 +574,7 @@ public class ExerciseController implements Initializable {
 		DeplacementFenetre.deplacementFenetre((Pane) root, stage);
 		Scene scene = new Scene(root, 350, 180);
 		stage.setScene(scene);
-		darkModeActivation(scene);
+
 		stage.show();
 	}
 
@@ -600,7 +603,7 @@ public class ExerciseController implements Initializable {
 									timer.stop();
 									try {
 										backToMenuClicked();
-										loadEnregistrement();
+										TimeIsUp();
 										registerExercice();
 									} catch (IOException e) {
 										e.printStackTrace();
@@ -631,7 +634,7 @@ public class ExerciseController implements Initializable {
 	}
 
 	//M�thode qui survient lorsque le timer est �coul� en mode Evaluation
-	public void loadEnregistrement() throws IOException {
+	public void TimeIsUp() throws IOException {
 		Stage stage = new Stage();
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/time_is_up.fxml"));
 		//On bloque sur cette fen�tre
@@ -642,7 +645,7 @@ public class ExerciseController implements Initializable {
 		stage.setResizable(false);
 		Scene scene = new Scene(root, 500, 300);
 		stage.setScene(scene);
-		darkModeActivation(scene);
+
 		stage.show();
 	}
 
@@ -668,50 +671,29 @@ public class ExerciseController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/student/menu.fxml"));
 		Scene scene = new Scene(root,  MainEtudiant.getWidth(), MainEtudiant.getHeight() - 60);
 		stage.setScene(scene);
-		darkModeActivation(scene);
+
 		stage.show();
 	}
 	@FXML
 	public void tipsInstruction() {
-		Tooltip tooltip = new Tooltip();
-		tooltip.setText("Lisez bien la consigne du professeur ");
-		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
-		tooltip.setShowDelay(Duration.millis(0));
-		tooltip.setShowDuration(Duration.millis(5000));
-		Tooltip.install(helpInstruction, tooltip);
+	tooltipManager.tips(helpInstruction,"Ceci est la consigne, hello there ");
 	}
 	public void tipsTranscription() {
-		Tooltip tooltip = new Tooltip();
-		tooltip.setText("Transcrivez le texte en respectant la ponctuation et les majuscules");
-		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
-		tooltip.setShowDelay(Duration.millis(0));
-		tooltip.setShowDuration(Duration.millis(5000));
-		Tooltip.install(helpTranscription, tooltip);
-
+		tooltipManager.tips(helpTranscription,"Transcrivez le texte en respectant la ponctuation et les majuscules" );
 	}
 	public void tipsProposition(){
-		Tooltip tooltip = new Tooltip();
-		tooltip.setText("Proposez des mots qui correspondent au texte");
-		tooltip.setStyle("-fx-background-color: #2b2b2b; -fx-text-fill: white; -fx-font-size: 15px;");
-		tooltip.setShowDelay(Duration.millis(0));
-		tooltip.setShowDuration(Duration.millis(5000));
-		Tooltip.install(helpProposition, tooltip);
-
+		tooltipManager.tips(helpProposition, "Entre ici tes propositions");
 	}
 
 
 
 	@FXML
 	public  void darkMode() {
-
-		if(darkMode.isSelected()) {
-			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			MenuController.setDarkModeOption(true);
-		} else {
-			helpButton.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			helpButton.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			MenuController.setDarkModeOption(false);
+		if(darkMode.isSelected()){
+			darkModeManager.darkModeActivation(transcription.getScene());
+		}
+		else{
+			darkModeManager.darkModeDesactivation(transcription.getScene());
 		}
 	}
 
