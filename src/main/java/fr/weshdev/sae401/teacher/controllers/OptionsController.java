@@ -2,15 +2,18 @@ package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.DeplacementFenetre;
 import fr.weshdev.sae401.MainEnseignant;
+import fr.weshdev.sae401.model.DarkModeManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +29,7 @@ import java.util.ResourceBundle;
 
 public class OptionsController implements Initializable {
 
+	public BorderPane mainPain;
 	@FXML
 	private RadioButton trainingModeRadioButtonOption;
 	@FXML
@@ -70,8 +74,16 @@ public class OptionsController implements Initializable {
 	@FXML private ImageView incompleteWordToolTip;
 	@FXML private CheckMenuItem darkModeOption;
 
+	DarkModeManager darkModeManager = new DarkModeManager();
+
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
+		try {
+			MenuBar header = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/header.fxml"));
+			mainPain.setTop(header);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 
 		if(hiddenChar != null) {
 			hiddenCharOption.setText(hiddenChar);
@@ -168,33 +180,9 @@ public class OptionsController implements Initializable {
 		);
 	}
 
-	@FXML
-	public void loadUserManual() throws IOException, URISyntaxException {
-		File userManual = new File(MainEnseignant.class.getResource("/fr.weshdev.sae401/pdf/user_manual.pdf").toURI());
-		Desktop.getDesktop().open(userManual);
-	}
 
-	@FXML
-	public void loadQuittingPage() throws IOException {
 
-		Stage primaryStage = new Stage();
-		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/confirm_quit.fxml"));
-		Scene confirmQuitScene = new Scene(root, 400, 200);
-		//On bloque sur cette fen�tre
-		primaryStage.initModality(Modality.APPLICATION_MODAL);
-		primaryStage.initStyle(StageStyle.TRANSPARENT);
-		confirmQuitScene.setFill(Color.TRANSPARENT);
 
-		Rectangle rect = new Rectangle(400,200); 
-		rect.setArcHeight(20.0); 
-		rect.setArcWidth(20.0);  
-		root.setClip(rect);
-
-		DeplacementFenetre.deplacementFenetre((Pane) root, primaryStage);
-		primaryStage.setScene(confirmQuitScene);
-		activateDarkMode(confirmQuitScene);
-		primaryStage.show();
-	}
 
 	@FXML
 	public void loadApercuPage() throws IOException {
@@ -211,7 +199,12 @@ public class OptionsController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/apercu.fxml"));
 		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(scene);
-		activateDarkMode(scene);
+		if(darkModeManager.isDarkMode()){
+			darkModeManager.darkModeActivation(scene);
+		}
+		else {
+			darkModeManager.darkModeDesactivation(scene);
+		}
 	}
 
 	public void retourMenu() throws IOException {
@@ -219,7 +212,12 @@ public class OptionsController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
 		Scene scene = new Scene(root,  MainEnseignant.width, MainEnseignant.height - 60);
 		stage.setScene(scene);
-		activateDarkMode(scene);
+		if(darkModeManager.isDarkMode()){
+			darkModeManager.darkModeActivation(scene);
+		}
+		else {
+			darkModeManager.darkModeDesactivation(scene);
+		}
 		stage.show();
 	}
 
@@ -239,22 +237,15 @@ public class OptionsController implements Initializable {
 		primaryStage.initModality(Modality.APPLICATION_MODAL);
 		primaryStage.initStyle(StageStyle.TRANSPARENT);
 		primaryStage.setScene(scene);
-		activateDarkMode(scene);
+		if(darkModeManager.isDarkMode()){
+			darkModeManager.darkModeActivation(scene);
+		}
+		else {
+			darkModeManager.darkModeDesactivation(scene);
+		}
 		primaryStage.show();
 	}
 
-	@FXML
-	public void pageNouvelExo() throws IOException {
-		//R�initialisation des variables
-		AccueilController c = new AccueilController();
-		c.delete();
-		Stage primaryStage = (Stage) hiddenCharOption.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
-		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
-		primaryStage.setScene(scene);
-		activateDarkMode(scene);
-		primaryStage.show();
-	}
 
 	@FXML
 	public void selectionModeEvaluation() {
@@ -524,30 +515,6 @@ public class OptionsController implements Initializable {
 		adaptationImage(incompleteWordToolTip);
 	}
 
-	@FXML
-	public void setDarkMode(){
-		if(darkModeOption.isSelected()) {
-			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			AccueilController.setDarkModeOption(true);
-		} else {
-			hiddenCharOption.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			hiddenCharOption.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			AccueilController.setDarkModeOption(false);
-		}
-	}
-
-	public void activateDarkMode(Scene scene) {
-		if(AccueilController.isInDarkMode()) {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			darkModeOption.setSelected(true);
-		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			darkModeOption.setSelected(false);
-		}
-	}
 
 	public static void reset(){
 		hiddenChar = null;

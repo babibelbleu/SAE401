@@ -10,5 +10,7 @@ module fr.weshdev.sae401 {
     opens fr.weshdev.sae401 to javafx.fxml;
     opens fr.weshdev.sae401.teacher.controllers to javafx.fxml;
     opens fr.weshdev.sae401.student.controllers to javafx.fxml;
+    opens fr.weshdev.sae401.model to javafx.fxml;
+
     exports fr.weshdev.sae401;
 }

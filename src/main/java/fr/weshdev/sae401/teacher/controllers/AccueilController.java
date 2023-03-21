@@ -2,6 +2,7 @@ package fr.weshdev.sae401.teacher.controllers;
 
 import fr.weshdev.sae401.MainEnseignant;
 import fr.weshdev.sae401.MainEtudiant;
+import fr.weshdev.sae401.model.DarkModeManager;
 import fr.weshdev.sae401.model.Option;
 import fr.weshdev.sae401.student.controllers.ExerciseController;
 import fr.weshdev.sae401.student.controllers.HintsController;
@@ -12,7 +13,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -30,9 +33,12 @@ public class AccueilController implements Initializable {
 
 	@FXML
 	private Text welcomeText;
+	@FXML
+	private BorderPane mainPain;
 
 	@FXML private CheckMenuItem darkModeMenuSelection;
-	private static boolean isInDarkMode = false;
+
+	DarkModeManager darkModeManager = new DarkModeManager();
 
 	private static HashMap<String, Option> options = new HashMap<>();
 
@@ -56,12 +62,16 @@ public class AccueilController implements Initializable {
 		options.put("incompletedWordWithTwoLettersOption", incompletedWordWithTwoLettersOption);
 		options.put("incompletedWordWithThreeLettersOption", incompleteWordWithThreeLettersOption);
 		options.put("trainingOption", trainingOption);
+
+		try {
+			MenuBar header = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/header.fxml"));
+			mainPain.setTop(header);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-	@FXML
-	public void closeApp() {
-		Platform.exit();
-	}
+
 
 	@FXML
 	public void openExercise() throws IOException {
@@ -118,107 +128,109 @@ public class AccueilController implements Initializable {
 				isVideo;
 
 		File tempFile;
-
-		FileInputStream encodedExerciseFile = new FileInputStream(file);
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		ExerciseController.instructionContent = exerciseOrder;
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		ExerciseController.transcriptionContent = exerciseTranscription;
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseHint = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		HintsController.contenuAide = exerciseHint;
-
-		replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
-		ExerciseController.hidddenChar = replacingChar;
-
-		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
-
-		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		if (isEvaluation == 1) {
-			options.get("evaluationOption").setActive(true);
-
-			options.get("trainingOption").setActive(false);
-
+		try {
+			FileInputStream encodedExerciseFile = new FileInputStream(file);
 
 			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-			time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+			exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+			ExerciseController.instructionContent = exerciseOrder;
 
-			ExerciseController.nbMin = time;
+			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
+			exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+			ExerciseController.transcriptionContent = exerciseTranscription;
 
-		} else {
-			options.get("evaluationOption").setActive(false);
-			options.get("trainingOption").setActive(true);
+			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
+			exerciseHint = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
+			HintsController.contenuAide = exerciseHint;
 
-			exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+			replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
+			ExerciseController.hidddenChar = replacingChar;
 
-			options.get("solutionShowOption").setActive(exereciseHaveSolution == 1);
+			isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-			exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+			options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
 
-			options.get("discoveredWordRateProgressBarOption").setActive(exerciseHaveProgressBar == 1);
+			isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
 
-			isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+			if (isEvaluation == 1) {
+				options.get("evaluationOption").setActive(true);
 
-			if (isIncompletedWordOptionSelected == 1) {
-				options.get("incompletedWordOption").setActive(true);
+				options.get("trainingOption").setActive(false);
 
 
-				numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+				byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
+				time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
 
-				if (numberOfMinimalLettersIncompletedWord == 2) {
-					options.get("incompletedWordWithTwoLettersOption").setActive(true);
-					options.get("incompletedWordWithThreeLettersOption").setActive(false);
-				} else {
-					options.get("incompletedWordWithTwoLettersOption").setActive(false);
-					options.get("incompletedWordWithThreeLettersOption").setActive(true);
-				}
+				ExerciseController.nbMin = time;
 
 			} else {
-				options.get("incompletedWordOption").setActive(false);
-				options.get("incompletedWordWithTwoLettersOption").setActive(false);
-				options.get("incompletedWordWithThreeLettersOption").setActive(false);
+				options.get("evaluationOption").setActive(false);
+				options.get("trainingOption").setActive(true);
+
+				exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+
+				options.get("solutionShowOption").setActive(exereciseHaveSolution == 1);
+
+				exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+
+				options.get("discoveredWordRateProgressBarOption").setActive(exerciseHaveProgressBar == 1);
+
+				isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+
+				if (isIncompletedWordOptionSelected == 1) {
+					options.get("incompletedWordOption").setActive(true);
+
+
+					numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+
+					if (numberOfMinimalLettersIncompletedWord == 2) {
+						options.get("incompletedWordWithTwoLettersOption").setActive(true);
+						options.get("incompletedWordWithThreeLettersOption").setActive(false);
+					} else {
+						options.get("incompletedWordWithTwoLettersOption").setActive(false);
+						options.get("incompletedWordWithThreeLettersOption").setActive(true);
+					}
+
+				} else {
+					options.get("incompletedWordOption").setActive(false);
+					options.get("incompletedWordWithTwoLettersOption").setActive(false);
+					options.get("incompletedWordWithThreeLettersOption").setActive(false);
+				}
 			}
+
+			isVideo = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
+
+			if (isVideo == 0) {
+
+				byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 8)).getInt();
+
+				File tmpFileImage = File.createTempFile("data", ".png");
+				FileOutputStream ecritureFileImage = new FileOutputStream(tmpFileImage);
+				ecritureFileImage.write(readBytesFromFile(encodedExerciseFile, byteLength));
+				ecritureFileImage.close();
+
+				ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
+
+				tmpFileImage.deleteOnExit();
+
+				tempFile = File.createTempFile("data", ".mp3");
+
+			} else {
+				tempFile = File.createTempFile("data", ".mp4");
+			}
+
+			FileOutputStream clearExerciseFile = new FileOutputStream(tempFile);
+			clearExerciseFile.write(readAllBytesFromFile(encodedExerciseFile));
+			clearExerciseFile.close();
+
+			ExerciseController.mediaContent = new Media(tempFile.toURI().toString());
+
+			tempFile.deleteOnExit();
+
+			encodedExerciseFile.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
 		}
-
-		isVideo = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		if (isVideo == 0) {
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 8)).getInt();
-
-			File tmpFileImage = File.createTempFile("data", ".png");
-			FileOutputStream ecritureFileImage = new FileOutputStream(tmpFileImage);
-			ecritureFileImage.write(readBytesFromFile(encodedExerciseFile, byteLength));
-			ecritureFileImage.close();
-
-			ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
-
-			tmpFileImage.deleteOnExit();
-
-			tempFile = File.createTempFile("data", ".mp3");
-
-		}
-		else {
-			tempFile = File.createTempFile("data", ".mp4");
-		}
-
-		FileOutputStream clearExerciseFile = new FileOutputStream(tempFile);
-		clearExerciseFile.write(readAllBytesFromFile(encodedExerciseFile));
-		clearExerciseFile.close();
-
-		ExerciseController.mediaContent = new Media(tempFile.toURI().toString());
-
-		tempFile.deleteOnExit();
-
-		encodedExerciseFile.close();
 	}
 
 	/**
@@ -243,58 +255,13 @@ public class AccueilController implements Initializable {
 		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/new_exercise.fxml"));
 		Scene newExerciseScene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
 		primaryStage.setScene(newExerciseScene);
-		changeTheme(newExerciseScene);
+
 		primaryStage.show();
-	}
-
-	@FXML
-	public void loadAboutPage() throws IOException {
-		Stage primaryStage = (Stage) welcomeText.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/about.fxml"));
-		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
-		primaryStage.setScene(scene);
-		changeTheme(scene);
-
-		primaryStage.setMaximized(true);
-		primaryStage.setMinHeight(800);
-		primaryStage.setMinWidth(1200);
-		primaryStage.show();
-	}
-
-	@FXML
-	public void loadMenu() throws IOException {
-		Stage primaryStage = (Stage) welcomeText.getScene().getWindow();
-		Parent root = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/menu.fxml"));
-		Scene scene = new Scene(root, MainEnseignant.width, MainEnseignant.height - 60);
-		primaryStage.setScene(scene);
-		changeTheme(scene);
-
-		primaryStage.setMinHeight(800);
-		primaryStage.setMinWidth(1200);
-		primaryStage.show();
-	}
-
-	@FXML
-	public void setDarkMode() {
-		if(darkModeMenuSelection.isSelected()) {
-			welcomeText.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			welcomeText.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			isInDarkMode = true;
-		} else {
-			welcomeText.getScene().getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			welcomeText.getScene().getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			isInDarkMode = false;
+		if(darkModeManager.isDarkMode()){
+			darkModeManager.darkModeActivation(newExerciseScene);
 		}
-	}
-	public void changeTheme(Scene scene) {
-		if(isInDarkMode) {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			darkModeMenuSelection.setSelected(true);
-		} else {
-			scene.getStylesheets().removeAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			scene.getStylesheets().addAll(getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			darkModeMenuSelection.setSelected(false);
+		else {
+			darkModeManager.darkModeDesactivation(newExerciseScene);
 		}
 	}
 
@@ -371,11 +338,4 @@ public class AccueilController implements Initializable {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
 	}
 
-	public static boolean isInDarkMode() {
-		return isInDarkMode;
-	}
-
-	public static void setDarkModeOption(boolean darkMode) {
-		isInDarkMode = darkMode;
-	}
 }

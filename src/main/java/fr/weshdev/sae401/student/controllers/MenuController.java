@@ -1,6 +1,7 @@
 package fr.weshdev.sae401.student.controllers;
 
 import fr.weshdev.sae401.MainEtudiant;
+import fr.weshdev.sae401.model.DarkModeManager;
 import fr.weshdev.sae401.model.Option;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -10,7 +11,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -32,14 +35,17 @@ public class MenuController implements Initializable {
 	private Text welcomeText;
 	@FXML
 	private Label aboutText;
-	@FXML
-	private CheckMenuItem darkModeMenuSelection;
 
-	private static boolean isInDarkMode = false;
+	@FXML
+	private BorderPane mainPain;
+
+
+
 
 	private static HashMap <String, Option> options = new HashMap<>();
 
 	private static ExerciseController exerciseController;
+	DarkModeManager darkModeManager = new DarkModeManager();
 
 	public static HashMap<String,Option> getOptions() {
 
@@ -70,6 +76,13 @@ public class MenuController implements Initializable {
 		options.put("incompletedWordWithThreeLettersOption", incompleteWordWithThreeLettersOption);
 		options.put("trainingOption", trainingOption);
 
+		try {
+			MenuBar header = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/header.fxml"));
+			mainPain.setTop(header);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
 
 	}
 
@@ -83,7 +96,7 @@ public class MenuController implements Initializable {
 	@FXML
 	public void loadUserManual() throws IOException, URISyntaxException {
 		File userManual = new File(MainEtudiant.class.getResource("/fr.weshdev.sae401/pdf/user_manual.pdf").toURI());
-        Desktop.getDesktop().open(userManual);
+		Desktop.getDesktop().open(userManual);
 	}
 
 	@FXML
@@ -101,13 +114,13 @@ public class MenuController implements Initializable {
 	}
 
 	public String getFileName(File file) {
-        if (file == null) {
-            return null;
-        }
-        String fileName = file.getName();
+		if (file == null) {
+			return null;
+		}
+		String fileName = file.getName();
 
 		return fileName.lastIndexOf(".") > 0 ? fileName.substring(0, fileName.lastIndexOf(".")) : fileName;
-    }
+	}
 
 	/**
 	 * Fonction qui va charger l'exercice
@@ -121,10 +134,15 @@ public class MenuController implements Initializable {
 		primaryStage.setMaximized(true);
 		Scene exerciseScene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight());
 
-		changeTheme(exerciseScene);
-
 		primaryStage.setScene(exerciseScene);
 		primaryStage.show();
+
+		if(darkModeManager.isDarkMode()) {
+			darkModeManager.darkModeActivation(exerciseScene);
+		}
+		else {
+			darkModeManager.darkModeDesactivation(exerciseScene);
+		}
 	}
 
 	public static ExerciseController getController() {
@@ -276,8 +294,6 @@ public class MenuController implements Initializable {
 		Scene scene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight() - 60);
 		primaryStage.setScene(scene);
 
-		changeTheme(scene);
-
 		primaryStage.setMaximized(true);
 		primaryStage.setMinHeight(800);
 		primaryStage.setMinWidth(1200);
@@ -291,44 +307,14 @@ public class MenuController implements Initializable {
 		Scene scene = new Scene(root, MainEtudiant.getWidth(), MainEtudiant.getHeight());
 		primaryStage.setScene(scene);
 
-		changeTheme(scene);
+
 		primaryStage.setMinHeight(800);
 		primaryStage.setMinWidth(1200);
 		primaryStage.show();
 	}
 
-	@FXML
-	public void setDarkMode() {
-		if (darkModeMenuSelection.isSelected()) {
-			welcomeText.getScene().getStylesheets().removeAll(
-					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			welcomeText.getScene().getStylesheets()
-					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			isInDarkMode = true;
-		} else {
-			welcomeText.getScene().getStylesheets().removeAll(
-					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			welcomeText.getScene().getStylesheets().addAll(
-					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			isInDarkMode = false;
-		}
-	}
 
-	public void changeTheme(Scene scene) {
-		if (isInDarkMode) {
-			scene.getStylesheets().removeAll(
-					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			scene.getStylesheets()
-					.addAll(getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			darkModeMenuSelection.setSelected(true);
-		} else {
-			scene.getStylesheets().removeAll(
-					getClass().getResource("/fr.weshdev.sae401/css/darkMode.css").toExternalForm());
-			scene.getStylesheets().addAll(
-					getClass().getResource("/fr.weshdev.sae401/css/menu_and_button.css").toExternalForm());
-			darkModeMenuSelection.setSelected(false);
-		}
-	}
+
 
 	private static final int DEFAULT_BUFFER_SIZE = 8192;
 	private static final int MAX_BUFFER_SIZE = Integer.MAX_VALUE - 8;
@@ -395,13 +381,6 @@ public class MenuController implements Initializable {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
 	}
 
-	public static boolean isInDarkMode() {
-		return isInDarkMode;
-	}
-
-	public static void setDarkModeOption(boolean darkMode) {
-		isInDarkMode = darkMode;
-	}
 
 	private String decrypt(String text){
 		// Decrypt with Cesar method
