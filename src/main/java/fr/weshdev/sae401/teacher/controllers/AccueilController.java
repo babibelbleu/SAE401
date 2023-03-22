@@ -242,11 +242,7 @@ public class AccueilController implements Initializable {
 		return new String(bytes, java.nio.charset.StandardCharsets.UTF_8);
 	}
 
-	@FXML
-	public void loadUserManual() throws IOException, URISyntaxException {
-		File userManual = new File(MainEtudiant.class.getResource("/fr.weshdev.sae401/pdf/user_manual.pdf").toURI());
-		Desktop.getDesktop().open(userManual);
-	}
+
 
 	@FXML
 	public void loadExercise() throws IOException {

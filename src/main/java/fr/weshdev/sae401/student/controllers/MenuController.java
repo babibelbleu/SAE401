@@ -32,7 +32,7 @@ public class MenuController implements Initializable {
 
 	private static final int ENCRYPT_OFFSET = 3;
 	@FXML
-	private Text welcomeText;
+	private  Text welcomeText;
 	@FXML
 	private Label aboutText;
 

@@ -25,6 +25,7 @@ public class RegisterController {
         rect.setArcWidth(20.0);
         root.setClip(rect);
 
+
         //On bloque sur cette fen�tre
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.initStyle(StageStyle.TRANSPARENT);
@@ -38,5 +39,11 @@ public class RegisterController {
         stage.setScene(scene);
         stage.show();
         DeplacementFenetre.deplacementFenetre((Pane) root, stage);
+        if(darkModeManager.isDarkMode()){
+            darkModeManager.darkModeActivation(scene);
+        }
+        else {
+            darkModeManager.darkModeDesactivation(scene);
+        }
     }
 }
