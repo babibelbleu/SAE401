@@ -12,10 +12,13 @@ import java.util.*;
 
 public class ExerciseIO {
 
+    private int indexTranscription = 0;
+
     public void build(String filePath, Exercise exercise) throws IOException {
         List<String> lines = new LinkedList<>(Arrays.asList(
                 Crypter.encrypt(exercise.getOrder()),
                 Crypter.encrypt(exercise.getTranscription()),
+                "transcription",
                 Crypter.encrypt(exercise.getHint()),
                 Crypter.encrypt(exercise.getReplacingChar()),
                 Crypter.encrypt(exercise.getTimer())
@@ -38,15 +41,19 @@ public class ExerciseIO {
     public Exercise get(String filePath) throws IOException {
         Exercise exercise = new Exercise();
 
+        indexTranscription = getIndex(filePath, "transcription");
+
         exercise.setOrder(Crypter.decrypt(readLine(filePath, 0)));
-        exercise.setTranscription(Crypter.decrypt(readLine(filePath, 1)));
-        exercise.setHint(Crypter.decrypt(readLine(filePath, 2)));
-        exercise.setReplacingChar(Crypter.decrypt(readLine(filePath, 3)));
-        exercise.setTimer(Crypter.decrypt(readLine(filePath, 4)));
+        exercise.setTranscription(makeTranscription(filePath, indexTranscription));
+        exercise.setHint(Crypter.decrypt(readLine(filePath, indexTranscription + 1)));
+        exercise.setReplacingChar(Crypter.decrypt(readLine(filePath, indexTranscription + 2)));
+        exercise.setTimer(Crypter.decrypt(readLine(filePath, indexTranscription + 3)));
 
         exercise.setOptions(readOptions(filePath));
 
-        String extension = readLine(filePath, 6 + exercise.getOptions().size());
+        System.out.println(exercise.getTranscription());
+
+        String extension = readLine(filePath, indexTranscription + 6 + exercise.getOptions().size());
         MediaType mediaType = switch (extension) {
             case "mp3" -> MediaType.AUDIO;
             case "png" -> MediaType.IMAGE;
@@ -60,6 +67,36 @@ public class ExerciseIO {
         }
 
         return exercise;
+    }
+
+    private String makeTranscription(String filePath, int indexTranscription) {
+        List<String> lines = readLines(filePath, 1, indexTranscription);
+        StringBuilder transcription = new StringBuilder();
+        int i = 0;
+        for (String line : lines) {
+            if (i == 0) {
+                transcription.append(Crypter.decrypt(line));
+            } else {
+                transcription.append('\n').append(Crypter.decrypt(line));
+            }
+            i++;
+        }
+        return transcription.toString();
+    }
+
+    private int getIndex(String filePath, String toFind) throws IOException {
+        FileInputStream fis = new FileInputStream(filePath);
+        InputStreamReader isr = new InputStreamReader(fis, StandardCharsets.UTF_8);
+        BufferedReader reader = new BufferedReader(isr);
+        String str;
+        int index = 0;
+        while ((str = reader.readLine()) != null) {
+            if (str.equals(toFind)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
     }
 
     private void writeOptions(Map<String, Option> options, String filePath) {
@@ -80,8 +117,8 @@ public class ExerciseIO {
     private HashMap<String, Option> readOptions(String filePath){
         HashMap<String, Option> options = new HashMap<>();
         List<String> lines;
-        int nbOptions = Integer.parseInt(readLine(filePath, 5));
-        lines = readLines(filePath, 6, 6 + nbOptions);
+        int nbOptions = Integer.parseInt(readLine(filePath, indexTranscription + 4));
+        lines = readLines(filePath, indexTranscription + 5, indexTranscription + 5 + nbOptions);
         for(String line : lines){
             String[] split = line.split(";");
             options.put(Crypter.decrypt(split[0]), new Option(Crypter.decrypt(split[1]), Crypter.decrypt(split[2]), Boolean.parseBoolean(Crypter.decrypt(split[3]))));
