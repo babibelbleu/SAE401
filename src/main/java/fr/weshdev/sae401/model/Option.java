@@ -1,6 +1,6 @@
 package fr.weshdev.sae401.model;
 
-public class Option {
+public class Option{
     private String name;
     private String description;
     private boolean isActive;

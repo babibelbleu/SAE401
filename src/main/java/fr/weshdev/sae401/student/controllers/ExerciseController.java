@@ -3,7 +3,6 @@ package fr.weshdev.sae401.student.controllers;
 import fr.weshdev.sae401.DeplacementFenetre;
 import fr.weshdev.sae401.MainEtudiant;
 import fr.weshdev.sae401.model.DarkModeManager;
-import fr.weshdev.sae401.model.TooltipManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
