@@ -52,26 +52,18 @@ Dsrc/main/resources/fr.weshdev.sae401/templates/student/exercise.fxml,5\0\50577
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 a
 1src/main/java/fr/weshdev/sae401/MainEtudiant.java,8\f\8f717a08e158905d4b1590c1862c059373d36d51
-z
-Jsrc/main/java/fr/weshdev/sae401/teacher/controllers/OptionsController.java,b\b\bb84fec1c85f56502f59224343fd6b1d50802a45
 ~
 Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/ConfirmQuitController.java,e\1\e18b8c0025924499e85d786d296a615c7d477ed5
 {
 Ksrc/main/java/fr/weshdev/sae401/student/controllers/TimeIsUpController.java,e\f\efc9d7bbb46fcab7e75f897c9950d7f357d14da2
-{
-Ksrc/main/java/fr/weshdev/sae401/student/controllers/SolutionController.java,f\e\fee152635d275d97d53c579f2ad175d48d325eac
 Å
 Qsrc/main/java/fr/weshdev/sae401/student/controllers/SaveValidationController.java,9\5\95d6b136982e828326e83ee3eddec91db15f3b66
 Ä
 Psrc/main/java/fr/weshdev/sae401/student/controllers/SaveAfterOpenController.java,f\6\f6467bad70804af7df0fac40e221b1099ffb7aa6
 x
 Hsrc/main/java/fr/weshdev/sae401/student/controllers/HintsController.java,f\7\f7e93801354798dc36f78449995b1f47b1539904
-~
-Nsrc/main/java/fr/weshdev/sae401/teacher/controllers/NewExerciseController.java,b\e\bec28b45d7cc283300a392bf73aac47b14704c78
 c
 3src/main/java/fr/weshdev/sae401/MainEnseignant.java,7\a\7a0cbce28e31110711673453b6240f71f2ff98e2
-z
-Jsrc/main/java/fr/weshdev/sae401/teacher/controllers/AccueilController.java,5\9\5927fd45f3026fa3b0a778442b56a52ce1e6a011
 N
 src/main/java/module-info.java,1\c\1c89a5491fbfda3fb050196d6a239f20200296e7
 a

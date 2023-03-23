@@ -114,7 +114,7 @@
                                     <Font size="30.0" />
                                  </font>
                               </Button>
-                              <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#openExercise" text="Ouvrir un exercice">
+                              <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#openExercise" text="Modifier un exercice">
                                  <padding>
                                     <Insets left="100.0" right="100.0" />
                                  </padding>

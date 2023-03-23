@@ -175,7 +175,7 @@ public class OptionsController implements Initializable {
 				trainingModeRadioButtonOption.isSelected()
 						|| (
 						assessmentModeRadioButtonOption.isSelected()
-								&& !timerOption.getText().isEmpty()
+								&& timerOption.getText() == null
 				)
 		);
 	}

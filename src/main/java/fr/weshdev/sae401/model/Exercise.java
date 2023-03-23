@@ -106,7 +106,7 @@ public class Exercise {
         return imagePath;
     }
 
-    public Map<String, Option> getOptions() {
+    public HashMap<String, Option> getOptions() {
         return options;
     }
 

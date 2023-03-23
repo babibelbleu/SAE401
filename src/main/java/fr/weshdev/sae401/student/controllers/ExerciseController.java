@@ -523,9 +523,9 @@ public class ExerciseController implements Initializable {
 
 			//Si c'est le cas, on enregistre son exercice, puis on load une popUp
 			backToMenuClicked();
+			finExercice();
 
 			if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
-				finExercice();
 				registerExercice();
 			}
 		}

@@ -104,12 +104,12 @@ public class ApercuController implements Initializable {
 		// informations sont conserv�es
 		// Consigne
 		if (instructionContent != null) {
-			instructionText.setText(decrypt(instructionContent));
+			instructionText.setText(instructionContent);
 		}
 
 		// Transcription
 		if (transcriptionContent != null) {
-			transcriptionText.setText(decrypt(transcriptionContent));
+			transcriptionText.setText(transcriptionContent);
 		}
 
 		// Aide
@@ -255,8 +255,8 @@ public class ApercuController implements Initializable {
 	public void pageOptions(ActionEvent event) throws IOException {
 		// Quand on passe � la page suivante, on r�ucp�re les informations des
 		// TextFields.
-		instructionContent = encrypt(instructionText.getText());
-		transcriptionContent = encrypt(transcriptionText.getText());
+		instructionContent = instructionText.getText();
+		transcriptionContent = transcriptionText.getText();
 		helpContent = helpText.getText();
 
 		Stage primaryStage = (Stage) nextPageButton.getScene().getWindow();
@@ -277,25 +277,6 @@ public class ApercuController implements Initializable {
 
 	// M�thode qui regarde si le setDarkMode est actif et l'applique en cons�quence �
 	// la scene
-
-
-	private String encrypt(String text){
-		// Encrypt with Cesar method
-		StringBuilder encrypted = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			encrypted.append((char) (text.charAt(i) + ENCRYPT_OFFSET));
-		}
-		return encrypted.toString();
-	}
-
-	private String decrypt(String text){
-		// Decrypt with Cesar method
-		StringBuilder decrypted = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			decrypted.append((char) (text.charAt(i) - ENCRYPT_OFFSET));
-		}
-		return decrypted.toString();
-	}
 
 	public static void reset(){
 		helpContent = null;

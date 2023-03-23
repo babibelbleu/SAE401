@@ -1,5 +1,7 @@
 package fr.weshdev.sae401.teacher.controllers;
 
+import fr.weshdev.sae401.model.Exercise;
+import fr.weshdev.sae401.model.Option;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,10 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class FinalRegisterController implements Initializable {
 
@@ -28,150 +27,55 @@ public class FinalRegisterController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
-		// Conteneurs en octets de la consigne
-		byte[] contenuConsigne = ApercuController.instructionContent.getBytes(StandardCharsets.UTF_8);
-		byte[] longueurConsigne = getLongueur(ApercuController.instructionContent);
+		Exercise exercise = new Exercise();
+		exercise.setOrder(ApercuController.instructionContent);
+		exercise.setTranscription(ApercuController.transcriptionContent);
+		exercise.setHint(ApercuController.helpContent);
+		exercise.setReplacingChar(OptionsController.hiddenChar);
+		exercise.setTimer(OptionsController.timer);
 
-		// Conteneurs en octets de la transcription
-		byte[] contenuTranscription = ApercuController.transcriptionContent.getBytes(StandardCharsets.UTF_8);
-		byte[] longueurTranscription = getLongueur(ApercuController.transcriptionContent);
+		exercise.setOptions(setupOptions());
 
-		// Conteneurs en octets de l'aide
-		byte[] contenuAide = ApercuController.helpContent.getBytes(StandardCharsets.UTF_8);
-		byte[] longueurAide = getLongueur(ApercuController.helpContent);
+		exercise.setMediaPath(ImportRessourceController.getCheminVideo());
 
-		// Caract�re d'occultation
-		byte[] caraOccul = OptionsController.hiddenChar.getBytes(StandardCharsets.UTF_8);
-
-		// Conteneurs du media
-		byte[] contenuMedia = null;
-		byte[] longueurMedia = null;
-
-		//Conteneur de l'image (pour mp3)
-		byte[] contenuImage = null;
-		byte[] longueurImage = null;
-
-		// On r�cup�re le media / image et on lui demande sa taille
-		try {
-			
-			FileInputStream fus = new FileInputStream(ImportRessourceController.getCheminVideo());
-			contenuMedia = readAllBytes(fus);
-			longueurMedia = ByteBuffer.allocate(8).putInt(contenuMedia.length).array();
-
-			if(ImportRessourceController.getContenuImage() != null) {
-				FileInputStream fusImg = new FileInputStream(ImportRessourceController.getCheminImg());
-				contenuImage = readAllBytes(fusImg);
-				longueurImage = ByteBuffer.allocate(8).putInt(contenuImage.length).array();
-			}
-
-		} catch (MalformedURLException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
+		if(ImportRessourceController.getContenuImage() != null) {
+			exercise.setImagePath(ImportRessourceController.getCheminImg());
 		}
 
 		try {
-
-			// On ouvre un fichier o� on va enregistrer les informations
-			// On lui donne l'endroit o� il doit �tre enregistr� et le nom
-			File file = new File(NewExerciseController.getDirectoryPath(), NewExerciseController.getExerciseName() + ".rct");
-			FileOutputStream out = new FileOutputStream(file);
-
-			// On y �crit la consigne
-			out.write(longueurConsigne);
-			out.write(contenuConsigne);
-
-			// On y �crit la transcription
-			out.write(longueurTranscription);
-			out.write(contenuTranscription);
-
-			// On y �crit les aides
-			out.write(longueurAide);
-			out.write(contenuAide);
-
-			// On y �crit le caract�re d'occultation
-			out.write(caraOccul);
-
-			// Si la sensibilit� � la casse est activ�e ou non
-			if (OptionsController.isCaseSensitive == true) {
-				out.write(1);
-			} else {
-				out.write(0);
-			}
-
-			// On y �crit le mode (sur 1 octet)
-			// Si c'est le mode isInTrainingMode
-			if (OptionsController.isInTrainingMode == true) {
-				out.write(0);
-
-				// Si l'affichage de la hasSolution est autoris�
-				if (OptionsController.hasSolution == true) {
-					out.write(1);
-				} else {
-					out.write(0);
-				}
-
-				// Si l'affiche du nombre de mots d�couverts en temps r�el est autoris�
-				if (OptionsController.hasDiscoveredWordsOption == true) {
-					out.write(1);
-				} else {
-					out.write(0);
-				}
-
-				// Si les mots incomplets sont autoris�s
-				if (OptionsController.hasIncompleteWordOption == true) {
-					out.write(1);
-
-					//On pr�cise le nombre de lettres autoris�es
-					if (OptionsController.hasTwoLettersOption == true) {
-						out.write(2);
-					} else {
-						out.write(3);
-					}
-
-				} else {
-					out.write(0);
-				}
-			}
-
-			// Sinon il s'agit du mode evaluationMode
-			else {
-
-				// Limite de temps (pour le mode Evaluation)
-				byte[] nbMin = OptionsController.timer.getBytes();
-				byte[] longueurNbMin = getLongueur(OptionsController.timer);
-
-				out.write(1);
-				// On �crit la limite de temps
-				out.write(longueurNbMin);
-				out.write(nbMin);
-			}
-
-			//S'il s'agit d'une extension mp3
-			if(getExtension(ImportRessourceController.getContenuMedia().getSource()).compareTo(".mp3") == 0) {
-				out.write(0);
-				out.write(longueurImage);
-				out.write(contenuImage);
-			}
-			//S'il s'agit d'une extension mp4
-			else {
-				out.write(1);
-			}
-
-			// On y �crit les donn�es du media
-			out.write(longueurMedia);
-			out.write(contenuMedia);
-
-			// Fermeture du fichier
-			out.close();
-
+			exercise.build(NewExerciseController.getDirectoryPath() + "\\" + NewExerciseController.getExerciseName() + ".rct");
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
+
 		NewExerciseController.delete();
 		ImportRessourceController.reset();
 		ApercuController.reset();
 		OptionsController.reset();
+	}
+
+	private HashMap<String, Option> setupOptions(){
+		HashMap<String, Option> options = new HashMap<>();
+		Option caseSensitiveOption = new Option("Case sensitive", "Permet de rendre sensible à la casse", OptionsController.isCaseSensitive);
+		Option evaluationOption = new Option("Evaluation", "Permet de faire une évaluation", OptionsController.isInAssessmentMode);
+		Option trainingOption = new Option("Training", "Permet de faire de l'entrainement", OptionsController.isInTrainingMode);
+		Option solutionShowOption = new Option("SolutionShow", "Permet d'afficher la solution", OptionsController.hasSolution);
+		Option discoveredWordRateProgressBarOption = new Option("Progress bar", "Permet d'afficher la barre de progression", OptionsController.hasDiscoveredWordsOption);
+		Option incompletedWordOption = new Option("Incompleted word", "Permet de faire des mots incomplets", OptionsController.hasIncompleteWordOption);
+		Option incompletedWordWithTwoLettersOption = new Option("Incompleted word with two letters", "Permet de faire des mots incomplets avec deux lettres", OptionsController.hasTwoLettersOption);
+		Option incompleteWordWithThreeLettersOption = new Option("Incompleted word with three letters", "Permet de faire des mots incomplets avec trois lettres", OptionsController.hasThreeLettersOption);
+
+
+		options.put("caseSensitiveOption", caseSensitiveOption);
+		options.put("evaluationOption", evaluationOption);
+		options.put("solutionShowOption", solutionShowOption);
+		options.put("discoveredWordRateProgressBarOption", discoveredWordRateProgressBarOption);
+		options.put("incompletedWordOption", incompletedWordOption);
+		options.put("incompletedWordWithTwoLettersOption", incompletedWordWithTwoLettersOption);
+		options.put("incompletedWordWithThreeLettersOption", incompleteWordWithThreeLettersOption);
+		options.put("trainingOption", trainingOption);
+
+		return options;
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

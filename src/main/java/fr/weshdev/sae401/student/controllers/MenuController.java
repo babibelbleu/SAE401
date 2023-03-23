@@ -1,7 +1,9 @@
 package fr.weshdev.sae401.student.controllers;
 
 import fr.weshdev.sae401.MainEtudiant;
+import fr.weshdev.sae401.model.Crypter;
 import fr.weshdev.sae401.model.DarkModeManager;
+import fr.weshdev.sae401.model.Exercise;
 import fr.weshdev.sae401.model.Option;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -29,8 +31,6 @@ import java.util.*;
 import java.util.List;
 
 public class MenuController implements Initializable {
-
-	private static final int ENCRYPT_OFFSET = 3;
 	@FXML
 	private  Text welcomeText;
 	@FXML
@@ -56,26 +56,6 @@ public class MenuController implements Initializable {
 
 	@Override
 	public void initialize(URL url, ResourceBundle resourceBundle) {
-		// TODO document why this method is empty
-		Option caseSensitiveOption = new Option("Case sensitive", "Permet de rendre sensible à la casse", false);
-		Option evaluationOption = new Option("Evaluation", "Permet de faire une évaluation", false);
-		Option trainingOption = new Option("Training", "Permet de faire de l'entrainement", false);
-		Option solutionShowOption = new Option("SolutionShow", "Permet d'afficher la solution", false);
-		Option discoveredWordRateProgressBarOption = new Option("Progress bar", "Permet d'afficher la barre de progression", false);
-		Option incompletedWordOption = new Option("Incompleted word", "Permet de faire des mots incomplets", false);
-		Option incompletedWordWithTwoLettersOption = new Option("Incompleted word with two letters", "Permet de faire des mots incomplets avec deux lettres", false);
-		Option incompleteWordWithThreeLettersOption = new Option("Incompleted word with three letters", "Permet de faire des mots incomplets avec trois lettres", false);
-
-
-		options.put("caseSensitiveOption", caseSensitiveOption);
-		options.put("evaluationOption", evaluationOption);
-		options.put("solutionShowOption", solutionShowOption);
-		options.put("discoveredWordRateProgressBarOption", discoveredWordRateProgressBarOption);
-		options.put("incompletedWordOption", incompletedWordOption);
-		options.put("incompletedWordWithTwoLettersOption", incompletedWordWithTwoLettersOption);
-		options.put("incompletedWordWithThreeLettersOption", incompleteWordWithThreeLettersOption);
-		options.put("trainingOption", trainingOption);
-
 		try {
 			MenuBar header = FXMLLoader.load(getClass().getResource("/fr.weshdev.sae401/templates/teacher/header.fxml"));
 			mainPain.setTop(header);
@@ -167,124 +147,17 @@ public class MenuController implements Initializable {
 	 */
 	public void setExercise(File file) throws IOException {
 
-		String exerciseOrder,
-				exerciseHint,
-				exerciseTranscription,
-				replacingChar,
-				time;
+		Exercise exercise = new Exercise().get(file.getAbsolutePath());
 
-		int byteLength,
-				isCaseSensitive,
-				isEvaluation,
-				exereciseHaveSolution,
-				exerciseHaveProgressBar,
-				isIncompletedWordOptionSelected,
-				numberOfMinimalLettersIncompletedWord,
-				isVideo;
+		ExerciseController.instructionContent = exercise.getOrder();
+		ExerciseController.transcriptionContent = exercise.getTranscription();
+		HintsController.contenuAide = exercise.getHint();
+		ExerciseController.hidddenChar = exercise.getReplacingChar();
+		options = exercise.getOptions();
 
-		File tempFile;
-
-		FileInputStream encodedExerciseFile = new FileInputStream(file);
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseOrder = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
-		ExerciseController.instructionContent = exerciseOrder;
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseTranscription = decrypt(convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength)));
-		ExerciseController.transcriptionContent = exerciseTranscription;
-
-		byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-		exerciseHint = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-		HintsController.contenuAide = exerciseHint;
-
-		replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
-		ExerciseController.hidddenChar = replacingChar;
-
-
-		isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
-
-		isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		if (isEvaluation == 1) {
-			options.get("evaluationOption").setActive(true);
-
-			options.get("trainingOption").setActive(false);
-
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-			time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-
-			ExerciseController.nbMin = time;
-
-		} else {
-			options.get("evaluationOption").setActive(false);
-			options.get("trainingOption").setActive(true);
-
-			exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			options.get("solutionShowOption").setActive(exereciseHaveSolution == 1);
-
-			exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			options.get("discoveredWordRateProgressBarOption").setActive(exerciseHaveProgressBar == 1);
-
-			isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			if (isIncompletedWordOptionSelected == 1) {
-				options.get("incompletedWordOption").setActive(true);
-
-
-				numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-				if (numberOfMinimalLettersIncompletedWord == 2) {
-					options.get("incompletedWordWithTwoLettersOption").setActive(true);
-					options.get("incompletedWordWithThreeLettersOption").setActive(false);
-				} else {
-					options.get("incompletedWordWithTwoLettersOption").setActive(false);
-					options.get("incompletedWordWithThreeLettersOption").setActive(true);
-				}
-
-			} else {
-				options.get("incompletedWordOption").setActive(false);
-				options.get("incompletedWordWithTwoLettersOption").setActive(false);
-				options.get("incompletedWordWithThreeLettersOption").setActive(false);
-			}
-		}
-
-		isVideo = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-		if (isVideo == 0) {
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 8)).getInt();
-
-			File tmpFileImage = File.createTempFile("data", ".png");
-			FileOutputStream ecritureFileImage = new FileOutputStream(tmpFileImage);
-			ecritureFileImage.write(readBytesFromFile(encodedExerciseFile, byteLength));
-			ecritureFileImage.close();
-
-			ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
-
-			tmpFileImage.deleteOnExit();
-
-			tempFile = File.createTempFile("data", ".mp3");
-
-		}
-		else {
-			tempFile = File.createTempFile("data", ".mp4");
-		}
-
-		FileOutputStream clearExerciseFile = new FileOutputStream(tempFile);
-		clearExerciseFile.write(readAllBytesFromFile(encodedExerciseFile));
-		clearExerciseFile.close();
-
-		ExerciseController.mediaContent = new Media(tempFile.toURI().toString());
-
-		tempFile.deleteOnExit();
-
-		encodedExerciseFile.close();
+		ExerciseController.nbMin = exercise.getTimer();
+		ExerciseController.imageContent = exercise.getImage();
+		ExerciseController.mediaContent = exercise.getMedia();
 	}
 
 	@FXML
@@ -379,16 +252,6 @@ public class MenuController implements Initializable {
 
 	public static byte[] readAllBytesFromFile(FileInputStream file) throws IOException {
 		return readBytesFromFile(file, Integer.MAX_VALUE);
-	}
-
-
-	private String decrypt(String text){
-		// Decrypt with Cesar method
-		StringBuilder decrypted = new StringBuilder();
-		for (int i = 0; i < text.length(); i++) {
-			decrypted.append((char) (text.charAt(i) - ENCRYPT_OFFSET));
-		}
-		return decrypted.toString();
 	}
 
 }

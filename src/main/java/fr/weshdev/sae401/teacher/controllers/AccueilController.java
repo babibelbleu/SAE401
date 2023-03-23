@@ -3,6 +3,7 @@ package fr.weshdev.sae401.teacher.controllers;
 import fr.weshdev.sae401.MainEnseignant;
 import fr.weshdev.sae401.MainEtudiant;
 import fr.weshdev.sae401.model.DarkModeManager;
+import fr.weshdev.sae401.model.Exercise;
 import fr.weshdev.sae401.model.Option;
 import fr.weshdev.sae401.student.controllers.ExerciseController;
 import fr.weshdev.sae401.student.controllers.HintsController;
@@ -112,125 +113,17 @@ public class AccueilController implements Initializable {
 
 	public void setExercise(File file) throws IOException {
 
-		String exerciseOrder,
-				exerciseHint,
-				exerciseTranscription,
-				replacingChar,
-				time;
+		Exercise exercise = new Exercise().get(file.getAbsolutePath());
 
-		int byteLength,
-				isCaseSensitive,
-				isEvaluation,
-				exereciseHaveSolution,
-				exerciseHaveProgressBar,
-				isIncompletedWordOptionSelected,
-				numberOfMinimalLettersIncompletedWord,
-				isVideo;
+		ExerciseController.instructionContent = exercise.getOrder();
+		ExerciseController.transcriptionContent = exercise.getTranscription();
+		HintsController.contenuAide = exercise.getHint();
+		ExerciseController.hidddenChar = exercise.getReplacingChar();
+		options = exercise.getOptions();
 
-		File tempFile;
-		try {
-			FileInputStream encodedExerciseFile = new FileInputStream(file);
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-			exerciseOrder = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-			ExerciseController.instructionContent = exerciseOrder;
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-			exerciseTranscription = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-			ExerciseController.transcriptionContent = exerciseTranscription;
-
-			byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-			exerciseHint = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-			HintsController.contenuAide = exerciseHint;
-
-			replacingChar = convertBytesToString(readBytesFromFile(encodedExerciseFile, 1));
-			ExerciseController.hidddenChar = replacingChar;
-
-			isCaseSensitive = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			options.get("caseSensitiveOption").setActive(isCaseSensitive == 1);
-
-			isEvaluation = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			if (isEvaluation == 1) {
-				options.get("evaluationOption").setActive(true);
-
-				options.get("trainingOption").setActive(false);
-
-
-				byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 4)).getInt();
-				time = convertBytesToString(readBytesFromFile(encodedExerciseFile, byteLength));
-
-				ExerciseController.nbMin = time;
-
-			} else {
-				options.get("evaluationOption").setActive(false);
-				options.get("trainingOption").setActive(true);
-
-				exereciseHaveSolution = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-				options.get("solutionShowOption").setActive(exereciseHaveSolution == 1);
-
-				exerciseHaveProgressBar = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-				options.get("discoveredWordRateProgressBarOption").setActive(exerciseHaveProgressBar == 1);
-
-				isIncompletedWordOptionSelected = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-				if (isIncompletedWordOptionSelected == 1) {
-					options.get("incompletedWordOption").setActive(true);
-
-
-					numberOfMinimalLettersIncompletedWord = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-					if (numberOfMinimalLettersIncompletedWord == 2) {
-						options.get("incompletedWordWithTwoLettersOption").setActive(true);
-						options.get("incompletedWordWithThreeLettersOption").setActive(false);
-					} else {
-						options.get("incompletedWordWithTwoLettersOption").setActive(false);
-						options.get("incompletedWordWithThreeLettersOption").setActive(true);
-					}
-
-				} else {
-					options.get("incompletedWordOption").setActive(false);
-					options.get("incompletedWordWithTwoLettersOption").setActive(false);
-					options.get("incompletedWordWithThreeLettersOption").setActive(false);
-				}
-			}
-
-			isVideo = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 1)).get();
-
-			if (isVideo == 0) {
-
-				byteLength = ByteBuffer.wrap(readBytesFromFile(encodedExerciseFile, 8)).getInt();
-
-				File tmpFileImage = File.createTempFile("data", ".png");
-				FileOutputStream ecritureFileImage = new FileOutputStream(tmpFileImage);
-				ecritureFileImage.write(readBytesFromFile(encodedExerciseFile, byteLength));
-				ecritureFileImage.close();
-
-				ExerciseController.imageContent = new Image(tmpFileImage.toURI().toString());
-
-				tmpFileImage.deleteOnExit();
-
-				tempFile = File.createTempFile("data", ".mp3");
-
-			} else {
-				tempFile = File.createTempFile("data", ".mp4");
-			}
-
-			FileOutputStream clearExerciseFile = new FileOutputStream(tempFile);
-			clearExerciseFile.write(readAllBytesFromFile(encodedExerciseFile));
-			clearExerciseFile.close();
-
-			ExerciseController.mediaContent = new Media(tempFile.toURI().toString());
-
-			tempFile.deleteOnExit();
-
-			encodedExerciseFile.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+		ExerciseController.nbMin = exercise.getTimer();
+		ExerciseController.imageContent = exercise.getImage();
+		ExerciseController.mediaContent = exercise.getMedia();
 	}
 
 	/**
