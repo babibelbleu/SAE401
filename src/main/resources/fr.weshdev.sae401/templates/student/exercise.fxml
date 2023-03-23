@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="mainPain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/menu_and_button.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.student.controllers.ExerciseController">
+<BorderPane fx:id="mainPain" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onMouseEntered="#loadShortCut" prefHeight="800.0" prefWidth="1200.0" stylesheets="@../../css/menu_and_button.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.student.controllers.ExerciseController">
     <top>
     </top>
     <center>
@@ -118,18 +118,10 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </Button>
-                <ImageView fx:id="thumbnailContainerMp3" fitHeight="300.0" fitWidth="450.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                <ImageView fx:id="thumbnailContainerMp3" fitHeight="300.0" fitWidth="450.0" onMouseClicked="#firstPlay" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <GridPane.margin>
                   <Insets bottom="50.0" />
                </GridPane.margin></ImageView>
-                <ImageView fx:id="launchVideoIcon" fitHeight="47.0" fitWidth="50.0" onMousePressed="#firstPlay" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
-                    <image>
-                        <Image url="@../../images/play_button.png" />
-                    </image>
-               <GridPane.margin>
-                  <Insets bottom="50.0" />
-               </GridPane.margin>
-                </ImageView>
                 <Button fx:id="helpButton" mnemonicParsing="false" onAction="#HelpShow" prefHeight="27.0" prefWidth="87.0" style="-fx-background-radius: 5; -fx-border-color: black; -fx-border-radius: 5; -fx-border-width: 1; -fx-font-family: Consolas;" text="Aide(s)" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.valignment="BOTTOM">
                     <GridPane.margin>
                         <Insets bottom="210.0" left="45.0" />

@@ -12,7 +12,6 @@ import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,14 +33,12 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
-import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
 
-import java.awt.*;
 import java.io.*;
 
 
@@ -145,6 +142,19 @@ public class ExerciseController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+		//On initialise le dark mode
+		// pause and play when the user clicks on the image
+		mediaContainer.setOnMouseClicked(e -> {
+			if(mediaPlayer.getStatus() == Status.PLAYING) {
+				mediaPlayer.pause();
+				playOrPauseImageContainer.setImage(playIcon);
+			} else {
+				mediaPlayer.play();
+				playOrPauseImageContainer.setImage(pauseIcon);
+			}
+		});
+
+
 
 
 		playOrPauseImageContainer.setImage(playIcon);
@@ -238,6 +248,7 @@ public class ExerciseController implements Initializable {
 
 	private void verifyVideo() {
 		if (sliderVideo.getMax() == mediaPlayer.getCurrentTime().toSeconds())
+			mediaPlayer.pause();
 			sliderVideo.setValue(0);
 			playOrPauseImageContainer.setImage(pauseIcon);
 	}
@@ -366,17 +377,20 @@ public class ExerciseController implements Initializable {
 	//Fonction qui lance le media pour la premiere fois
 	@FXML
 	public void firstPlay() {
-		playOrPauseImageContainer.setImage(pauseIcon);
-		mediaPlayer.play();
-		setKeyboardShortcut();
-
-
-		if(!isTimerRunning) {
-			gestionTimer();
-			isTimerRunning = true;
+		if(mediaPlayer.getStatus() == Status.PLAYING) {
+			mediaPlayer.pause();
+			playOrPauseImageContainer.setImage(playIcon);
 		}
 
-		launchVideoIcon.setVisible(false);
+		if(mediaPlayer.getStatus() == Status.PAUSED || mediaPlayer.getStatus() == Status.READY) {
+			mediaPlayer.play();
+			playOrPauseImageContainer.setImage(pauseIcon);
+			if (!isTimerRunning) {
+				gestionTimer();
+				isTimerRunning = true;
+				loadShortCut();
+			}
+		}
 	}
 
 	//Fonction qui play / pause le media
@@ -388,9 +402,14 @@ public class ExerciseController implements Initializable {
 			playOrPauseImageContainer.setImage(playIcon);
 		}
 
-		if(mediaPlayer.getStatus() == Status.PAUSED) {
+		if(mediaPlayer.getStatus() == Status.PAUSED || mediaPlayer.getStatus() == Status.READY) {
 			mediaPlayer.play();
 			playOrPauseImageContainer.setImage(pauseIcon);
+			if (!isTimerRunning) {
+				gestionTimer();
+				isTimerRunning = true;
+				loadShortCut();
+			}
 		}
 
 	}
@@ -690,7 +709,8 @@ public class ExerciseController implements Initializable {
 	}
 
 
-	private void setKeyboardShortcut() {
+	@FXML
+	private void loadShortCut() {
 		helpButton.getScene().addEventFilter(KeyEvent.KEY_PRESSED, this::handle);
 
 		helpButton.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
