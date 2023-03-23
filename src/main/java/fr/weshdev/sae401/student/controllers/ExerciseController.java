@@ -150,6 +150,10 @@ public class ExerciseController implements Initializable {
 		playOrPauseImageContainer.setImage(playIcon);
 		MenuController.getOptions();
 
+		mediaPlayer.setOnEndOfMedia(() -> verifyVideo());
+
+
+
 
 		encryptedText = encryptText();
 
@@ -232,8 +236,14 @@ public class ExerciseController implements Initializable {
 
 	}
 
+	private void verifyVideo() {
+		if (sliderVideo.getMax() == mediaPlayer.getCurrentTime().toSeconds())
+			sliderVideo.setValue(0);
+			playOrPauseImageContainer.setImage(pauseIcon);
+	}
+
 	private void trainingModeLoader() throws IOException {
-		titleTime.setText("Temps Ecoul�");
+		titleTime.setText("Temps Ecoulé");
 		min = 00;
 		time.setText("00:00");
 
@@ -306,11 +316,13 @@ public class ExerciseController implements Initializable {
 
 		// Ecoute sur le slider. Quand il est modifi�, modifie le temps du media player.
 		InvalidationListener sliderChangeListener = o -> {
-			if ( sliderVideo.getValue() == sliderVideo.getMax() ) {
+			System.out.println(mediaPlayer.getCurrentTime().toSeconds());
+			System.out.println(sliderVideo.getMax());
+
+
+			if ( mediaPlayer.getCurrentTime().toSeconds()== sliderVideo.getMax() ) {
 				//icon pause
 				playOrPauseImageContainer.setImage(playIcon);
-				mediaPlayer.stop();
-				launchVideoIcon.setVisible(true);
 				mediaPlayer.seek(Duration.ZERO);
 				sliderVideo.setValue(0);
 			}
@@ -354,7 +366,7 @@ public class ExerciseController implements Initializable {
 	//Fonction qui lance le media pour la premiere fois
 	@FXML
 	public void firstPlay() {
-
+		playOrPauseImageContainer.setImage(pauseIcon);
 		mediaPlayer.play();
 		setKeyboardShortcut();
 
@@ -683,8 +695,12 @@ public class ExerciseController implements Initializable {
 
 		helpButton.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
 			 if ((helpButton.getScene().focusOwnerProperty().get() instanceof TextField)) {
-					if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
+					if (event.getCode() == KeyCode.SPACE){
+						playOrPauseClicked();
+					}
+					if (event.getCode() == KeyCode.ENTER) {
 							userPropositionWord.setText("");
+
 					}
 				}
 		});
