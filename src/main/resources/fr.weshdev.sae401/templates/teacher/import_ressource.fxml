@@ -3,12 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
@@ -21,7 +16,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane fx:id="mainPain" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.ImportRessourceController">
+<BorderPane fx:id="mainPain" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.weshdev.sae401.teacher.controllers.ImportRessourceController">
    <center>
       <GridPane stylesheets="@../../css/whiteButton.css" BorderPane.alignment="CENTER">
         <columnConstraints>
@@ -47,7 +42,7 @@
                <GridPane.margin>
                   <Insets top="100.0" />
                </GridPane.margin></ImageView>
-            <Button mnemonicParsing="false" onAction="#importerRessource" text="Sélectionner une ressource audio ou video" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Button mnemonicParsing="false" onAction="#importerRessource" style="-fx-font-family: Consolas;" text="Sélectionner une ressource audio ou video" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -151,7 +146,7 @@
                   <Insets top="20.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="39.0" prefWidth="80.0" text="Nommage de l'exercice" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Label prefHeight="39.0" prefWidth="80.0" style="-fx-font-family: Consolas;" text="Nommage de l'exercice" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font name="Comic Sans MS" size="12.0" />
                </font>
@@ -159,7 +154,7 @@
                   <Insets bottom="330.0" right="300.0" top="190.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="39.0" prefWidth="80.0" text="Sélection du média" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Label prefHeight="39.0" prefWidth="80.0" style="-fx-font-family: Consolas;" text="Sélection du média" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font name="Comic Sans MS" size="12.0" />
                </font>
@@ -167,7 +162,7 @@
                   <Insets bottom="330.0" right="100.0" top="190.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="39.0" prefWidth="80.0" text="Rédaction du script" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Label prefHeight="39.0" prefWidth="80.0" style="-fx-font-family: Consolas;" text="Rédaction du script" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font name="Comic Sans MS" size="12.0" />
                </font>
@@ -175,7 +170,7 @@
                   <Insets bottom="330.0" left="100.0" top="190.0" />
                </GridPane.margin>
             </Label>
-            <Label prefHeight="39.0" prefWidth="80.0" text="Choix des options" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+            <Label prefHeight="39.0" prefWidth="80.0" style="-fx-font-family: Consolas;" text="Choix des options" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.valignment="TOP">
                <font>
                   <Font name="Comic Sans MS" size="12.0" />
                </font>

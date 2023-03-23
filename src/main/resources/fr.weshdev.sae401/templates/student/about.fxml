@@ -62,7 +62,7 @@
          <GridPane.margin>
             <Insets top="10.0" />
          </GridPane.margin></Label>
-      <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cette application a été créée par 5 étudiants de l'IUT de LAVAL lors de la réalisation de leur projet tuteuré" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-family: Consolas;" text="Cette application a été créée par 5 étudiants de l'IUT de LAVAL lors de la réalisation de leur projet tuteuré" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
          <GridPane.margin>
             <Insets top="100.0" />
          </GridPane.margin>
