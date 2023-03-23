@@ -9,6 +9,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class MainEtudiant extends Application{
+    Screen screeen = Screen.getPrimary();
 	
 	public static Parent root;
 
@@ -25,7 +26,7 @@ public class MainEtudiant extends Application{
 		primaryStage.setMinWidth(1200);
 		primaryStage.setMinHeight(800);
 
-        Rectangle2D screenBounds = Screen.getPrimary().getBounds();
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
         width=screenBounds.getWidth();
         height=screenBounds.getHeight();
         Scene scene = new Scene(root, width, height);

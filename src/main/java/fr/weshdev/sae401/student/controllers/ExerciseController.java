@@ -11,6 +11,7 @@ import javafx.beans.InvalidationListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,6 +33,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -142,6 +144,8 @@ public class ExerciseController implements Initializable {
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 
+
+
 		playOrPauseImageContainer.setImage(playIcon);
 		MenuController.getOptions();
 
@@ -189,7 +193,7 @@ public class ExerciseController implements Initializable {
 		//On load le temps n�cessaire si c'est en mode Evaluation
 		if(MenuController.getOptions().get("evaluationOption").isActive() == true) {
 			evalutationModeLoader();
-		} 
+		}
 		//Sinon cela veut dire que l'on est en mode Entrainement
 		else {
 
@@ -346,13 +350,13 @@ public class ExerciseController implements Initializable {
 
 	}
 
-	//Fonction qui lance le media pour la premiere fois 
+	//Fonction qui lance le media pour la premiere fois
 	@FXML
 	public void firstPlay() {
 
 		mediaPlayer.play();
 		setKeyboardShortcut();
-		
+
 
 		if(!isTimerRunning) {
 			gestionTimer();
@@ -390,32 +394,8 @@ public class ExerciseController implements Initializable {
 		return false;
 	}
 
-	//M�thode qui permet de se rendre au manuel utilisateur == tuto
-	@FXML
-	public void tuto() throws IOException {
 
-		InputStream is = MainEtudiant.class.getResourceAsStream("Manuel_Utilisateur.pdf");
 
-		File pdf = File.createTempFile("Manuel Utilisateur", ".pdf");
-		pdf.deleteOnExit();
-
-		try (OutputStream out = new FileOutputStream(pdf)) {
-
-			byte[] buffer = new byte[4096];
-			int bytesRead = 0;
-
-			while (is.available() != 0) {
-				bytesRead = is.read(buffer);
-				out.write(buffer, 0, bytesRead);
-			}
-
-			out.close();
-		}
-		is.close();
-
-		Desktop.getDesktop().open(pdf);
-
-	}
 
 
 
@@ -495,7 +475,7 @@ public class ExerciseController implements Initializable {
 
 			Pattern numberCharPattern = Pattern.compile(".{4,}");
 			Matcher numberCharMatcher = numberCharPattern.matcher(clear[i]);
-			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement 
+			if (numberCharMatcher.find() && numberPartialReplacement > 0 && text.length() >= numberPartialReplacement
 					&& encrypted[i].substring(0,text.length()).contains(""+ hidddenChar)
 					&& numberCharMatcher.group().startsWith(text)) {
 
@@ -551,6 +531,7 @@ public class ExerciseController implements Initializable {
 
 		transcription.setText(encryptedText);
 		transcription.setScrollTop(scrollBarState);
+
 	}
 
 
@@ -655,11 +636,10 @@ public class ExerciseController implements Initializable {
 				+ "_" + SaveAfterOpenController.studentLastName + "_" + SaveAfterOpenController.studentFirstName + ".rct");
 		FileWriter fwrite = new FileWriter(file);
 		try (BufferedWriter buffer = new BufferedWriter(fwrite)) {
-
 			buffer.write(transcription.getText());
+
 			buffer.newLine();
 			buffer.write(Double.toString(Math.round((nbDiscoveredWord / totalNbWord) * 100)) + '%');
-
 		}
 		fwrite.close();
 	}
@@ -699,7 +679,7 @@ public class ExerciseController implements Initializable {
 
 	private void setKeyboardShortcut() {
 		helpButton.getScene().addEventFilter(KeyEvent.KEY_PRESSED, this::handle);
-		
+
 		helpButton.getScene().addEventFilter(KeyEvent.KEY_RELEASED, event -> {
 			 if ((helpButton.getScene().focusOwnerProperty().get() instanceof TextField)) {
 					if (event.getCode() == KeyCode.SPACE || event.getCode() == KeyCode.ENTER) {
