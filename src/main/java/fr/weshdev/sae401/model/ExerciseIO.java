@@ -51,9 +51,7 @@ public class ExerciseIO {
 
         exercise.setOptions(readOptions(filePath));
 
-        System.out.println(exercise.getTranscription());
-
-        String extension = readLine(filePath, indexTranscription + 6 + exercise.getOptions().size());
+        String extension = readLine(filePath, indexTranscription + 5 + exercise.getOptions().size());
         MediaType mediaType = switch (extension) {
             case "mp3" -> MediaType.AUDIO;
             case "png" -> MediaType.IMAGE;
@@ -63,7 +61,7 @@ public class ExerciseIO {
         exercise.setMedia((Media) readMedia(filePath, 0, mediaType).get(0));
 
         if(mediaType == MediaType.AUDIO){
-            exercise.setImage((Image) readMedia(filePath, 1, mediaType).get(0));
+            exercise.setImage((Image) readMedia(filePath, 1, MediaType.IMAGE).get(0));
         }
 
         return exercise;

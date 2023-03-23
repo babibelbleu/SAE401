@@ -152,7 +152,6 @@ public class ExerciseController implements Initializable {
 
 
 		encryptedText = encryptText();
-		firstPlay();
 
 		//On fait en sorte � ce que le texte ne d�passe pas du cadre
 		transcription.setWrapText(true);
